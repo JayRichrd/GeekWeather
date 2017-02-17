@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">GeekWeather</string>
+    <string name="copyright">Copyright©2016 JiangYu</string>
+    <string name="info">info</string>
+    <string name="version">v1.0</string>
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+    <string name="default_city">深圳</string>
+    <string name="btn_confirm">知道了</string>
+    <string name="info_title">关于我</string>
+    <string name="version_title">版本</string>
+    <string name="app_info">• 它是一款查询天气的App\n• 采用极简风格、注重效率、快速提供必要信息\n• 功能甚至简化到只有——选城市、定位、更新</string>
+    <string name="app_version">当前版本:v</string>
+    <string name="humidity">空气湿度</string>
+    <string name="pm_value">PM2.5</string>
+    <string name="exercise">锻炼</string>
+    <string name="clothes">穿衣</string>
+    <string name="comfort">舒适度</string>
+    <string name="influenza">感冒指数</string>
+    <string name="wash_car">洗车</string>
+    <string name="ultraviolet">紫外线指数</string>
+</resources>

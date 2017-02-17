@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<group android:checkableBehavior="single">-->
+    <group>
+        <item
+            android:id="@+id/app_info"
+            android:icon="@drawable/info"
+            android:title="@string/info"/>
+        <item
+            android:id="@+id/app_version"
+            android:icon="@drawable/version"
+            android:title="@string/version"/>
+    </group>
+</menu>

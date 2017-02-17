@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/activity_vertical_margin"
+              android:orientation="vertical">
+    <!--分割线-->
+    <include layout="@layout/include_horizontal_division_line"/>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--第一行-->
+        <TableRow>
+            <!--运动-->
+            <RelativeLayout
+                android:id="@+id/rl_exercise"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/widget_horizontal_margin"
+                    android:clickable="false"
+                    android:src="@drawable/exercise"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/widget_horizontal_margin"
+                    android:clickable="false"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/widget_horizontal_margin"
+                        android:layout_weight="1"
+                        android:text="@string/exercise"
+                        android:textColor="@color/font_color_white"
+                        android:textSize="@dimen/font_size"/>
+
+                    <TextView
+                        android:id="@+id/tv_exercise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="---|---"
+                        android:textColor="@color/font_color_white"
+                        android:textSize="@dimen/font_size"/>
+                </LinearLayout>
+            </RelativeLayout>
+            <!--分割线,在TabLayout中好像无法使用include标签-->
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"
+                android:orientation="vertical"/>
+            <!--穿衣-->
+            <RelativeLayout
+                android:id="@+id/rl_clothe"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/widget_horizontal_margin"
+                    android:clickable="false"
+                    android:src="@drawable/clothes"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/widget_horizontal_margin"
+                    android:clickable="false"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/clothes"
+                        android:textColor="@color/font_color_white"
+                        android:textSize="@dimen/font_size"/>
+
+                    <TextView
+                        android:id="@+id/tv_clothe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="---|---"
+                        android:textColor="@color/font_color_white"
+                        android:textSize="@dimen/font_size"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </TableRow>
+        <!--分割线-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:orientation="horizontal"/>
+        <!--第二行-->
+        <TableRow>
+            <!--舒适度-->
+            <RelativeLayout
+                android:id="@+id/rl_comfort"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/widget_horizontal_margin"
+                    android:clickable="false"
+                    android:src="@drawable/comfort"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/widget_horizontal_margin"
+                    android:clickable="false"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/comfort"
+                        android:textColor="@color/font_color_white"
+                        android:textSize="@dimen/font_size"/>
+
+                    <TextView
+                        android:id="@+id/tv_comfort"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="---|---"
+                        android:textColor="@color/font_color_white"
+                        android:textSize="@dimen/font_size"/>
+                </LinearLayout>
+            </RelativeLayout>
+            <!--分割线-->
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"
+                android:orientation="vertical"/>
+
+            <include layout="@layout/include_vertical_division_line"/>
+            <!--感冒指数-->
+            <RelativeLayout
+                android:id="@+id/rl_influenza"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/widget_horizontal_margin"
+                    android:clickable="false"
+                    android:src="@drawable/influenza"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/widget_horizontal_margin"
+                    android:clickable="false"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/influenza"
+                        android:textColor="@color/font_color_white"
+                        android:textSize="@dimen/font_size"/>
+
+                    <TextView
+                        android:id="@+id/tv_influenza"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="---|---"
+                        android:textColor="@color/font_color_white"
+                        android:textSize="@dimen/font_size"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </TableRow>
+        <!--分割线-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:orientation="horizontal"/>
+        <!--第三行-->
+        <TableRow>
+            <!--洗车指数-->
+            <RelativeLayout
+                android:id="@+id/rl_car"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/widget_horizontal_margin"
+                    android:clickable="false"
+                    android:src="@drawable/wash_car"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/widget_horizontal_margin"
+                    android:clickable="false"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/wash_car"
+                        android:textColor="@color/font_color_white"
+                        android:textSize="@dimen/font_size"/>
+
+                    <TextView
+                        android:id="@+id/tv_car"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="---|---"
+                        android:textColor="@color/font_color_white"
+                        android:textSize="@dimen/font_size"/>
+                </LinearLayout>
+            </RelativeLayout>
+            <!--分割线-->
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"
+                android:orientation="vertical"/>
+            <!--紫外线指数-->
+            <RelativeLayout
+                android:id="@+id/rl_ultraviolet"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/widget_horizontal_margin"
+                    android:clickable="false"
+                    android:src="@drawable/ultraviolet"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/widget_horizontal_margin"
+                    android:clickable="false"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/widget_horizontal_margin"
+                        android:text="@string/ultraviolet"
+                        android:textColor="@color/font_color_white"
+                        android:textSize="@dimen/font_size"/>
+
+                    <TextView
+                        android:id="@+id/tv_ultraviolet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="---|---"
+                        android:textColor="@color/font_color_white"
+                        android:textSize="@dimen/font_size"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
