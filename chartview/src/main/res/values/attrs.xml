@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WeatherChartView">
+        <!--字体颜色-->
+        <attr name="textColor" format="color"/>
+        <!--字体大小-->
+        <attr name="textSize" format="dimension"/>
+        <!--白天折线颜色-->
+        <attr name="dayColor" format="color"/>
+        <!--夜晚折线颜色-->
+        <attr name="nightColor" format="color"/>
+    </declare-styleable>
+</resources>

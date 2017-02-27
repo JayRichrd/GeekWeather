@@ -63,6 +63,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * A simple {@link Fragment} subclass.
  */
 public class MainFragment extends Fragment {
+    private static final String TAG = "MainFragment";
+    //界面数据实体
+    private static WeatherUIInfo weatherUIInfo = null;
     @BindView(R.id.tv_city)
     TextView tvCity;
     @BindView(R.id.toolbar)
@@ -121,20 +124,16 @@ public class MainFragment extends Fragment {
     NavigationView navView;
     @BindView(R.id.dl_main)
     DrawerLayout dlMain;
-
-    private Unbinder unbinder;
-    private static final String TAG = "MainFragment";
-    //界面数据实体
-    private static WeatherUIInfo weatherUIInfo = null;
     //数据库操作
     Dao<WeatherUIInfo, Integer> dao = null;
+    private Unbinder unbinder;
     //百度定位服务
     private LocationClient locationClient = null;
     private MyLocationListener myLocationListener = new MyLocationListener();
     //定位提示框
     private ProgressDialog progressDialog = null;
     //当前城市
-    private String city = "北京";
+    private String city = "深圳";
     //请求天气接口
     private HeWeatherImpl heWeatherImpl = null;
     private JuHeWeatherImpl juHeWeatherImpl = null;
