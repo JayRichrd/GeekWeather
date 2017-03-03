@@ -39,17 +39,23 @@
             android:process=":remote"/>
         <!-- 开始欢迎界面 -->
         <activity
-            android:name="com.yulong.jiangyu.geekweather.ui.WelcomeActivity"
+            android:name=".ui.WelcomeActivity"
             android:theme="@style/NoTitleFullscreen">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN"/>-->
+            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
+        </activity>
+        <!-- 主界面 -->
+        <activity
+            android:name=".ui.MainActivity"
+            android:theme="@style/NoTitleFullscreen">
+        </activity>
+        <activity android:name=".ui.CustomedViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-        <!-- 主界面 -->
-        <activity
-            android:name="com.yulong.jiangyu.geekweather.ui.MainActivity"
-            android:theme="@style/NoTitleFullscreen">
         </activity>
     </application>
 
