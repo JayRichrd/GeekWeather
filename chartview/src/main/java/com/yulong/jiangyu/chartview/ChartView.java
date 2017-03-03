@@ -50,7 +50,8 @@ public class ChartView extends View {
     //晚上
     static private final int TYPE_NIGHT = 1;
     //X、Y轴的集合数
-    static private int COUNT = 6;
+    public static int COUNT_NIGHT = 0;
+    public static int COUNT_DAY = 0;
     //字体大小
     private int mTextSize;
     //线条颜色
@@ -76,15 +77,15 @@ public class ChartView extends View {
     //控件的高度
     private int mHeight;
     //X轴上点的集合
-    private float[] mXAxis = new float[6];
+    private float[] mXAxis = null;
     //白天温度集合
-    private int[] mTemperatureDay = new int[6];
+    private int[] mTemperatureDay = null;
     //夜晚温度集合
-    private int[] mTemperatureNight = new int[6];
+    private int[] mTemperatureNight = null;
     //Y轴白天温度集合
-    private float[] mYAxisDay = new float[6];
+    private float[] mYAxisDay = null;
     //Y轴晚上温度集合
-    private float[] mYAxisNight = new float[6];
+    private float[] mYAxisNight = null;
 
     /**
      * Simple constructor to use when creating a view from code.
@@ -172,22 +173,32 @@ public class ChartView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (0 == mHeight)
-            setHeightAndXAxis();
-        //计算Y轴温度集合坐标
-        computeYAxisValues();
-        //画白天温度集合
-        drawChart(canvas, mDayLineColor, mTemperatureDay, mYAxisDay, TYPE_DAY);
-        //画晚上温度集合
-        drawChart(canvas, mNightLineColor, mTemperatureNight, mYAxisNight, TYPE_NIGHT);
+        if (COUNT_NIGHT != 0 && COUNT_NIGHT == COUNT_DAY) {
+            if (0 == mHeight)
+                //计算X轴温度集合坐标与控件高度
+                setHeightAndXAxis(COUNT_DAY);
+            //计算Y轴温度集合坐标
+            computeYAxisValues(COUNT_DAY);
+            if (mYAxisDay != null && mYAxisNight != null && mXAxis != null) {
+                //画白天温度集合
+                drawChart(canvas, mDayLineColor, mTemperatureDay, mYAxisDay, COUNT_DAY, TYPE_DAY);
+                //画晚上温度集合
+                drawChart(canvas, mNightLineColor, mTemperatureNight, mYAxisNight, COUNT_NIGHT, TYPE_NIGHT);
+            }
+        }
     }
 
-    /*
+    /**
     *
     * 画折线
-    * @param
+     * @param canvas 画布
+     * @param color 颜色
+     * @param temperatures 温度集合
+     * @param yAxis Y轴坐标集合
+     * @param count 数量
+     * @param type 线条类型 0 白天 1 晚上
      */
-    private void drawChart(Canvas canvas, int color, int[] temperatures, float[] yAxis, int type) {
+    private void drawChart(Canvas canvas, int color, int[] temperatures, float[] yAxis, int count, int type) {
         //设置画笔颜色
         mPointPaint.setColor(color);
         mLinePaint.setColor(color);
@@ -195,9 +206,9 @@ public class ChartView extends View {
         int alpha1 = 125;
         int alpha2 = 255;
         //绘制
-        for (int i = 0; i < COUNT; i++) {
+        for (int i = 0; i < count; i++) {
             //画线
-            if (i < COUNT - 1) {//只有COUNT - 1条线段
+            if (i < count - 1) {//只有COUNT - 1条线段
                 if (0 == i) {//昨天
                     mLinePaint.setAlpha(alpha1);
                     //设置虚线效果
@@ -240,8 +251,15 @@ public class ChartView extends View {
         }
     }
 
-    /*
+    /**
+     *
     * 画字
+     * @param canvas 画布
+     * @param paint 画笔
+     * @param index 索引
+     * @param temperatures 温度集合
+     * @param yAxis Y轴坐标集合
+     * @param type 线条类型 0 白天 1 晚上
      */
     private void drawText(Canvas canvas, Paint paint, int index, int[] temperatures, float[] yAxis, int type) {
         switch (type) {
@@ -255,10 +273,10 @@ public class ChartView extends View {
         }
     }
 
-    /*
+    /**
     * 计算Y轴集合数值
      */
-    private void computeYAxisValues() {
+    private void computeYAxisValues(int count) {
         //白天最高温
         int maxTemperatureDay = getMax(mTemperatureDay);
         //白天最低温
@@ -277,15 +295,18 @@ public class ChartView extends View {
         float space = mSpace + mTextSize + mTextSpace + mRadius;
         //Y轴的高度
         float yAxisHeight = mHeight - space * 2;
+        //初始化集合
+        mYAxisDay = new float[count];
+        mYAxisNight = new float[count];
         //计算Y轴集合的坐标
         if (0 == yParts) {//当所有温度相等时
-            for (int i = 0; i < COUNT; i++) {
+            for (int i = 0; i < count; i++) {
                 mYAxisDay[i] = yAxisHeight / 2 + space;
                 mYAxisNight[i] = yAxisHeight / 2 + space;
             }
         } else {
             float yPartValue = yAxisHeight / yParts;
-            for (int i = 0; i < COUNT; i++) {
+            for (int i = 0; i < count; i++) {
                 //白天温度集合坐标
                 mYAxisDay[i] = mHeight - space - yPartValue * (mTemperatureDay[i] - minTemperature);
                 //夜晚温度集合坐标
@@ -294,7 +315,7 @@ public class ChartView extends View {
         }
     }
 
-    /*
+    /**
     * 求所给数组的最小值
      */
     private int getMin(int[] metric) {
@@ -306,7 +327,7 @@ public class ChartView extends View {
 
     }
 
-    /*
+    /**
     * 求所给数组的最大值
      */
     private int getMax(int[] metric) {
@@ -317,40 +338,44 @@ public class ChartView extends View {
         return max;
     }
 
-    /*
+    /**
      *设置控件的高度和X轴的集合
      */
-    private void setHeightAndXAxis() {
+    private void setHeightAndXAxis(int count) {
         mHeight = getHeight();
         //控件宽度
         int width = getWidth();
-        /*
-        *总共12等分
+        /**
+         * 总共12等分
         * X轴上6个坐标点
          */
         //每一份宽度
-        float perWidth = width / 12;
+        float perWidth = width / (2 * count);
+        //初始化集合
+        mXAxis = new float[count];
         //每个点的X轴坐标值
-        for (int i = 1, j = 0; i < 12 & j < 6; ) {
+        for (int i = 1, j = 0; i < 2 * count & j < count; ) {
             mXAxis[j] = i * perWidth;
             i += 2;
             j++;
         }
     }
 
-    /*
+    /**
     * 设置白天的温度
     * 暴露给调用者使用的api
      */
     public void setTemperatureDay(int[] temperatures) {
         mTemperatureDay = temperatures;
+        COUNT_DAY = temperatures.length;
     }
 
-    /*
-    *设置晚上的温度
+    /**
+     * 设置晚上的温度
     * 暴露给调用者使用的api
      */
     public void setTemperatureNight(int[] temperatures) {
         mTemperatureNight = temperatures;
+        COUNT_NIGHT = temperatures.length;
     }
 }
