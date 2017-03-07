@@ -20,17 +20,22 @@ import java.util.concurrent.TimeUnit;
 public class WebUtil {
     private static OkHttpClient mOkHttpClient;
 
-    //请求天气接口
-
+    /**
+     * 请求天气数据
+     *
+     * @param addressWeather 获取天气数据的url地址
+     */
     public static void requestWeather(final String addressWeather) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 if (mOkHttpClient == null)
                     mOkHttpClient = new OkHttpClient();
+                //设置连接属性
                 mOkHttpClient.setReadTimeout(5 * 1000, TimeUnit.MILLISECONDS);
                 mOkHttpClient.setConnectTimeout(5 * 1000, TimeUnit.MILLISECONDS);
                 mOkHttpClient.setWriteTimeout(5 * 1000, TimeUnit.MILLISECONDS);
+                //发起请求
                 Request request = new Request.Builder().url(addressWeather).build();
                 try {
                     Response response = mOkHttpClient.newCall(request).execute();

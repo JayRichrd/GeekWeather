@@ -566,8 +566,8 @@ public class MainFragment extends Fragment {
             //截掉返回城市的行政单位：“市”、"县"、“镇”等
             String city = mCity.substring(0, mCity.length() - 1);
             String address_weather = getString(R.string.weather_base_url, city);
-            requestWeather(mCity.substring(0, mCity.length() - 1), Constant.JUHEWEATHER);
             WebUtil.requestWeather(address_weather);
+            requestWeather(mCity.substring(0, mCity.length() - 1), Constant.JUHEWEATHER);
         }
 
     }
