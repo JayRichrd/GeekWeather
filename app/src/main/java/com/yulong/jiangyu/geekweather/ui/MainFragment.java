@@ -42,6 +42,7 @@ import com.yulong.jiangyu.geekweather.dao.DatabaseHelper;
 import com.yulong.jiangyu.geekweather.impl.DateImpl;
 import com.yulong.jiangyu.geekweather.impl.HeWeatherImpl;
 import com.yulong.jiangyu.geekweather.impl.JuHeWeatherImpl;
+import com.yulong.jiangyu.geekweather.util.WebUtil;
 
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -126,14 +127,14 @@ public class MainFragment extends Fragment {
     DrawerLayout dlMain;
     //数据库操作
     Dao<WeatherUIInfo, Integer> dao = null;
-    private Unbinder unbinder;
+    private Unbinder mUnbinder;
     //百度定位服务
-    private LocationClient locationClient = null;
+    private LocationClient mLocationClient = null;
     private MyLocationListener myLocationListener = new MyLocationListener();
     //定位提示框
-    private ProgressDialog progressDialog = null;
+    private ProgressDialog mProgressDialog = null;
     //当前城市
-    private String city = "深圳";
+    private String mCity = "深圳";
     //请求天气接口
     private HeWeatherImpl heWeatherImpl = null;
     private JuHeWeatherImpl juHeWeatherImpl = null;
@@ -141,14 +142,13 @@ public class MainFragment extends Fragment {
     private DateImpl dateImpl = null;
     //数据库
     private DatabaseHelper databaseHelper = null;
-    private ActionBarDrawerToggle actionBarDrawerToggle = null;
+    private ActionBarDrawerToggle mActionBarDrawerToggle = null;
     //抽屉Drawer全部被拉出时的宽度
     private int mDrawerWidth = 0;
     //抽屉被拉出部分的宽度
-    private float scrollWidth = 0f;
+    private float mScrollWidth = 0f;
 
     public MainFragment() {
-        // Required empty public constructor
     }
 
 
@@ -157,7 +157,7 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         init();
         return view;
     }
@@ -169,7 +169,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unbinder.unbind();
+        mUnbinder.unbind();
     }
 
     @Override
@@ -193,7 +193,8 @@ public class MainFragment extends Fragment {
         toolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         //设置Drawerlayout的滑入滑出
-        actionBarDrawerToggle = new ActionBarDrawerToggle(getActivity(), dlMain, toolbar, R.string.drawer_open, R.string
+        mActionBarDrawerToggle = new ActionBarDrawerToggle(getActivity(), dlMain, toolbar, R.string.drawer_open, R
+                .string
                 .drawer_close) {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -201,14 +202,14 @@ public class MainFragment extends Fragment {
                 Log.i(TAG, "***onDrawerSlide***:Drawer's position changes");
                 Log.i(TAG, "***onDrawerSlide***:slideOffset=" + slideOffset);
                 mDrawerWidth = navView.getMeasuredWidth();
-                scrollWidth = mDrawerWidth * slideOffset;
+                mScrollWidth = mDrawerWidth * slideOffset;
                 //TODO 背景没有随着被挤压！
                 //根据Drawer抽屉被拉出的宽度伸缩主布局内容
-                llRootContent.setScrollX((int) (-1 * scrollWidth));
+                llRootContent.setScrollX((int) (-1 * mScrollWidth));
             }
         };
-        actionBarDrawerToggle.syncState();
-        dlMain.addDrawerListener(actionBarDrawerToggle);
+        mActionBarDrawerToggle.syncState();
+        dlMain.addDrawerListener(mActionBarDrawerToggle);
         //设置菜单menu项点击事件
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -241,23 +242,23 @@ public class MainFragment extends Fragment {
             }
         });
         //初始化百度定位服务
-        locationClient = new LocationClient(getActivity().getApplicationContext());
-        locationClient.registerLocationListener(myLocationListener);
+        mLocationClient = new LocationClient(getActivity().getApplicationContext());
+        mLocationClient.registerLocationListener(myLocationListener);
         initLocation();
         initRetrofit();
         initDialog();
-        progressDialog.show();
-        locationClient.start();
+        mProgressDialog.show();
+        mLocationClient.start();
         Log.i(TAG, "开始定位……");
     }
 
     //初始化定位进度对话框
     private void initDialog() {
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("正在努力定位中……");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog.setMessage("正在努力定位中……");
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         //是否可以使用返回键取消
-        progressDialog.setCancelable(false);
+        mProgressDialog.setCancelable(false);
     }
 
     //初始化定位服务
@@ -273,7 +274,7 @@ public class MainFragment extends Fragment {
         locationClientOption.setIgnoreKillProcess(false);
         locationClientOption.SetIgnoreCacheException(false);
         locationClientOption.setEnableSimulateGps(false);
-        locationClient.setLocOption(locationClientOption);
+        mLocationClient.setLocOption(locationClientOption);
     }
 
     //显示信息对话框
@@ -559,11 +560,14 @@ public class MainFragment extends Fragment {
                     break;
             }
             if (bdLocation != null) {
-                city = bdLocation.getCity();
+                mCity = bdLocation.getCity();
             }
-            progressDialog.dismiss();
+            mProgressDialog.dismiss();
             //截掉返回城市的行政单位：“市”、"县"、“镇”等
-            requestWeather(city.substring(0, city.length() - 1), Constant.HEWEATHER);
+            String city = mCity.substring(0, mCity.length() - 1);
+            String address_weather = getString(R.string.weather_base_url, city);
+            requestWeather(mCity.substring(0, mCity.length() - 1), Constant.JUHEWEATHER);
+            WebUtil.requestWeather(address_weather);
         }
 
     }

@@ -10,3 +10,7 @@
 libs/
 src/main/java/navigation/
 src/main/res/drawable/
+.idea/markdown-exported-files.xml
+app/src/androidTest/
+app/src/test/
+/gradle/wrapper/gradle-wrapper.properties

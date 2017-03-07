@@ -11,9 +11,12 @@ public class Constant {
     //聚合数据天气预报
     public static final String juHeWeatherKey = "4ea58de8a7573377cec0046f5e2469d5";
     public static final String juHeWeatherBaseUrl = "http://op.juhe.cn/";
+    //中华万年历天气
+    public static final String weatherUrl = "http://wthrcdn.etouch.cn/WeatherApi?city=";
     //天气类型
     public static final int HEWEATHER = 1;
     public static final int JUHEWEATHER = 2;
+    public static final int WEATHER = 3;
     //聚合数据万年历
     public static final String dateKey = "f8e4dc7c7920b3d9e8c163af1cc2fb3f";
     public static final String dateBaseUrl = "http://v.juhe.cn/";

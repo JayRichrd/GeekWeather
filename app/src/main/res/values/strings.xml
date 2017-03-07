@@ -29,4 +29,6 @@
     <string name="ultraviolet">紫外线指数</string>
     <!--Fragment Tag-->
     <string name="MainFragment">MainFragment</string>
+    <string name="weather_base_url">http://wthrcdn.etouch.cn/WeatherApi?city=%1$s</string>
+
 </resources>
