@@ -7,7 +7,7 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.yulong.jiangyu.geekweather.bean.WeatherUIInfo;
+import com.yulong.jiangyu.geekweather.bean.WeatherLifeIndex;
 import com.yulong.jiangyu.geekweather.constant.Constant;
 
 import java.sql.SQLException;
@@ -16,21 +16,21 @@ import java.sql.SQLException;
  * Created by jiangyu on 2017/2/3.
  */
 
-public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
-    private static DatabaseHelper instance = null;
-    private Dao<WeatherUIInfo, Integer> dao = null;
+public class WeatherInfoDatabaseHelper extends OrmLiteSqliteOpenHelper {
+    private static WeatherInfoDatabaseHelper instance = null;
+    private Dao<WeatherLifeIndex, Integer> daoWeatherLifeIndex = null;
 
     //私有构造函数
-    private DatabaseHelper(Context context) {
-        super(context, Constant.TABLE_NAME, null, Constant.TABLE_VERSION);
+    private WeatherInfoDatabaseHelper(Context context) {
+        super(context, Constant.TABLE_NAME1, null, Constant.TABLE_VERSION);
     }
 
     //单例模式创建数据库的实例
-    public static synchronized DatabaseHelper getInstance(Context context) {
+    public static synchronized WeatherInfoDatabaseHelper getInstance(Context context) {
         if (instance == null) {
-            synchronized (DatabaseHelper.class) {
+            synchronized (WeatherInfoDatabaseHelper.class) {
                 if (instance == null)
-                    instance = new DatabaseHelper(context);
+                    instance = new WeatherInfoDatabaseHelper(context);
             }
         }
         return instance;
@@ -51,7 +51,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
-            TableUtils.createTable(connectionSource, WeatherUIInfo.class);
+            TableUtils.createTable(connectionSource, WeatherLifeIndex.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -74,7 +74,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {//先删除，再重新建立
-            TableUtils.dropTable(connectionSource, WeatherUIInfo.class, true);
+            TableUtils.dropTable(connectionSource, WeatherLifeIndex.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,10 +82,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     //操作数据库的类Dao
-    public Dao<WeatherUIInfo, Integer> getDao() throws SQLException {
-        if (dao == null)
-            dao = getDao(WeatherUIInfo.class);
-        return dao;
+    public Dao<WeatherLifeIndex, Integer> getDaoWeatherLifeIndex() throws SQLException {
+        if (daoWeatherLifeIndex == null)
+            daoWeatherLifeIndex = getDao(WeatherLifeIndex.class);
+        return daoWeatherLifeIndex;
     }
 
     /**
@@ -94,6 +94,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void close() {
         super.close();
-        dao = null;
+        daoWeatherLifeIndex = null;
     }
 }

@@ -45,9 +45,9 @@ public class WeatherInfo implements Serializable {
     //警报详情
     private String mAlarmDetail;
     //多天天气预报
-    private List<WeatherDaysForecast> mWeatherDaysForecast;
+    private List<WeatherDaysForecast> mWeatherDaysForecasts;
     //生活指数
-    private List<WeatherLifeIndex> mWeatherLifeIndex;
+    private List<WeatherLifeIndex> mWeatherLifeIndies;
 
     public String getmCity() {
         return mCity;
@@ -169,19 +169,19 @@ public class WeatherInfo implements Serializable {
         this.mAlarmDetail = mAlarmDetail;
     }
 
-    public List<WeatherDaysForecast> getmWeatherDaysForecast() {
-        return mWeatherDaysForecast;
+    public List<WeatherDaysForecast> getmWeatherDaysForecasts() {
+        return mWeatherDaysForecasts;
     }
 
-    public void setmWeatherDaysForecast(List<WeatherDaysForecast> mWeatherDaysForecast) {
-        this.mWeatherDaysForecast = mWeatherDaysForecast;
+    public void setmWeatherDaysForecasts(List<WeatherDaysForecast> mWeatherDaysForecasts) {
+        this.mWeatherDaysForecasts = mWeatherDaysForecasts;
     }
 
-    public List<WeatherLifeIndex> getmWeatherLifeIndex() {
-        return mWeatherLifeIndex;
+    public List<WeatherLifeIndex> getmWeatherLifeIndies() {
+        return mWeatherLifeIndies;
     }
 
-    public void setmWeatherLifeIndex(List<WeatherLifeIndex> mWeatherLifeIndex) {
-        this.mWeatherLifeIndex = mWeatherLifeIndex;
+    public void setmWeatherLifeIndies(List<WeatherLifeIndex> mWeatherLifeIndies) {
+        this.mWeatherLifeIndies = mWeatherLifeIndies;
     }
 }

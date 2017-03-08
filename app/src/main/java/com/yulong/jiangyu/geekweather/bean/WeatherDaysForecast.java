@@ -26,11 +26,11 @@ public class WeatherDaysForecast implements Serializable {
     //白天风向
     private String mWindDirectionDay;
     //夜晚风向
-    private String getmWindDirectionNight;
+    private String mWindDirectionNight;
     //白天风力
-    private String mWindPpwerDay;
+    private String mWindPowerDay;
     //夜晚风力
-    private String getmWindPpwerNight;
+    private String mWindPowerNight;
 
     public String getmDate() {
         return mDate;
@@ -80,27 +80,27 @@ public class WeatherDaysForecast implements Serializable {
         this.mWindDirectionDay = mWindDirectionDay;
     }
 
-    public String getGetmWindDirectionNight() {
-        return getmWindDirectionNight;
+    public String getmWindDirectionNight() {
+        return mWindDirectionNight;
     }
 
-    public void setGetmWindDirectionNight(String getmWindDirectionNight) {
-        this.getmWindDirectionNight = getmWindDirectionNight;
+    public void setmWindDirectionNight(String mWindDirectionNight) {
+        this.mWindDirectionNight = mWindDirectionNight;
     }
 
-    public String getmWindPpwerDay() {
-        return mWindPpwerDay;
+    public String getmWindPowerDay() {
+        return mWindPowerDay;
     }
 
-    public void setmWindPpwerDay(String mWindPpwerDay) {
-        this.mWindPpwerDay = mWindPpwerDay;
+    public void setmWindPowerDay(String mWindPowerDay) {
+        this.mWindPowerDay = mWindPowerDay;
     }
 
-    public String getGetmWindPpwerNight() {
-        return getmWindPpwerNight;
+    public String getmWindPowerNight() {
+        return mWindPowerNight;
     }
 
-    public void setGetmWindPpwerNight(String getmWindPpwerNight) {
-        this.getmWindPpwerNight = getmWindPpwerNight;
+    public void setmWindPowerNight(String mWindPowerNight) {
+        this.mWindPowerNight = mWindPowerNight;
     }
 }

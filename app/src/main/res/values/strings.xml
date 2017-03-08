@@ -29,6 +29,20 @@
     <string name="ultraviolet">紫外线指数</string>
     <!--Fragment Tag-->
     <string name="MainFragment">MainFragment</string>
+    <!--请求天气url-->
     <string name="weather_base_url">http://wthrcdn.etouch.cn/WeatherApi?city=%1$s</string>
+
+    <string name="start_location">开始定位</string>
+    <string name="location_tip">……正在努力定位中……</string>
+    <!--源时间格式-->
+    <string name="data_source">yyyy-MM-dd HH:mm</string>
+    <!--目标时间格式-->
+    <string name="data_target">yyyy-M-d</string>
+
+    <string name="error_get_data">获取日历数据失败！</string>
+    <string name="ok_location_gps">GPS定位成功</string>
+    <string name="ok_location_offline">离线定位成功</string>
+    <string name="ok_location_net">网络定位成功</string>
+    <string name="error_location">定位失败</string>
 
 </resources>

@@ -24,8 +24,12 @@ public class Constant {
     public static final int errorCode = 0;
     //数据库名
     public static final String TABLE_NAME = "suggestion.db";
+    public static final String TABLE_NAME1 = "life_index.db";
     //数据版本号
     public static final int TABLE_VERSION = 1;
     //查询的ID
     public static final Integer ID = 1;
+    //默认城市
+    public static final String DEFAULT_PREFERENCE = "preference_file";
+    public static final String DEFAULT_CITY = "default_city";
 }
