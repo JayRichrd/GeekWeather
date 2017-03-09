@@ -1,35 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_marginTop="@dimen/activity_vertical_margin"
-              android:orientation="vertical">
-
-    <ImageView
-        android:id="@+id/iv_weather"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:src="@drawable/weather"/>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_left_weather_info_root_layout"
+                android:layout_marginRight="@dimen/margin_right_weather_info"
+                android:layout_marginTop="@dimen/margin_top_weather_info">
 
     <TextView
         android:id="@+id/tv_temperature"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:gravity="center"
-        android:text="---℃---"
-        android:textColor="@color/font_color_white"
-        android:textSize="@dimen/large_font_size"/>
+        style="@style/weather_info"
+        android:text="17"
+        android:textSize="@dimen/font_size_weather_info_temperature"/>
+
+    <TextView
+        style="@style/weather_info"
+        android:layout_alignTop="@id/tv_temperature"
+        android:layout_toRightOf="@id/tv_temperature"
+        android:text="°"
+        android:textSize="@dimen/font_size_weather_info_temperature_degree"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tv_weather"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:gravity="center"
-        android:text="---cloudy---"
-        android:textColor="@color/font_color_white"
-        android:textSize="@dimen/font_size"/>
+        style="@style/weather_info"
+        android:layout_alignBottom="@+id/tv_temperature"
+        android:layout_toRightOf="@id/tv_temperature"
+        android:text="晴"
+        android:textSize="@dimen/font_size_weather_info_weather"
+        android:textStyle="bold"/>
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_temperature"
+        android:layout_marginTop="@dimen/margin_top_weather_info"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_wind"
+            style="@style/weather_info"
+            android:layout_marginRight="@dimen/margin_right_weather_info"
+            android:drawableLeft="@drawable/wind"
+            android:gravity="center_vertical"
+            android:text="北风1级"/>
+
+        <TextView
+            android:id="@+id/tv_humidity"
+            style="@style/weather_info"
+            android:layout_marginRight="@dimen/margin_right_weather_info"
+            android:drawableLeft="@drawable/humidity"
+            android:gravity="center_vertical"
+            android:text="79%"/>
+
+        <TextView
+            android:id="@+id/tv_aqi"
+            style="@style/weather_info"
+            android:drawableLeft="@drawable/leaf_liang"
+            android:drawableRight="@drawable/right"
+            android:gravity="center_vertical"
+            android:text="59良"/>
+    </LinearLayout>
+
+</RelativeLayout>

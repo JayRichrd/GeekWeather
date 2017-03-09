@@ -24,6 +24,8 @@ import java.util.List;
  **/
 
 public class WeatherInfoUtil {
+    private static final String LOG_TAG = "WeatherInfoUtil";
+
     /**
      * @param inputStream 输入流
      * @return 解析好的天气信息
@@ -217,8 +219,10 @@ public class WeatherInfoUtil {
                 eventType = parser.next();
             }
         } catch (XmlPullParserException e) {
+            LogUtil.e(LOG_TAG, e.getMessage());
             e.printStackTrace();
         } catch (IOException e) {
+            LogUtil.e(LOG_TAG, e.getMessage());
             e.printStackTrace();
         }
         weatherInfo.setmWeatherDaysForecasts(weatherDaysForecasts);

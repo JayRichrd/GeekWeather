@@ -28,41 +28,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/default_city"
-                android:textColor="@color/font_color_white"
-                android:textSize="@dimen/font_size"
+                android:text="---city---"
+                android:textColor="@color/font_color_update_title"
+                android:textSize="@dimen/font_size_city"
                 android:textStyle="bold"/>
         </android.support.v7.widget.Toolbar>
+        <!--<FrameLayout-->
+        <!--android:id="@+id/frame_content"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1">-->
         <!--content-->
-        <FrameLayout
-            android:id="@+id/frame_content"
+        <!--设置ScrollView用来滑动，但注意ScrollView的内部只允许存在一个子布局-->
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-            <!--设置ScrollView用来滑动，但注意ScrollView的内部只允许存在一个子布局-->
-            <ScrollView
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="vertical">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:overScrollMode="never"
-                android:scrollbars="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <!--顶部的时间-->
-                    <include layout="@layout/include_date_title"/>
-                    <!--中间的天气-->
-                    <include layout="@layout/include_weather_info"/>
-                    <!--空气质量-->
-                    <include layout="@layout/include_air_info"/>
-                    <!--未来天气预测-->
-                    <include layout="@layout/include_forecast_weather"/>
-                    <!--建议-->
-                    <include layout="@layout/include_suggestion_info"/>
-                </LinearLayout>
-            </ScrollView>
-        </FrameLayout>
+                android:orientation="vertical">
+                <!--顶部的时间-->
+                <include layout="@layout/include_date_title"/>
+                <!--中间的天气-->
+                <include layout="@layout/include_weather_info"/>
+                <!--多日天气预报-->
+                <include layout="@layout/include_forecast_index"/>
+                <!--未来天气预测-->
+                <!--<include layout="@layout/include_forecast_weather"/>-->
+                <!--建议-->
+                <include layout="@layout/include_suggestion_info"/>
+            </LinearLayout>
+        </ScrollView>
+        <!--</FrameLayout>-->
     </LinearLayout>
     <!-- The navigation drawer -->
     <android.support.design.widget.NavigationView

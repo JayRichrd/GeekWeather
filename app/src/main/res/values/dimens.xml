@@ -1,13 +1,39 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!--date_title_layout-->
+    <dimen name="margin_left_date_title_root_layout">16dp</dimen>
+    <dimen name="margin_right_date_title_root_layout">16dp</dimen>
+    <dimen name="margin_top_date_title_root_layout">10dp</dimen>
+    <dimen name="font_size_update_title">9sp</dimen>
+
+    <!--weather_info_layout-->
+    <dimen name="margin_top_weather_info">20dp</dimen>
+    <dimen name="margin_left_weather_info_root_layout">32dp</dimen>
+    <dimen name="margin_right_weather_info">16dp</dimen>
+    <dimen name="margin_left_weather_info_temperature_text_view">16dp</dimen>
+    <dimen name="font_size_weather_info_temperature">120sp</dimen>
+    <dimen name="font_size_weather_info_temperature_degree">50sp</dimen>
+    <dimen name="font_size_weather_info_weather">25sp</dimen>
+
+    <!--weather_forecasts-->
+    <dimen name="margin_top_forecasts">16dp</dimen>
+    <dimen name="margin_left_forecasts">10dp</dimen>
+    <dimen name="margin_left_forecasts_index">32dp</dimen>
+
+    <!--life_index-->
+    <dimen name="margin_top_weather_life">16dp</dimen>
+    <dimen name="margin_left_weather_life">32dp</dimen>
+    <dimen name="margin_left_weather_life_image">16dp</dimen>
+    <dimen name="margin_right_weather_life">16dp</dimen>
+    <dimen name="margin_right_weather_life_text">10dp</dimen>
+
+
     <dimen name="widget_vertical_margin">10dp</dimen>
     <dimen name="padding">5dp</dimen>
-    <dimen name="widget_horizontal_margin">10dp</dimen>
-    <dimen name="font_size">16sp</dimen>
-    <dimen name="small_font_size">9sp</dimen>
-    <dimen name="large_font_size">60sp</dimen>
+    <dimen name="font_size_city">20sp</dimen>
+
     <dimen name="drawer_width">250dp</dimen>
     <dimen name="cloud_date_height">72dp</dimen>
+
+    <dimen name="font_size_indexes">18sp</dimen>
 </resources>

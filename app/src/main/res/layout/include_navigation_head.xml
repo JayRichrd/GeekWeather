@@ -9,7 +9,7 @@
         android:id="@+id/iv_head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/widget_horizontal_margin"
+        android:layout_marginLeft="@dimen/margin_right_weather_life_text"
         android:layout_marginTop="@dimen/widget_vertical_margin"
         android:src="@drawable/head_icon"/>
     <!--位置信息-->
@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="@dimen/widget_horizontal_margin"
+        android:layout_marginLeft="@dimen/margin_right_weather_life_text"
         android:layout_marginTop="@dimen/widget_vertical_margin"
         android:orientation="horizontal">
 
@@ -31,20 +31,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/widget_horizontal_margin"
+            android:layout_marginLeft="@dimen/margin_right_weather_life_text"
             android:text="深圳"
-            android:textColor="@color/font_color_white"
-            android:textSize="@dimen/font_size"/>
+            android:textColor="@color/font_color_update_title"
+            android:textSize="@dimen/font_size_city"/>
     </LinearLayout>
     <!--用户名-->
     <TextView
         android:id="@+id/tv_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/widget_horizontal_margin"
+        android:layout_marginLeft="@dimen/margin_right_weather_life_text"
         android:layout_marginTop="@dimen/widget_vertical_margin"
         android:text="jiangfengfn12@163.com"
-        android:textColor="@color/font_color_white"
-        android:textSize="@dimen/font_size"/>
+        android:textColor="@color/font_color_update_title"
+        android:textSize="@dimen/font_size_city"/>
 
 </LinearLayout>

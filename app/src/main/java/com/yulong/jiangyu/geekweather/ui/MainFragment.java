@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -21,17 +23,12 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.github.mikephil.charting.charts.LineChart;
 import com.j256.ormlite.dao.Dao;
 import com.yulong.jiangyu.geekweather.R;
 import com.yulong.jiangyu.geekweather.bean.DateInfo;
@@ -68,58 +65,56 @@ public class MainFragment extends Fragment {
     //日志TAG
     private static final String LOG_TAG = "MainFragment";
     //加载控件
-    @BindView(R.id.tv_city)
-    TextView tvCity;
+//    @BindView(R.id.tv_city)
+//    TextView tvCity;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.tv_time)
-    TextView tvTime;
-    @BindView(R.id.tv_update_time)
-    TextView tvUpdateTime;
-    @BindView(R.id.tv_date)
-    TextView tvDate;
-    @BindView(R.id.iv_weather)
-    ImageView ivWeather;
-    @BindView(R.id.tv_temperature)
-    TextView tvTemperature;
-    @BindView(R.id.tv_weather)
-    TextView tvWeather;
-    @BindView(R.id.tv_humidity)
-    TextView tvHumidity;
-    @BindView(R.id.tv_wind_dir)
-    TextView tvWindDir;
-    @BindView(R.id.tv_wind_sc)
-    TextView tvWindSc;
-    @BindView(R.id.tv_pm25)
-    TextView tvPm25;
-    @BindView(R.id.weather_chart)
-    LineChart weatherChart;
-    @BindView(R.id.tv_exercise)
-    TextView tvExercise;
-    @BindView(R.id.rl_exercise)
-    RelativeLayout rlExercise;
-    @BindView(R.id.tv_clothe)
-    TextView tvClothe;
-    @BindView(R.id.rl_clothe)
-    RelativeLayout rlClothe;
-    @BindView(R.id.tv_comfort)
-    TextView tvComfort;
-    @BindView(R.id.rl_comfort)
-    RelativeLayout rlComfort;
-    @BindView(R.id.tv_influenza)
-    TextView tvInfluenza;
-    @BindView(R.id.rl_influenza)
-    RelativeLayout rlInfluenza;
-    @BindView(R.id.tv_car)
-    TextView tvCar;
-    @BindView(R.id.rl_car)
-    RelativeLayout rlCar;
-    @BindView(R.id.tv_ultraviolet)
-    TextView tvUltraviolet;
-    @BindView(R.id.rl_ultraviolet)
-    RelativeLayout rlUltraviolet;
-    @BindView(R.id.frame_content)
-    FrameLayout frameContent;
+    //    @BindView(R.id.tv_time)
+//    TextView tvTime;
+//    @BindView(R.id.tv_update_time)
+//    TextView tvUpdateTime;
+//    @BindView(R.id.tv_date)
+//    TextView tvDate;
+//    @BindView(R.id.tv_temperature)
+//    TextView tvTemperature;
+//    @BindView(R.id.tv_weather)
+//    TextView tvWeather;
+//    @BindView(R.id.tv_humidity)
+//    TextView tvHumidity;
+//    @BindView(R.id.tv_wind_dir)
+//    TextView tvWindDir;
+//    @BindView(R.id.tv_wind_sc)
+//    TextView tvWindSc;
+//    @BindView(R.id.tv_pm25)
+//    TextView tvPm25;
+//    @BindView(R.id.weather_chart)
+//    LineChart weatherChart;
+//    @BindView(R.id.tv_exercise)
+//    TextView tvExercise;
+//    @BindView(R.id.rl_exercise)
+//    RelativeLayout rlExercise;
+//    @BindView(R.id.tv_clothe)
+//    TextView tvClothe;
+//    @BindView(R.id.rl_clothe)
+//    RelativeLayout rlClothe;
+//    @BindView(R.id.tv_comfort)
+//    TextView tvComfort;
+//    @BindView(R.id.rl_comfort)
+//    RelativeLayout rlComfort;
+//    @BindView(R.id.tv_influenza)
+//    TextView tvInfluenza;
+//    @BindView(R.id.rl_influenza)
+//    RelativeLayout rlInfluenza;
+//    @BindView(R.id.tv_car)
+//    TextView tvCar;
+//    @BindView(R.id.rl_car)
+//    RelativeLayout rlCar;
+//    @BindView(R.id.tv_ultraviolet)
+//    TextView tvUltraviolet;
+//    @BindView(R.id.rl_ultraviolet)
+//    RelativeLayout rlUltraviolet;
+//    @BindView(R.id.frame_content)
+//    FrameLayout frameContent;
     @BindView(R.id.ll_root_content)
     LinearLayout llRootContent;
     @BindView(R.id.nav_view)
@@ -145,6 +140,8 @@ public class MainFragment extends Fragment {
     private int mDrawerWidth = 0;
     //抽屉被拉出部分的宽度
     private float mScrollWidth = 0f;
+    //更新UI的Handler
+    private Handler mHandler = null;
 
     public MainFragment() {
     }
@@ -152,6 +149,23 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mHandler = new Handler() {
+            /**
+             * Subclasses must implement this to receive messages.
+             *
+             * @param msg 处理的消息
+             */
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what) {
+                    case Constant.UPDATE_UI:
+                        WeatherInfo weatherInfo = (WeatherInfo) msg.getData().getSerializable(Constant.WEATHER_INFO);
+                        updateUI(weatherInfo);
+                        break;
+                }
+            }
+        };
     }
 
     @Override
@@ -361,6 +375,14 @@ public class MainFragment extends Fragment {
                     LogUtil.e(LOG_TAG, e.getMessage());
                     e.printStackTrace();
                 }
+
+                //发送Handler消息来更新UI界面
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constant.WEATHER_INFO, weatherInfo);
+                Message msg = new Message();
+                msg.setData(bundle);
+                msg.what = Constant.UPDATE_UI;
+                mHandler.sendMessage(msg);
             }
 
             @Override
@@ -368,6 +390,14 @@ public class MainFragment extends Fragment {
                 LogUtil.e(LOG_TAG, e.getMessage());
             }
         });
+    }
+
+    /**
+     * 更新UI界面
+     *
+     * @param weatherInfo 天气信息数据
+     */
+    private void updateUI(WeatherInfo weatherInfo) {
     }
 
     /**
@@ -411,7 +441,7 @@ public class MainFragment extends Fragment {
             mProgressDialog.dismiss();
             //截掉返回城市的行政单位：“市”、"县"、“镇”等
             mCity = mCity.substring(0, mCity.length() - 1);
-            //使用SharedPreferences保存为默认城市
+            //使用SharedPreferences保存默认城市
             SharedPreferences sharedPreferences = getActivity().getApplication().getSharedPreferences(Constant
                     .DEFAULT_PREFERENCE, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
