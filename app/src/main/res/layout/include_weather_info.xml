@@ -1,38 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_left_weather_info_root_layout"
-                android:layout_marginRight="@dimen/margin_right_weather_info"
-                android:layout_marginTop="@dimen/margin_top_weather_info">
-
-    <TextView
-        android:id="@+id/tv_temperature"
-        style="@style/weather_info"
-        android:text="17"
-        android:textSize="@dimen/font_size_weather_info_temperature"/>
-
-    <TextView
-        style="@style/weather_info"
-        android:layout_alignTop="@id/tv_temperature"
-        android:layout_toRightOf="@id/tv_temperature"
-        android:text="°"
-        android:textSize="@dimen/font_size_weather_info_temperature_degree"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/tv_weather"
-        style="@style/weather_info"
-        android:layout_alignBottom="@+id/tv_temperature"
-        android:layout_toRightOf="@id/tv_temperature"
-        android:text="晴"
-        android:textSize="@dimen/font_size_weather_info_weather"
-        android:textStyle="bold"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="@dimen/margin_left_weather_info_root_layout"
+              android:layout_marginTop="@dimen/margin_top_weather_info"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_temperature"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_number1"
+            style="@style/weather_info_degree"
+            android:src="@drawable/number_1"/>
+
+        <ImageView
+            android:id="@+id/iv_number2"
+            style="@style/weather_info_degree"
+            android:src="@drawable/number_7"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageView
+                style="@style/weather_info_degree"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/degree"/>
+
+            <TextView
+                android:id="@+id/tv_temperature"
+                style="@style/weather_info"
+                android:layout_alignParentBottom="true"
+                android:text="晴"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_top_weather_info"
         android:orientation="horizontal">
 
@@ -61,4 +69,4 @@
             android:text="59良"/>
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

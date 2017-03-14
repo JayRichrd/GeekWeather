@@ -7,8 +7,8 @@
     <dimen name="font_size_update_title">9sp</dimen>
 
     <!--weather_info_layout-->
-    <dimen name="margin_top_weather_info">20dp</dimen>
-    <dimen name="margin_left_weather_info_root_layout">32dp</dimen>
+    <dimen name="margin_top_weather_info">60dp</dimen>
+    <dimen name="margin_left_weather_info_root_layout">16dp</dimen>
     <dimen name="margin_right_weather_info">16dp</dimen>
     <dimen name="margin_left_weather_info_temperature_text_view">16dp</dimen>
     <dimen name="font_size_weather_info_temperature">120sp</dimen>
