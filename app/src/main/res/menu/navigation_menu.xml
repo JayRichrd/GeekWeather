@@ -4,7 +4,7 @@
     <group>
         <item
             android:id="@+id/app_info"
-            android:icon="@drawable/info"
+            android:icon="@drawable/ic_info"
             android:title="@string/info"/>
         <item
             android:id="@+id/app_version"

@@ -2,276 +2,192 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_marginLeft="@dimen/margin_left_weather_life"
-              android:layout_marginRight="@dimen/margin_right_weather_life"
-              android:layout_marginTop="@dimen/margin_top_weather_life"
+              android:layout_marginTop="@dimen/margin_top_weather_life_index"
               android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_left_weather_life_index"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_forecasts_index"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="生活指数"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/font_size_indexes"/>
+            style="@style/indicate_text"
+            android:text="生活指数"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin_left_forecasts"
-            android:layout_toRightOf="@id/tv_forecasts_index"
-            android:background="@android:color/white"/>
+        <View
+            style="@style/divider_horizontal_line"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_left_weather_life_index"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <TableLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_top_weather_life">
-        <!--第一行-->
-        <TableRow>
-            <!--运动-->
-            <RelativeLayout
-                android:id="@+id/rl_exercise"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_weight="1">
+        android:layout_marginTop="16dp">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:clickable="false"
-                    android:src="@drawable/exercise"/>
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/white_trans20"/>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/margin_right_weather_life_text"
-                    android:clickable="false"
-                    android:orientation="vertical">
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_left_weather_life_index"
+            android:layout_marginRight="@dimen/margin_right_weather_life_index">
+            <!--第一行-->
+            <TableRow>
+                <!--运动-->
+                <RelativeLayout
+                    android:id="@+id/rl_exercise"
+                    style="@style/weather_life_index_table_item">
+
+                    <ImageView
+                        style="@style/weather_life_index_table_item_iv"
+                        android:src="@drawable/ic_exercise"/>
 
                     <TextView
-                        style="@style/weather_life_index"
-                        android:text="@string/exercise"/>
+                        style="@style/weather_life_index_table_item_tv"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/exercise"
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:id="@+id/tv_exercise"
-                        style="@style/weather_life_index"
-                        android:text="---|---"/>
-                </LinearLayout>
-            </RelativeLayout>
-            <!--分割线,在TabLayout中好像无法使用include标签-->
-            <LinearLayout
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/darker_gray"
-                android:orientation="vertical"/>
-            <!--穿衣-->
-            <RelativeLayout
-                android:id="@+id/rl_clothe"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_weight="1">
+                        style="@style/weather_life_index_table_item_tv"
+                        android:layout_alignParentBottom="true"
+                        android:text="---|---"
+                        android:textSize="14sp"/>
+                </RelativeLayout>
+                <!--穿衣-->
+                <RelativeLayout
+                    android:id="@+id/rl_clothe"
+                    style="@style/weather_life_index_table_item">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/margin_left_weather_life_image"
-                    android:clickable="false"
-                    android:src="@drawable/clothes"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/margin_right_weather_life_text"
-                    android:clickable="false"
-                    android:orientation="vertical">
+                    <ImageView
+                        style="@style/weather_life_index_table_item_iv"
+                        android:src="@drawable/ic_clothes"/>
 
                     <TextView
-                        style="@style/weather_life_index"
-                        android:text="@string/clothes"/>
+                        style="@style/weather_life_index_table_item_tv"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/clothes"
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:id="@+id/tv_clothe"
-                        style="@style/weather_life_index"
-                        android:text="---|---"/>
-                </LinearLayout>
-            </RelativeLayout>
-        </TableRow>
-        <!--分割线-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            android:orientation="horizontal"/>
-        <!--第二行-->
-        <TableRow>
-            <!--舒适度-->
-            <RelativeLayout
-                android:id="@+id/rl_comfort"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_weight="1">
+                        style="@style/weather_life_index_table_item_tv"
+                        android:layout_alignParentBottom="true"
+                        android:text="---|---"
+                        android:textSize="14sp"/>
+                </RelativeLayout>
+            </TableRow>
+            <!--分割线-->
+            <View
+                style="@style/divider_horizontal_line"
+                android:layout_marginRight="16dp"/>
+            <!--第二行-->
+            <TableRow>
+                <!--舒适度-->
+                <RelativeLayout
+                    android:id="@+id/rl_comfort"
+                    style="@style/weather_life_index_table_item">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:clickable="false"
-                    android:src="@drawable/comfort"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/margin_right_weather_life_text"
-                    android:clickable="false"
-                    android:orientation="vertical">
+                    <ImageView
+                        style="@style/weather_life_index_table_item_iv"
+                        android:src="@drawable/ic_comfort"/>
 
                     <TextView
-                        style="@style/weather_life_index"
-                        android:text="@string/comfort"/>
+                        style="@style/weather_life_index_table_item_tv"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/comfort"
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:id="@+id/tv_comfort"
-                        style="@style/weather_life_index"
-                        android:text="---|---"/>
-                </LinearLayout>
-            </RelativeLayout>
-            <!--分割线,在TabLayout中好像无法使用include标签-->
-            <LinearLayout
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/darker_gray"
-                android:orientation="vertical"/>
-            <!--感冒指数-->
-            <RelativeLayout
-                android:id="@+id/rl_influenza"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_weight="1">
+                        style="@style/weather_life_index_table_item_tv"
+                        android:layout_alignParentBottom="true"
+                        android:text="---|---"
+                        android:textSize="14sp"/>
+                </RelativeLayout>
+                <!--感冒指数-->
+                <RelativeLayout
+                    android:id="@+id/rl_influenza"
+                    style="@style/weather_life_index_table_item">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/margin_left_weather_life_image"
-                    android:clickable="false"
-                    android:src="@drawable/influenza"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/margin_right_weather_life_text"
-                    android:clickable="false"
-                    android:orientation="vertical">
+                    <ImageView
+                        style="@style/weather_life_index_table_item_iv"
+                        android:src="@drawable/ic_influenza"/>
 
                     <TextView
-                        style="@style/weather_life_index"
-                        android:text="@string/influenza"/>
+                        style="@style/weather_life_index_table_item_tv"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/influenza"
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:id="@+id/tv_influenza"
-                        style="@style/weather_life_index"
-                        android:text="---|---"/>
-                </LinearLayout>
-            </RelativeLayout>
-        </TableRow>
-        <!--分割线-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            android:orientation="horizontal"/>
-        <!--第三行-->
-        <TableRow>
-            <!--洗车指数-->
-            <RelativeLayout
-                android:id="@+id/rl_car"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_weight="1">
+                        style="@style/weather_life_index_table_item_tv"
+                        android:layout_alignParentBottom="true"
+                        android:text="---|---"
+                        android:textSize="14sp"/>
+                </RelativeLayout>
+            </TableRow>
+            <!--分割线-->
+            <View
+                style="@style/divider_horizontal_line"
+                android:layout_marginRight="16dp"/>
+            <!--第三行-->
+            <TableRow>
+                <!--洗车指数-->
+                <RelativeLayout
+                    android:id="@+id/rl_car"
+                    style="@style/weather_life_index_table_item">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:clickable="false"
-                    android:src="@drawable/wash_car"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/margin_right_weather_life_text"
-                    android:clickable="false"
-                    android:orientation="vertical">
+                    <ImageView
+                        style="@style/weather_life_index_table_item_iv"
+                        android:src="@drawable/wash_car"/>
 
                     <TextView
-                        style="@style/weather_life_index"
-                        android:text="@string/wash_car"/>
+                        style="@style/weather_life_index_table_item_tv"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/wash_car"
+                        android:textSize="16sp"/>
 
                     <TextView
-                        android:id="@+id/tv_car"
-                        style="@style/weather_life_index"
-                        android:text="---|---"/>
-                </LinearLayout>
-            </RelativeLayout>
-            <!--分割线,在TabLayout中好像无法使用include标签-->
-            <LinearLayout
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/darker_gray"
-                android:orientation="vertical"/>
-            <!--紫外线指数-->
-            <RelativeLayout
-                android:id="@+id/rl_ultraviolet"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_weight="1">
+                        android:id="@+id/wash_car"
+                        style="@style/weather_life_index_table_item_tv"
+                        android:layout_alignParentBottom="true"
+                        android:text="---|---"
+                        android:textSize="14sp"/>
+                </RelativeLayout>
+                <!--紫外线指数-->
+                <RelativeLayout
+                    android:id="@+id/rl_ultraviolet"
+                    style="@style/weather_life_index_table_item">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/margin_left_weather_life_image"
-                    android:clickable="false"
-                    android:src="@drawable/ultraviolet"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/margin_right_weather_life_text"
-                    android:clickable="false"
-                    android:orientation="vertical">
+                    <ImageView
+                        style="@style/weather_life_index_table_item_iv"
+                        android:src="@drawable/ic_ultraviolet"/>
 
                     <TextView
-                        style="@style/weather_life_index"
-                        android:text="@string/ultraviolet"/>
+                        style="@style/weather_life_index_table_item_tv"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/ultraviolet"
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:id="@+id/tv_ultraviolet"
-                        style="@style/weather_life_index"
-                        android:text="---|---"/>
-                </LinearLayout>
-            </RelativeLayout>
-        </TableRow>
-    </TableLayout>
+                        style="@style/weather_life_index_table_item_tv"
+                        android:layout_alignParentBottom="true"
+                        android:text="---|---"
+                        android:textSize="14sp"/>
+                </RelativeLayout>
+            </TableRow>
+        </TableLayout>
+    </FrameLayout>
 </LinearLayout>

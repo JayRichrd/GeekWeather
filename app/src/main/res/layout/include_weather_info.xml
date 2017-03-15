@@ -14,6 +14,7 @@
         <ImageView
             android:id="@+id/iv_number1"
             style="@style/weather_info_degree"
+            android:layout_alignParentTop="true"
             android:src="@drawable/number_1"/>
 
         <ImageView
@@ -26,47 +27,52 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/iv_degree"
                 style="@style/weather_info_degree"
-                android:layout_alignParentTop="true"
-                android:src="@drawable/degree"/>
+                android:src="@drawable/ic_centigrade"/>
 
             <TextView
                 android:id="@+id/tv_temperature"
-                style="@style/weather_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:text="晴"/>
+                android:paddingLeft="6dp"
+                android:text="晴"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"/>
+
         </RelativeLayout>
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_top_weather_info"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_wind"
-            style="@style/weather_info"
+            style="@style/weather_info_text"
             android:layout_marginRight="@dimen/margin_right_weather_info"
-            android:drawableLeft="@drawable/wind"
-            android:gravity="center_vertical"
-            android:text="北风1级"/>
+            android:drawableLeft="@drawable/ic_wind"
+            android:text="北风1级"
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/tv_humidity"
-            style="@style/weather_info"
+            style="@style/weather_info_text"
             android:layout_marginRight="@dimen/margin_right_weather_info"
-            android:drawableLeft="@drawable/humidity"
-            android:gravity="center_vertical"
-            android:text="79%"/>
+            android:drawableLeft="@drawable/ic_humidity"
+            android:text="79%"
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/tv_aqi"
-            style="@style/weather_info"
-            android:drawableLeft="@drawable/leaf_liang"
-            android:drawableRight="@drawable/right"
-            android:gravity="center_vertical"
-            android:text="59良"/>
+            style="@style/weather_info_text"
+            android:drawableLeft="@drawable/ic_leaf_liang"
+            android:text="59良"
+            android:textSize="16sp"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -16,15 +16,15 @@
     <dimen name="font_size_weather_info_weather">25sp</dimen>
 
     <!--weather_forecasts-->
-    <dimen name="margin_top_forecasts">16dp</dimen>
-    <dimen name="margin_left_forecasts">10dp</dimen>
-    <dimen name="margin_left_forecasts_index">32dp</dimen>
+    <dimen name="margin_top_forecasts">20dp</dimen>
+    <dimen name="margin_left_forecasts">16dp</dimen>
+    <dimen name="margin_left_forecasts_index">16dp</dimen>
 
     <!--life_index-->
-    <dimen name="margin_top_weather_life">16dp</dimen>
-    <dimen name="margin_left_weather_life">32dp</dimen>
+    <dimen name="margin_top_weather_life_index">20dp</dimen>
+    <dimen name="margin_left_weather_life_index">16dp</dimen>
     <dimen name="margin_left_weather_life_image">16dp</dimen>
-    <dimen name="margin_right_weather_life">16dp</dimen>
+    <dimen name="margin_right_weather_life_index">16dp</dimen>
     <dimen name="margin_right_weather_life_text">10dp</dimen>
 
 
