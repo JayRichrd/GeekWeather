@@ -107,32 +107,32 @@
             <ImageView
                 android:id="@+id/iv_weather_forecast_day_1"
                 style="@style/weather_info_forecast_iv_item"
-                android:src="@drawable/ic_weather_moderate_snow"/>
+                android:src="@drawable/weather_cloudy"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_day_2"
                 style="@style/weather_info_forecast_iv_item"
-                android:src="@drawable/ic_weather_moderate_snow"/>
+                android:src="@drawable/weather_cloudy"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_day_3"
                 style="@style/weather_info_forecast_iv_item"
-                android:src="@drawable/ic_weather_moderate_snow"/>
+                android:src="@drawable/weather_cloudy"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_day_4"
                 style="@style/weather_info_forecast_iv_item"
-                android:src="@drawable/ic_weather_moderate_snow"/>
+                android:src="@drawable/weather_cloudy"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_day_5"
                 style="@style/weather_info_forecast_iv_item"
-                android:src="@drawable/ic_weather_moderate_snow"/>
+                android:src="@drawable/weather_cloudy"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_day_6"
                 style="@style/weather_info_forecast_iv_item"
-                android:src="@drawable/ic_weather_moderate_snow"/>
+                android:src="@drawable/weather_cloudy"/>
         </LinearLayout>
 
         <!--白天天气类型-->
@@ -193,32 +193,32 @@
             <ImageView
                 android:id="@+id/iv_weather_forecast_night_1"
                 style="@style/weather_info_forecast_iv_item"
-                android:src="@drawable/ic_weather_moderate_snow"/>
+                android:src="@drawable/weather_cloudy"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_night_2"
                 style="@style/weather_info_forecast_iv_item"
-                android:src="@drawable/ic_weather_moderate_snow"/>
+                android:src="@drawable/weather_cloudy"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_night_3"
                 style="@style/weather_info_forecast_iv_item"
-                android:src="@drawable/ic_weather_moderate_snow"/>
+                android:src="@drawable/weather_cloudy"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_night_4"
                 style="@style/weather_info_forecast_iv_item"
-                android:src="@drawable/ic_weather_moderate_snow"/>
+                android:src="@drawable/weather_cloudy"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_night_5"
                 style="@style/weather_info_forecast_iv_item"
-                android:src="@drawable/ic_weather_moderate_snow"/>
+                android:src="@drawable/weather_cloudy"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_night_6"
                 style="@style/weather_info_forecast_iv_item"
-                android:src="@drawable/ic_weather_moderate_snow"/>
+                android:src="@drawable/weather_cloudy"/>
         </LinearLayout>
 
         <!--夜晚天气类型-->
