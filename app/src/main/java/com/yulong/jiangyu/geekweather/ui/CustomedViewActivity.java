@@ -19,7 +19,6 @@ public class CustomedViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Log.d("TAG","***onCreate()");
         setContentView(R.layout.activity_customed_view);
         unbinder = ButterKnife.bind(this);
         lineChart.setTemperatureDay(new int[]{14, 15, 16, 17, 9, 9, 20, 18});

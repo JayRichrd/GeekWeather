@@ -33,11 +33,6 @@
                 android:textSize="@dimen/font_size_city"
                 android:textStyle="bold"/>
         </android.support.v7.widget.Toolbar>
-        <!--<FrameLayout-->
-        <!--android:id="@+id/frame_content"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="1">-->
         <!--content-->
         <!--设置ScrollView用来滑动，但注意ScrollView的内部只允许存在一个子布局-->
         <ScrollView
@@ -45,7 +40,6 @@
             android:layout_height="match_parent"
             android:overScrollMode="never"
             android:scrollbars="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -56,13 +50,10 @@
                 <include layout="@layout/include_weather_info"/>
                 <!--多日天气预报-->
                 <include layout="@layout/include_forecast_index"/>
-                <!--未来天气预测-->
-                <!--<include layout="@layout/include_forecast_weather"/>-->
                 <!--建议-->
                 <include layout="@layout/include_suggestion_info"/>
             </LinearLayout>
         </ScrollView>
-        <!--</FrameLayout>-->
     </LinearLayout>
     <!-- The navigation drawer -->
     <android.support.design.widget.NavigationView
@@ -73,5 +64,4 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/include_navigation_head"
         app:menu="@menu/navigation_menu"/>
-
 </android.support.v4.widget.DrawerLayout>
