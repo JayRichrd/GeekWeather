@@ -57,7 +57,7 @@
             android:layout_marginRight="@dimen/margin_right_weather_info"
             android:drawableLeft="@drawable/ic_wind"
             android:text="北风1级"
-            android:textSize="16sp"/>
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/tv_humidity"
@@ -65,14 +65,15 @@
             android:layout_marginRight="@dimen/margin_right_weather_info"
             android:drawableLeft="@drawable/ic_humidity"
             android:text="79%"
-            android:textSize="16sp"/>
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/tv_aqi"
             style="@style/weather_info_text"
             android:drawableLeft="@drawable/ic_leaf_liang"
+            android:drawableRight="@drawable/ic_right"
             android:text="59良"
-            android:textSize="16sp"/>
+            android:textSize="14sp"/>
     </LinearLayout>
 
 </LinearLayout>

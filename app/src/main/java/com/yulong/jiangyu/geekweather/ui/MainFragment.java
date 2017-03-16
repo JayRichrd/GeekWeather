@@ -30,6 +30,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.j256.ormlite.dao.Dao;
+import com.yulong.jiangyu.chartview.ChartView;
 import com.yulong.jiangyu.geekweather.R;
 import com.yulong.jiangyu.geekweather.bean.DateInfo;
 import com.yulong.jiangyu.geekweather.bean.WeatherInfo;
@@ -65,62 +66,16 @@ public class MainFragment extends Fragment {
     //日志TAG
     private static final String LOG_TAG = "MainFragment";
     //加载控件
-//    @BindView(R.id.tv_city)
-//    TextView tvCity;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    //    @BindView(R.id.tv_time)
-//    TextView tvTime;
-//    @BindView(R.id.tv_update_time)
-//    TextView tvUpdateTime;
-//    @BindView(R.id.tv_date)
-//    TextView tvDate;
-//    @BindView(R.id.tv_temperature)
-//    TextView tvTemperature;
-//    @BindView(R.id.tv_weather)
-//    TextView tvWeather;
-//    @BindView(R.id.tv_humidity)
-//    TextView tvHumidity;
-//    @BindView(R.id.tv_wind_dir)
-//    TextView tvWindDir;
-//    @BindView(R.id.tv_wind_sc)
-//    TextView tvWindSc;
-//    @BindView(R.id.tv_pm25)
-//    TextView tvPm25;
-//    @BindView(R.id.weather_chart)
-//    LineChart weatherChart;
-//    @BindView(R.id.tv_exercise)
-//    TextView tvExercise;
-//    @BindView(R.id.rl_exercise)
-//    RelativeLayout rlExercise;
-//    @BindView(R.id.tv_clothe)
-//    TextView tvClothe;
-//    @BindView(R.id.rl_clothe)
-//    RelativeLayout rlClothe;
-//    @BindView(R.id.tv_comfort)
-//    TextView tvComfort;
-//    @BindView(R.id.rl_comfort)
-//    RelativeLayout rlComfort;
-//    @BindView(R.id.tv_influenza)
-//    TextView tvInfluenza;
-//    @BindView(R.id.rl_influenza)
-//    RelativeLayout rlInfluenza;
-//    @BindView(R.id.tv_car)
-//    TextView tvCar;
-//    @BindView(R.id.rl_car)
-//    RelativeLayout rlCar;
-//    @BindView(R.id.tv_ultraviolet)
-//    TextView tvUltraviolet;
-//    @BindView(R.id.rl_ultraviolet)
-//    RelativeLayout rlUltraviolet;
-//    @BindView(R.id.frame_content)
-//    FrameLayout frameContent;
     @BindView(R.id.ll_root_content)
     LinearLayout llRootContent;
     @BindView(R.id.nav_view)
     NavigationView navView;
     @BindView(R.id.dl_main)
     DrawerLayout dlMain;
+    @BindView(R.id.line_chart)
+    ChartView lineChart;
     //数据库操作
     Dao<WeatherLifeIndex, Integer> mDao = null;
     private Unbinder mUnbinder;
@@ -149,6 +104,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mHandler = new Handler() {
             /**
              * Subclasses must implement this to receive messages.
@@ -173,6 +129,7 @@ public class MainFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+
         //初始化控件
         initView();
         //开始位置服务
@@ -265,6 +222,10 @@ public class MainFragment extends Fragment {
                 return getResources().getString(resourceID);
             }
         });
+
+        lineChart.setTemperatureDay(new int[]{14, 15, 16, 17, 9, 9});
+        lineChart.setTemperatureNight(new int[]{7, 5, 9, 10, 3, 2});
+        lineChart.invalidate();
 
         //初始化定位进度对话框
         mProgressDialog = new ProgressDialog(getActivity());

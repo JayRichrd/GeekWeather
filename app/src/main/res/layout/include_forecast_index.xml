@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:wcv="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_marginLeft="@dimen/margin_left_forecasts_index"
@@ -23,10 +24,311 @@
 
     </LinearLayout>
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/weather_chart"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/margin_top_forecasts"/>
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <!--星期-->
+        <LinearLayout
+            style="@style/weather_info_forecast_ll">
+
+            <TextView
+                android:id="@+id/week1"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="周一"/>
+
+            <TextView
+                android:id="@+id/week2"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="周一"/>
+
+            <TextView
+                android:id="@+id/week3"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="周一"/>
+
+            <TextView
+                android:id="@+id/week4"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="周一"/>
+
+            <TextView
+                android:id="@+id/week5"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="周一"/>
+
+            <TextView
+                android:id="@+id/week6"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="周一"/>
+        </LinearLayout>
+        <!--日期-->
+        <LinearLayout
+            style="@style/weather_info_forecast_ll"
+            android:layout_marginTop="3dp">
+
+            <TextView
+                android:id="@+id/date1"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="3/16"/>
+
+            <TextView
+                android:id="@+id/date2"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="3/16"/>
+
+            <TextView
+                android:id="@+id/date3"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="3/16"/>
+
+            <TextView
+                android:id="@+id/date4"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="3/16"/>
+
+            <TextView
+                android:id="@+id/date5"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="3/16"/>
+
+            <TextView
+                android:id="@+id/date6"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="3/16"/>
+        </LinearLayout>
+        <!--白天天气-->
+        <LinearLayout
+            style="@style/weather_info_forecast_ll"
+            android:layout_marginTop="3dp">
+
+            <ImageView
+                android:id="@+id/iv_weather_forecast_day_1"
+                style="@style/weather_info_forecast_iv_item"
+                android:src="@drawable/ic_weather_moderate_snow"/>
+
+            <ImageView
+                android:id="@+id/iv_weather_forecast_day_2"
+                style="@style/weather_info_forecast_iv_item"
+                android:src="@drawable/ic_weather_moderate_snow"/>
+
+            <ImageView
+                android:id="@+id/iv_weather_forecast_day_3"
+                style="@style/weather_info_forecast_iv_item"
+                android:src="@drawable/ic_weather_moderate_snow"/>
+
+            <ImageView
+                android:id="@+id/iv_weather_forecast_day_4"
+                style="@style/weather_info_forecast_iv_item"
+                android:src="@drawable/ic_weather_moderate_snow"/>
+
+            <ImageView
+                android:id="@+id/iv_weather_forecast_day_5"
+                style="@style/weather_info_forecast_iv_item"
+                android:src="@drawable/ic_weather_moderate_snow"/>
+
+            <ImageView
+                android:id="@+id/iv_weather_forecast_day_6"
+                style="@style/weather_info_forecast_iv_item"
+                android:src="@drawable/ic_weather_moderate_snow"/>
+        </LinearLayout>
+
+        <!--白天天气类型-->
+        <LinearLayout
+            style="@style/weather_info_forecast_ll"
+            android:layout_marginTop="3dp">
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_type_day_1"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="阴"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_type_day_2"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="阴"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_type_day_3"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="阴"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_type_day_4"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="阴"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_type_day_5"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="阴"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_type_day_6"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="阴"/>
+        </LinearLayout>
+
+        <!--<com.github.mikephil.charting.charts.LineChart-->
+        <!--android:id="@+id/weather_chart"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginTop="@dimen/margin_top_forecasts"/>-->
+        <com.yulong.jiangyu.chartview.ChartView
+            android:id="@+id/line_chart"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="3dp"
+            wcv:textColor="@android:color/white"
+            wcv:textSize="14sp"/>
+
+        <!--晚上天气-->
+        <LinearLayout
+            style="@style/weather_info_forecast_ll"
+            android:layout_marginTop="3dp">
+
+            <ImageView
+                android:id="@+id/iv_weather_forecast_night_1"
+                style="@style/weather_info_forecast_iv_item"
+                android:src="@drawable/ic_weather_moderate_snow"/>
+
+            <ImageView
+                android:id="@+id/iv_weather_forecast_night_2"
+                style="@style/weather_info_forecast_iv_item"
+                android:src="@drawable/ic_weather_moderate_snow"/>
+
+            <ImageView
+                android:id="@+id/iv_weather_forecast_night_3"
+                style="@style/weather_info_forecast_iv_item"
+                android:src="@drawable/ic_weather_moderate_snow"/>
+
+            <ImageView
+                android:id="@+id/iv_weather_forecast_night_4"
+                style="@style/weather_info_forecast_iv_item"
+                android:src="@drawable/ic_weather_moderate_snow"/>
+
+            <ImageView
+                android:id="@+id/iv_weather_forecast_night_5"
+                style="@style/weather_info_forecast_iv_item"
+                android:src="@drawable/ic_weather_moderate_snow"/>
+
+            <ImageView
+                android:id="@+id/iv_weather_forecast_night_6"
+                style="@style/weather_info_forecast_iv_item"
+                android:src="@drawable/ic_weather_moderate_snow"/>
+        </LinearLayout>
+
+        <!--夜晚天气类型-->
+        <LinearLayout
+            style="@style/weather_info_forecast_ll"
+            android:layout_marginTop="3dp">
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_type_night_1"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="晴"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_type_night_2"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="晴"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_type_night_3"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="晴"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_type_night_4"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="晴"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_type_night_5"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="晴"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_type_night_6"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="晴"/>
+        </LinearLayout>
+
+        <!--风力-->
+        <LinearLayout
+            style="@style/weather_info_forecast_ll"
+            android:layout_marginTop="3dp">
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_wind_direction_1"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="北风"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_wind_direction_2"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="北风"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_wind_direction_3"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="北风"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_wind_direction_4"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="北风"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_wind_direction_5"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="北风"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_wind_direction_6"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="北风"/>
+        </LinearLayout>
+
+        <!--风力-->
+        <LinearLayout
+            style="@style/weather_info_forecast_ll"
+            android:layout_marginTop="3dp">
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_wind_power_1"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="3-4级"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_wind_power_2"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="3-4级"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_wind_power_3"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="3-4级"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_wind_power_4"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="3-4级"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_wind_power_5"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="3-4级"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_wind_power_6"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="3-4级"/>
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

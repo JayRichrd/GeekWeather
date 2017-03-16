@@ -22,7 +22,6 @@ public class CustomedViewActivity extends AppCompatActivity {
         //Log.d("TAG","***onCreate()");
         setContentView(R.layout.activity_customed_view);
         unbinder = ButterKnife.bind(this);
-        lineChart = (ChartView) findViewById(R.id.line_chart);
         lineChart.setTemperatureDay(new int[]{14, 15, 16, 17, 9, 9, 20, 18});
         lineChart.setTemperatureNight(new int[]{7, 5, 9, 10, 3, 2, 10, 10});
         lineChart.invalidate();

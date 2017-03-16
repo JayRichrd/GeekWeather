@@ -44,7 +44,8 @@
                 <!--运动-->
                 <RelativeLayout
                     android:id="@+id/rl_exercise"
-                    style="@style/weather_life_index_table_item">
+                    style="@style/weather_life_index_table_item"
+                    android:paddingRight="16dp">
 
                     <ImageView
                         style="@style/weather_life_index_table_item_iv"
@@ -66,7 +67,8 @@
                 <!--穿衣-->
                 <RelativeLayout
                     android:id="@+id/rl_clothe"
-                    style="@style/weather_life_index_table_item">
+                    style="@style/weather_life_index_table_item"
+                    android:paddingLeft="16dp">
 
                     <ImageView
                         style="@style/weather_life_index_table_item_iv"
@@ -88,14 +90,14 @@
             </TableRow>
             <!--分割线-->
             <View
-                style="@style/divider_horizontal_line"
-                android:layout_marginRight="16dp"/>
+                style="@style/divider_horizontal_line"/>
             <!--第二行-->
             <TableRow>
                 <!--舒适度-->
                 <RelativeLayout
                     android:id="@+id/rl_comfort"
-                    style="@style/weather_life_index_table_item">
+                    style="@style/weather_life_index_table_item"
+                    android:paddingRight="16dp">
 
                     <ImageView
                         style="@style/weather_life_index_table_item_iv"
@@ -117,7 +119,8 @@
                 <!--感冒指数-->
                 <RelativeLayout
                     android:id="@+id/rl_influenza"
-                    style="@style/weather_life_index_table_item">
+                    style="@style/weather_life_index_table_item"
+                    android:paddingLeft="16dp">
 
                     <ImageView
                         style="@style/weather_life_index_table_item_iv"
@@ -139,14 +142,14 @@
             </TableRow>
             <!--分割线-->
             <View
-                style="@style/divider_horizontal_line"
-                android:layout_marginRight="16dp"/>
+                style="@style/divider_horizontal_line"/>
             <!--第三行-->
             <TableRow>
                 <!--洗车指数-->
                 <RelativeLayout
                     android:id="@+id/rl_car"
-                    style="@style/weather_life_index_table_item">
+                    style="@style/weather_life_index_table_item"
+                    android:paddingRight="16dp">
 
                     <ImageView
                         style="@style/weather_life_index_table_item_iv"
@@ -168,7 +171,8 @@
                 <!--紫外线指数-->
                 <RelativeLayout
                     android:id="@+id/rl_ultraviolet"
-                    style="@style/weather_life_index_table_item">
+                    style="@style/weather_life_index_table_item"
+                    android:paddingLeft="16dp">
 
                     <ImageView
                         style="@style/weather_life_index_table_item_iv"
