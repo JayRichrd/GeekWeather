@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -74,8 +75,24 @@ public class MainFragment extends Fragment {
     NavigationView navView;
     @BindView(R.id.dl_main)
     DrawerLayout dlMain;
+    //折现图
     @BindView(R.id.line_chart)
     ChartView lineChart;
+    //城市
+    @BindView(R.id.tv_city)
+    TextView tvCity;
+    //更新时间
+    @BindView(R.id.tv_update_time)
+    TextView tvUpdateTime;
+    //风力
+    @BindView(R.id.tv_wind)
+    TextView tvWind;
+    //湿度
+    @BindView(R.id.tv_humidity)
+    TextView tvHumidity;
+    //空气质量
+    @BindView(R.id.tv_aqi)
+    TextView tvAqi;
     //数据库操作
     Dao<WeatherLifeIndex, Integer> mDao = null;
     private Unbinder mUnbinder;
@@ -359,6 +376,13 @@ public class MainFragment extends Fragment {
      * @param weatherInfo 天气信息数据
      */
     private void updateUI(WeatherInfo weatherInfo) {
+        tvCity.setText(weatherInfo.getmCity());
+
+        tvUpdateTime.setText(weatherInfo.getmUpdateTime());
+
+        tvWind.setText(weatherInfo.getmWindDirection() + weatherInfo.getmWindPower());
+        tvHumidity.setText(weatherInfo.getmHumidity());
+        tvAqi.setText(weatherInfo.getmAQI());
     }
 
     /**
