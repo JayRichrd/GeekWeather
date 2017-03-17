@@ -19,7 +19,6 @@
     <!--对话框-->
     <string name="btn_confirm">知道了</string>
     <!--生活指数-->
-    <string name="humidity">空气湿度</string>
     <string name="pm_value">PM2.5</string>
     <string name="exercise">锻炼</string>
     <string name="clothes">穿衣</string>
@@ -34,10 +33,16 @@
 
     <string name="start_location">开始定位</string>
     <string name="location_tip">……正在努力定位中……</string>
-    <!--源时间格式-->
-    <string name="data_source">yyyy-MM-dd HH:mm</string>
-    <!--目标时间格式-->
-    <string name="data_target">yyyy-M-d</string>
+    <!--显示的时间格式-->
+    <string name="date_ui">M月dd日</string>
+    <!--请求的时间格式-->
+    <string name="date_request">yyyy-M-d</string>
+    <!--更新时间-->
+    <string name="update_time">%1$s 更新</string>
+    <!--湿度-->
+    <string name="humidity">湿度 %1$s</string>
+    <!--日历-->
+    <string name="date">%1$s\n%2$s</string>
 
     <string name="error_get_data">获取日历数据失败！</string>
     <string name="ok_location_gps">GPS定位成功</string>

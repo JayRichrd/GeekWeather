@@ -15,10 +15,18 @@
             android:id="@+id/iv_number1"
             style="@style/weather_info_degree"
             android:layout_alignParentTop="true"
-            android:src="@drawable/number_1"/>
+            android:src="@drawable/ic_minus"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/iv_number2"
+            style="@style/weather_info_degree"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/number_1"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/iv_number3"
             style="@style/weather_info_degree"
             android:src="@drawable/number_7"/>
 
@@ -29,10 +37,10 @@
             <ImageView
                 android:id="@+id/iv_degree"
                 style="@style/weather_info_degree"
-                android:src="@drawable/ic_centigrade"/>
+                android:src="@drawable/degree"/>
 
             <TextView
-                android:id="@+id/tv_temperature"
+                android:id="@+id/tv_weather_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -70,7 +78,7 @@
         <TextView
             android:id="@+id/tv_aqi"
             style="@style/weather_info_text"
-            android:drawableLeft="@drawable/ic_leaf_liang"
+            android:drawableLeft="@drawable/ic_quality_good"
             android:drawableRight="@drawable/ic_right"
             android:text="59良"
             android:textSize="14sp"/>

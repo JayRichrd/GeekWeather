@@ -3,8 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_left_date_title_root_layout"
-                android:layout_marginRight="@dimen/margin_right_date_title_root_layout"
-                android:layout_marginTop="@dimen/margin_top_date_title_root_layout">
+                android:layout_marginRight="@dimen/margin_right_date_title_root_layout">
 
     <TextView
         android:id="@+id/tv_update_time"

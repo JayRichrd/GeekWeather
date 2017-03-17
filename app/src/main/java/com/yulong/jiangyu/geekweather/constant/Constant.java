@@ -34,6 +34,10 @@ public class Constant {
     public static final String DEFAULT_CITY = "default_city";
     //weatherinfo的标识
     public static final String WEATHER_INFO = "weather_info";
-    //更新UI界面
-    public static final int UPDATE_UI = 1;
+    //dateinfo的标识
+    public static final String DATE_INFO = "date_info";
+    //更新天气UI界面
+    public static final int UPDATE_WEATHER_UI = 1;
+    //更新日期UI界面
+    public static final int UPDATE_DATE_UI = 2;
 }

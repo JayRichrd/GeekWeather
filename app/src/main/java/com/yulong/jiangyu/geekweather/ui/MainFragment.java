@@ -7,12 +7,14 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -23,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,32 +37,27 @@ import com.j256.ormlite.dao.Dao;
 import com.yulong.jiangyu.chartview.ChartView;
 import com.yulong.jiangyu.geekweather.R;
 import com.yulong.jiangyu.geekweather.bean.DateInfo;
+import com.yulong.jiangyu.geekweather.bean.WeatherDaysForecast;
 import com.yulong.jiangyu.geekweather.bean.WeatherInfo;
 import com.yulong.jiangyu.geekweather.bean.WeatherLifeIndex;
 import com.yulong.jiangyu.geekweather.constant.Constant;
 import com.yulong.jiangyu.geekweather.dao.WeatherInfoDatabaseHelper;
-import com.yulong.jiangyu.geekweather.impl.DateImpl;
+import com.yulong.jiangyu.geekweather.listener.DateCallbackListener;
 import com.yulong.jiangyu.geekweather.listener.HttpCallbackListener;
+import com.yulong.jiangyu.geekweather.util.DateUtil;
 import com.yulong.jiangyu.geekweather.util.LogUtil;
 import com.yulong.jiangyu.geekweather.util.WeatherInfoUtil;
 import com.yulong.jiangyu.geekweather.util.WebUtil;
 
 import java.io.ByteArrayInputStream;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.ContentValues.TAG;
 
@@ -93,6 +91,19 @@ public class MainFragment extends Fragment {
     //空气质量
     @BindView(R.id.tv_aqi)
     TextView tvAqi;
+    //温度
+    @BindView(R.id.iv_number1)
+    ImageView ivNumber1;
+    @BindView(R.id.iv_number2)
+    ImageView ivNumber2;
+    @BindView(R.id.iv_number3)
+    ImageView ivNumber3;
+    //天气类型
+    @BindView(R.id.tv_weather_type)
+    TextView tvWeatherType;
+    //日历
+    @BindView(R.id.tv_date)
+    TextView tvDate;
     //数据库操作
     Dao<WeatherLifeIndex, Integer> mDao = null;
     private Unbinder mUnbinder;
@@ -104,7 +115,7 @@ public class MainFragment extends Fragment {
     //当前城市
     private String mCity = "北京";
     //请求日历接口
-    private DateImpl mDateImpl = null;
+    //private DateInfo mDateInfo = null;
     //数据库
     private WeatherInfoDatabaseHelper mWeatherInfoDatabaseHelper = null;
     private ActionBarDrawerToggle mActionBarDrawerToggle = null;
@@ -132,9 +143,13 @@ public class MainFragment extends Fragment {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 switch (msg.what) {
-                    case Constant.UPDATE_UI:
+                    case Constant.UPDATE_WEATHER_UI:
                         WeatherInfo weatherInfo = (WeatherInfo) msg.getData().getSerializable(Constant.WEATHER_INFO);
-                        updateUI(weatherInfo);
+                        updateWeatherUI(weatherInfo);
+                        break;
+                    case Constant.UPDATE_DATE_UI:
+                        DateInfo dateInfo = (DateInfo) msg.getData().getSerializable(Constant.DATE_INFO);
+                        updateDateUI(dateInfo);
                         break;
                 }
             }
@@ -297,47 +312,12 @@ public class MainFragment extends Fragment {
         builder.show();
     }
 
-    /**
-     * 请求日历时间
-     *
-     * @param dateStr 日期
-     */
-    private void requestDate(String dateStr) {
-        //聚合数据万年历网络请求
-        Retrofit dateRetrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl
-                (Constant.dateBaseUrl).build();
-        mDateImpl = dateRetrofit.create(DateImpl.class);
-        //转换日期
-        DateFormat dateFormatSource = new SimpleDateFormat(getString(R.string.data_source));
-        DateFormat dateFormatTarget = new SimpleDateFormat(getString(R.string.data_target));
-        Date date = null;
-        try {
-            date = dateFormatSource.parse(dateStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        if (date != null) {
-            mDateImpl.getDate(dateFormatTarget.format(date), Constant.dateKey).enqueue(new Callback<DateInfo>() {
-                @Override
-                public void onResponse(Call<DateInfo> call, Response<DateInfo> response) {
-                    DateInfo dateInfo = response.body();
-                    if (Constant.errorCode == dateInfo.getError_code()) {//检查返回的结果
-                        DateInfo.ResultBean.DataBean dataBean = dateInfo.getResult().getData();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<DateInfo> call, Throwable t) {
-                    LogUtil.e(LOG_TAG, getString(R.string.error_get_data));
-                }
-            });
-        }
-    }
 
     /**
      * 刷新获取天气数据
      */
-    private void refreshWeather() {
+    private void refreshData() {
+        //请求天气数据
         String address_weather = getString(R.string.weather_base_url, mCity);
         WebUtil.requestWeather(address_weather, new HttpCallbackListener() {
             @Override
@@ -359,7 +339,7 @@ public class MainFragment extends Fragment {
                 bundle.putSerializable(Constant.WEATHER_INFO, weatherInfo);
                 Message msg = new Message();
                 msg.setData(bundle);
-                msg.what = Constant.UPDATE_UI;
+                msg.what = Constant.UPDATE_WEATHER_UI;
                 mHandler.sendMessage(msg);
             }
 
@@ -368,6 +348,39 @@ public class MainFragment extends Fragment {
                 LogUtil.e(LOG_TAG, e.getMessage());
             }
         });
+
+        //请求日历数据
+        String dateStr = DateUtil.getCurrentDate(getString(R.string.date_request));
+        WebUtil.requesDate(dateStr, new DateCallbackListener() {
+            @Override
+            public void onFinish(DateInfo dateInfo) {
+                //mDateInfo = dateInfo;
+                //发送Handler消息来更新UI界面
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constant.DATE_INFO, dateInfo);
+                Message msg = new Message();
+                msg.setData(bundle);
+                msg.what = Constant.UPDATE_DATE_UI;
+                mHandler.sendMessage(msg);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                //LogUtil.e(LOG_TAG, getString(R.string.error_get_data));
+                LogUtil.e(LOG_TAG, t.getMessage());
+            }
+        });
+    }
+
+    /**
+     * 更新日期界面
+     *
+     * @param dateInfo 日期信息
+     */
+    private void updateDateUI(DateInfo dateInfo) {
+        String dateStr = DateUtil.getCurrentDate(getString(R.string.date_ui));
+        String lunarStr = dateInfo.getResult().getData().getLunar();
+        tvDate.setText(String.format(getString(R.string.date), dateStr, lunarStr));
     }
 
     /**
@@ -375,14 +388,169 @@ public class MainFragment extends Fragment {
      *
      * @param weatherInfo 天气信息数据
      */
-    private void updateUI(WeatherInfo weatherInfo) {
+    private void updateWeatherUI(WeatherInfo weatherInfo) {
         tvCity.setText(weatherInfo.getmCity());
+        //更新头部时间
+        tvUpdateTime.setText(String.format(getString(R.string.update_time), weatherInfo.getmUpdateTime()));
 
-        tvUpdateTime.setText(weatherInfo.getmUpdateTime());
+        //更新天气
+        List<WeatherDaysForecast> weatherDaysForecasts = weatherInfo.getmWeatherDaysForecasts();
+        //昨天
+        WeatherDaysForecast weatherDaysForecast1 = weatherDaysForecasts.get(0);
+        //今天
+        WeatherDaysForecast weatherDaysForecast2 = weatherDaysForecasts.get(1);
+        //明天
+        WeatherDaysForecast weatherDaysForecast3 = weatherDaysForecasts.get(2);
+        WeatherDaysForecast weatherDaysForecast4 = weatherDaysForecasts.get(3);
+        WeatherDaysForecast weatherDaysForecast5 = weatherDaysForecasts.get(4);
+        WeatherDaysForecast weatherDaysForecast6 = weatherDaysForecasts.get(5);
+        //当前时间的小时数
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        setTemperature(weatherInfo);
+        setWeatherType(hour, weatherDaysForecast2);
+        tvWind.setText(weatherInfo.getmWindDirection() + " " + weatherInfo.getmWindPower());
+        tvHumidity.setText(String.format(getString(R.string.humidity), weatherInfo.getmHumidity()));
+        setAqi(weatherInfo);
+    }
 
-        tvWind.setText(weatherInfo.getmWindDirection() + weatherInfo.getmWindPower());
-        tvHumidity.setText(weatherInfo.getmHumidity());
-        tvAqi.setText(weatherInfo.getmAQI());
+    /**
+     * 设置天气类型
+     *
+     * @param hour                当前时间小时数
+     * @param weatherDaysForecast 天气信息
+     */
+    private void setWeatherType(int hour, WeatherDaysForecast weatherDaysForecast) {
+        if (hour < 18) //白天
+            tvWeatherType.setText(weatherDaysForecast.getmTypeDay());
+        else //晚上
+            tvWeatherType.setText(weatherDaysForecast.getmTypeNight());
+    }
+
+    /**
+     * 设置温度
+     *
+     * @param weatherInfo 天气信息
+     */
+    private void setTemperature(WeatherInfo weatherInfo) {
+        String temperature = weatherInfo.getmTemperature();
+        if (temperature != null) {
+            if (temperature.contains("-")) {//负数
+                ivNumber1.setVisibility(View.VISIBLE);
+                ivNumber1.setImageResource(R.drawable.ic_minus);
+                if (1 == (temperature.length() - 1)) {//1位
+                    setTemperatureImage(Integer.parseInt(temperature.substring(1, 2)), ivNumber3);
+                } else {//2位
+                    ivNumber2.setVisibility(View.VISIBLE);
+                    setTemperatureImage(Integer.parseInt(temperature.substring(1, 2)), ivNumber2);
+                    setTemperatureImage(Integer.parseInt(temperature.substring(2, 3)), ivNumber3);
+                }
+            } else {//正数
+                if (1 == temperature.length()) {//1位
+                    setTemperatureImage(Integer.parseInt(temperature), ivNumber3);
+                } else {//2位
+                    ivNumber2.setVisibility(View.VISIBLE);
+                    setTemperatureImage(Integer.parseInt(temperature.substring(0, 1)), ivNumber2);
+                    setTemperatureImage(Integer.parseInt(temperature.substring(1, 2)), ivNumber3);
+                }
+            }
+        } else {
+            ivNumber1.setImageResource(R.drawable.number_0);
+            ivNumber2.setImageResource(R.drawable.number_0);
+            ivNumber3.setImageResource(R.drawable.number_0);
+        }
+    }
+
+    /**
+     * 设置温度图片
+     *
+     * @param num      数字
+     * @param ivNumber 图片控件
+     */
+    private void setTemperatureImage(int num, ImageView ivNumber) {
+        switch (num) {
+            case 0:
+                ivNumber.setImageResource(R.drawable.number_0);
+                break;
+            case 1:
+                ivNumber.setImageResource(R.drawable.number_1);
+                break;
+            case 2:
+                ivNumber.setImageResource(R.drawable.number_2);
+                break;
+            case 3:
+                ivNumber.setImageResource(R.drawable.number_3);
+                break;
+            case 4:
+                ivNumber.setImageResource(R.drawable.number_4);
+                break;
+            case 5:
+                ivNumber.setImageResource(R.drawable.number_5);
+                break;
+            case 6:
+                ivNumber.setImageResource(R.drawable.number_6);
+                break;
+            case 7:
+                ivNumber.setImageResource(R.drawable.number_7);
+                break;
+            case 8:
+                ivNumber.setImageResource(R.drawable.number_8);
+                break;
+            case 9:
+                ivNumber.setImageResource(R.drawable.number_9);
+                break;
+        }
+    }
+
+    /**
+     * 设置空气质量
+     *
+     * @param weatherInfo 天气信息
+     */
+    private void setAqi(WeatherInfo weatherInfo) {
+        String quality = weatherInfo.getmAQ();
+        Drawable drawableLeft = ContextCompat.getDrawable(getContext(), getQualityImageId(quality));
+        Drawable drawableRight = ContextCompat.getDrawable(getContext(), R.drawable.ic_right);
+        if (drawableLeft != null)
+            drawableLeft.setBounds(0, 0, drawableLeft.getMinimumWidth(), drawableLeft.getMinimumHeight());
+        if (drawableRight != null)
+            drawableRight.setBounds(0, 0, drawableRight.getMinimumWidth(), drawableRight.getMinimumHeight());
+        tvAqi.setCompoundDrawables(drawableLeft, null, drawableRight, null);
+        tvAqi.setText(weatherInfo.getmAQI() + " " + quality);
+    }
+
+    /**
+     * 返回空气质量图片id
+     *
+     * @param quality 空气质量
+     * @return 空气质量图片id
+     */
+    private int getQualityImageId(String quality) {
+        int imgId;
+        switch (quality) {
+            case "优":
+                imgId = R.drawable.ic_quality_nice;
+                break;
+            case "良":
+                imgId = R.drawable.ic_quality_good;
+                break;
+            case "轻度污染":
+                imgId = R.drawable.ic_quality_little;
+                break;
+            case "中度污染":
+                imgId = R.drawable.ic_quality_medium;
+                break;
+            case "重度污染":
+                imgId = R.drawable.ic_quality_serious;
+                break;
+            case "严重污染":
+                imgId = R.drawable.ic_quality_terrible;
+                break;
+            default:
+                imgId = R.drawable.ic_quality_nice;
+                break;
+        }
+        return imgId;
     }
 
     /**
@@ -433,7 +601,7 @@ public class MainFragment extends Fragment {
             editor.putString(Constant.DEFAULT_CITY, mCity);
             editor.apply();
 
-            refreshWeather();
+            refreshData();
         }
     }
 }

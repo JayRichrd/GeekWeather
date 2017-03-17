@@ -2,12 +2,14 @@ package com.yulong.jiangyu.geekweather.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by jiangyu on 2017/1/26.
  */
 
-public class DateInfo {
-
+public class DateInfo implements Serializable {
+    private static final long serialVersionUID = -642688239048492271L;
     /**
      * reason : Success
      * result : {"data":{"avoid":"破土.动土.安葬.","animalsYear":"猴","weekday":"星期四","suit":"祭祀.解除.教牛马.会亲友.余事勿取.",
