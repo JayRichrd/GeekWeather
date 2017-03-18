@@ -2,9 +2,11 @@ package com.yulong.jiangyu.geekweather.util;
 
 import android.util.Xml;
 
+import com.yulong.jiangyu.geekweather.R;
 import com.yulong.jiangyu.geekweather.bean.WeatherDaysForecast;
 import com.yulong.jiangyu.geekweather.bean.WeatherInfo;
 import com.yulong.jiangyu.geekweather.bean.WeatherLifeIndex;
+import com.yulong.jiangyu.geekweather.constant.Constant;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -114,6 +116,7 @@ public class WeatherInfoUtil {
                                 break;
                             case "yesterday"://昨日天气
                                 isDaysForecast = true;
+                                weatherDaysForecast = new WeatherDaysForecast();
                                 break;
                             case "date_1"://日期
                                 if (weatherDaysForecast != null)
@@ -228,5 +231,169 @@ public class WeatherInfoUtil {
         weatherInfo.setmWeatherDaysForecasts(weatherDaysForecasts);
         weatherInfo.setmWeatherLifeIndies(weatherLifeIndices);
         return weatherInfo;
+    }
+
+    /**
+     * 返回天气图片id
+     *
+     * @param type  天气类型
+     * @param isDay 是否为白天
+     * @return 天气图片id
+     */
+    public static int getWeatherImageId(String type, boolean isDay) {
+        if (type == null) {
+            return R.drawable.ic_weather_no;
+        }
+        int imgId;
+        switch (type) {
+            case "晴":
+                if (isDay) {
+                    imgId = R.drawable.ic_weather_sunny_day;
+                } else {
+                    imgId = R.drawable.ic_weather_sunny_night;
+                }
+                break;
+            case "多云":
+                if (isDay) {
+                    imgId = R.drawable.ic_weather_cloudy_day;
+                } else {
+                    imgId = R.drawable.ic_weather_cloudy_night;
+                }
+                break;
+            case "阴":
+                imgId = R.drawable.ic_weather_overcast;
+                break;
+            case "雷阵雨":
+            case "雷阵雨伴有冰雹":
+                imgId = R.drawable.ic_weather_thunder_shower;
+                break;
+            case "雨夹雪":
+                imgId = R.drawable.ic_weather_sleet;
+                break;
+            case "冻雨":
+                imgId = R.drawable.ic_weather_ice_rain;
+                break;
+            case "小雨":
+            case "小到中雨":
+            case "阵雨":
+                imgId = R.drawable.ic_weather_light_rain_or_shower;
+                break;
+            case "中雨":
+            case "中到大雨":
+                imgId = R.drawable.ic_weather_moderate_rain;
+                break;
+            case "大雨":
+            case "大到暴雨":
+                imgId = R.drawable.ic_weather_heavy_rain;
+                break;
+            case "暴雨":
+            case "大暴雨":
+            case "特大暴雨":
+            case "暴雨到大暴雨":
+            case "大暴雨到特大暴雨":
+                imgId = R.drawable.ic_weather_storm;
+                break;
+            case "阵雪":
+            case "小雪":
+            case "小到中雪":
+                imgId = R.drawable.ic_weather_light_snow;
+                break;
+            case "中雪":
+            case "中到大雪":
+                imgId = R.drawable.ic_weather_moderate_snow;
+                break;
+            case "大雪":
+            case "大到暴雪":
+                imgId = R.drawable.ic_weather_heavy_snow;
+                break;
+            case "暴雪":
+                imgId = R.drawable.ic_weather_snowstrom;
+                break;
+            case "雾":
+                imgId = R.drawable.ic_weather_foggy;
+                break;
+            case "霾":
+                imgId = R.drawable.ic_weather_haze;
+                break;
+            case "沙尘暴":
+                imgId = R.drawable.ic_weather_duststorm;
+                break;
+            case "强沙尘暴":
+                imgId = R.drawable.ic_weather_sandstorm;
+                break;
+            case "浮尘":
+            case "扬沙":
+                imgId = R.drawable.ic_weather_sand_or_dust;
+                break;
+            default:
+                if (type.contains("尘") || type.contains("沙")) {
+                    imgId = R.drawable.ic_weather_sand_or_dust;
+                } else if (type.contains("雾") || type.contains("霾")) {
+                    imgId = R.drawable.ic_weather_foggy;
+                } else if (type.contains("雨")) {
+                    imgId = R.drawable.ic_weather_ice_rain;
+                } else if (type.contains("雪") || type.contains("冰雹")) {
+                    imgId = R.drawable.ic_weather_moderate_snow;
+                } else {
+                    imgId = R.drawable.ic_weather_no;
+                }
+                break;
+        }
+        return imgId;
+    }
+
+    /**
+     * 返回空气质量图片id
+     *
+     * @param quality 空气质量
+     * @return 空气质量图片id
+     */
+    public static int getQualityImageId(String quality) {
+        int imgId;
+        switch (quality) {
+            case "优":
+                imgId = R.drawable.ic_quality_nice;
+                break;
+            case "良":
+                imgId = R.drawable.ic_quality_good;
+                break;
+            case "轻度污染":
+                imgId = R.drawable.ic_quality_little;
+                break;
+            case "中度污染":
+                imgId = R.drawable.ic_quality_medium;
+                break;
+            case "重度污染":
+                imgId = R.drawable.ic_quality_serious;
+                break;
+            case "严重污染":
+                imgId = R.drawable.ic_quality_terrible;
+                break;
+            default:
+                imgId = R.drawable.ic_quality_nice;
+                break;
+        }
+        return imgId;
+    }
+
+    /**
+     * 获取温度
+     *
+     * @param tempStr 温度字符串 高温 23℃
+     * @return 温度值
+     */
+    public static int parseTemperature(String tempStr) {
+        int temperature = 0;
+        if (tempStr.contains(" ")) {
+            //根据空格将字符串拆分
+            String[] subStr = tempStr.split(" ");
+            if (2 == subStr.length) {
+                //根据℃拆字符串
+                String[] subSubStr = subStr[1].split(Constant.SPLIT_TEMPERATURE_REGEX);
+                if (subSubStr != null)
+                    temperature = Integer.parseInt(subSubStr[0]);
+            }
+        }
+        return temperature;
     }
 }

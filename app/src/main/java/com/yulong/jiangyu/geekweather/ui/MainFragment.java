@@ -65,18 +65,18 @@ import static android.content.ContentValues.TAG;
 public class MainFragment extends Fragment {
     //日志TAG
     private static final String LOG_TAG = "MainFragment";
-    //加载控件
+    //toolbar
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
     @BindView(R.id.ll_root_content)
     LinearLayout llRootContent;
+    //抽屉控件
     @BindView(R.id.nav_view)
     NavigationView navView;
+
     @BindView(R.id.dl_main)
     DrawerLayout dlMain;
-    //折现图
-    @BindView(R.id.line_chart)
-    ChartView lineChart;
     //城市
     @BindView(R.id.tv_city)
     TextView tvCity;
@@ -131,6 +131,87 @@ public class MainFragment extends Fragment {
     TextView tvForecastDate5;
     @BindView(R.id.tv_forecast_date6)
     TextView tvForecastDate6;
+    //白天天气图片
+    @BindView(R.id.iv_weather_forecast_day1)
+    ImageView ivWeatherForecastDay1;
+    @BindView(R.id.iv_weather_forecast_day2)
+    ImageView ivWeatherForecastDay2;
+    @BindView(R.id.iv_weather_forecast_day3)
+    ImageView ivWeatherForecastDay3;
+    @BindView(R.id.iv_weather_forecast_day4)
+    ImageView ivWeatherForecastDay4;
+    @BindView(R.id.iv_weather_forecast_day5)
+    ImageView ivWeatherForecastDay5;
+    @BindView(R.id.iv_weather_forecast_day6)
+    ImageView ivWeatherForecastDay6;
+    //白天天气类型
+    @BindView(R.id.tv_weather_forecast_type_day1)
+    TextView tvWeatherForecastTypeDay1;
+    @BindView(R.id.tv_weather_forecast_type_day2)
+    TextView tvWeatherForecastTypeDay2;
+    @BindView(R.id.tv_weather_forecast_type_day3)
+    TextView tvWeatherForecastTypeDay3;
+    @BindView(R.id.tv_weather_forecast_type_day4)
+    TextView tvWeatherForecastTypeDay4;
+    @BindView(R.id.tv_weather_forecast_type_day5)
+    TextView tvWeatherForecastTypeDay5;
+    @BindView(R.id.tv_weather_forecast_type_day6)
+    TextView tvWeatherForecastTypeDay6;
+    //折线图
+    @BindView(R.id.line_chart)
+    ChartView lineChart;
+    //晚上天气图片
+    @BindView(R.id.iv_weather_forecast_night1)
+    ImageView ivWeatherForecastNight1;
+    @BindView(R.id.iv_weather_forecast_night2)
+    ImageView ivWeatherForecastNight2;
+    @BindView(R.id.iv_weather_forecast_night3)
+    ImageView ivWeatherForecastNight3;
+    @BindView(R.id.iv_weather_forecast_night4)
+    ImageView ivWeatherForecastNight4;
+    @BindView(R.id.iv_weather_forecast_night5)
+    ImageView ivWeatherForecastNight5;
+    @BindView(R.id.iv_weather_forecast_night6)
+    ImageView ivWeatherForecastNight6;
+    //晚上天气类型
+    @BindView(R.id.tv_weather_forecast_type_night1)
+    TextView tvWeatherForecastTypeNight1;
+    @BindView(R.id.tv_weather_forecast_type_night2)
+    TextView tvWeatherForecastTypeNight2;
+    @BindView(R.id.tv_weather_forecast_type_night3)
+    TextView tvWeatherForecastTypeNight3;
+    @BindView(R.id.tv_weather_forecast_type_night4)
+    TextView tvWeatherForecastTypeNight4;
+    @BindView(R.id.tv_weather_forecast_type_night5)
+    TextView tvWeatherForecastTypeNight5;
+    @BindView(R.id.tv_weather_forecast_type_night6)
+    TextView tvWeatherForecastTypeNight6;
+    //风向
+    @BindView(R.id.tv_weather_forecast_wind_direction1)
+    TextView tvWeatherForecastWindDirection1;
+    @BindView(R.id.tv_weather_forecast_wind_direction2)
+    TextView tvWeatherForecastWindDirection2;
+    @BindView(R.id.tv_weather_forecast_wind_direction3)
+    TextView tvWeatherForecastWindDirection3;
+    @BindView(R.id.tv_weather_forecast_wind_direction4)
+    TextView tvWeatherForecastWindDirection4;
+    @BindView(R.id.tv_weather_forecast_wind_direction5)
+    TextView tvWeatherForecastWindDirection5;
+    @BindView(R.id.tv_weather_forecast_wind_direction6)
+    TextView tvWeatherForecastWindDirection6;
+    //风力
+    @BindView(R.id.tv_weather_forecast_wind_power1)
+    TextView tvWeatherForecastWindPower1;
+    @BindView(R.id.tv_weather_forecast_wind_power2)
+    TextView tvWeatherForecastWindPower2;
+    @BindView(R.id.tv_weather_forecast_wind_power3)
+    TextView tvWeatherForecastWindPower3;
+    @BindView(R.id.tv_weather_forecast_wind_power4)
+    TextView tvWeatherForecastWindPower4;
+    @BindView(R.id.tv_weather_forecast_wind_power5)
+    TextView tvWeatherForecastWindPower5;
+    @BindView(R.id.tv_weather_forecast_wind_power6)
+    TextView tvWeatherForecastWindPower6;
     //数据库操作
     Dao<WeatherLifeIndex, Integer> mDao = null;
     private Unbinder mUnbinder;
@@ -282,9 +363,9 @@ public class MainFragment extends Fragment {
             }
         });
 
-        lineChart.setTemperatureDay(new int[]{14, 15, 16, 17, 9, 9});
-        lineChart.setTemperatureNight(new int[]{7, 5, 9, 10, 3, 2});
-        lineChart.invalidate();
+        //lineChart.setTemperatureDay(new int[]{14, 15, 16, 17, 9, 9});
+        //lineChart.setTemperatureNight(new int[]{7, 5, 9, 10, 3, 2});
+        //lineChart.invalidate();
 
         //初始化定位进度对话框
         mProgressDialog = new ProgressDialog(getActivity());
@@ -423,14 +504,14 @@ public class MainFragment extends Fragment {
         //更新天气
         List<WeatherDaysForecast> weatherDaysForecasts = weatherInfo.getmWeatherDaysForecasts();
         //昨天
-        WeatherDaysForecast weatherDaysForecast1 = weatherDaysForecasts.get(0);
+        //WeatherDaysForecast weatherDaysForecast1 = weatherDaysForecasts.get(0);
         //今天
-        WeatherDaysForecast weatherDaysForecast2 = weatherDaysForecasts.get(1);
+        //WeatherDaysForecast weatherDaysForecast2 = weatherDaysForecasts.get(1);
         //明天
-        WeatherDaysForecast weatherDaysForecast3 = weatherDaysForecasts.get(2);
-        WeatherDaysForecast weatherDaysForecast4 = weatherDaysForecasts.get(3);
-        WeatherDaysForecast weatherDaysForecast5 = weatherDaysForecasts.get(4);
-        WeatherDaysForecast weatherDaysForecast6 = weatherDaysForecasts.get(5);
+        //WeatherDaysForecast weatherDaysForecast3 = weatherDaysForecasts.get(2);
+        //WeatherDaysForecast weatherDaysForecast4 = weatherDaysForecasts.get(3);
+        //WeatherDaysForecast weatherDaysForecast5 = weatherDaysForecasts.get(4);
+        //WeatherDaysForecast weatherDaysForecast6 = weatherDaysForecasts.get(5);
         //当前时间的小时数
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -439,7 +520,8 @@ public class MainFragment extends Fragment {
         tvWind.setText(weatherInfo.getmWindDirection() + " " + weatherInfo.getmWindPower());
         tvHumidity.setText(String.format(getString(R.string.humidity), weatherInfo.getmHumidity()));
         setAqi(weatherInfo);
-        setDaysForecast(weatherDaysForecasts, calendar);
+        if (6 == weatherDaysForecasts.size())
+            setDaysForecast(weatherDaysForecasts, calendar, hour);
     }
 
     /**
@@ -448,12 +530,20 @@ public class MainFragment extends Fragment {
      * @param weatherDaysForecasts 多日天气数据
      * @param calendar             当前日历
      */
-    private void setDaysForecast(List<WeatherDaysForecast> weatherDaysForecasts, Calendar calendar) {
+    private void setDaysForecast(List<WeatherDaysForecast> weatherDaysForecasts, Calendar calendar, int hour) {
         //星期几
         List<String> weeks = new ArrayList<>();
         //日
         List<String> days = new ArrayList<>();
-        //解析日期数据并填充
+        //白天天气类型
+        List<String> weatherDayTypes = new ArrayList<>();
+        //晚上天气类型
+        List<String> weatherNightTypes = new ArrayList<>();
+        //最高温
+        List<String> weatherHighTemps = new ArrayList<>();
+        //最低温
+        List<String> weatherLowTemps = new ArrayList<>();
+        //解析日期数据、天气类型、温度等数据并填充
         for (WeatherDaysForecast weatherDayForecast : weatherDaysForecasts) {
             if (weatherDayForecast != null) {
                 String[] results = DateUtil.parseDate(weatherDayForecast.getmDate());
@@ -461,6 +551,10 @@ public class MainFragment extends Fragment {
                     days.add(results[0]);
                     weeks.add(results[1]);
                 }
+                weatherDayTypes.add(weatherDayForecast.getmTypeDay());
+                weatherNightTypes.add(weatherDayForecast.getmTypeNight());
+                weatherHighTemps.add(weatherDayForecast.getmHighTemperature());
+                weatherLowTemps.add(weatherDayForecast.getmLowTemperature());
             }
         }
         //设置星期几
@@ -494,12 +588,83 @@ public class MainFragment extends Fragment {
         }
         //设置日历
         if (!months.isEmpty()) {
-            tvForecastDate1.setText(String.format(getString(R.string.mm_dd), months.get(1), days.get(1)));
-            tvForecastDate2.setText(String.format(getString(R.string.mm_dd), months.get(2), days.get(2)));
-            tvForecastDate3.setText(String.format(getString(R.string.mm_dd), months.get(3), days.get(3)));
-            tvForecastDate4.setText(String.format(getString(R.string.mm_dd), months.get(4), days.get(4)));
-            tvForecastDate5.setText(String.format(getString(R.string.mm_dd), months.get(5), days.get(5)));
-            tvForecastDate6.setText(String.format(getString(R.string.mm_dd), months.get(6), days.get(6)));
+            tvForecastDate1.setText(String.format(getString(R.string.mm_dd), months.get(0), days.get(0)));
+            tvForecastDate2.setText(String.format(getString(R.string.mm_dd), months.get(1), days.get(1)));
+            tvForecastDate3.setText(String.format(getString(R.string.mm_dd), months.get(2), days.get(2)));
+            tvForecastDate4.setText(String.format(getString(R.string.mm_dd), months.get(3), days.get(3)));
+            tvForecastDate5.setText(String.format(getString(R.string.mm_dd), months.get(4), days.get(4)));
+            tvForecastDate6.setText(String.format(getString(R.string.mm_dd), months.get(5), days.get(5)));
+        }
+        //设置白天天气图片
+        ivWeatherForecastDay1.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherDayTypes.get(0), true));
+        ivWeatherForecastDay2.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherDayTypes.get(1), true));
+        ivWeatherForecastDay3.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherDayTypes.get(2), true));
+        ivWeatherForecastDay4.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherDayTypes.get(3), true));
+        ivWeatherForecastDay5.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherDayTypes.get(4), true));
+        ivWeatherForecastDay6.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherDayTypes.get(5), true));
+        //设置白天天气类型
+        tvWeatherForecastTypeDay1.setText(weatherDayTypes.get(0));
+        tvWeatherForecastTypeDay2.setText(weatherDayTypes.get(1));
+        tvWeatherForecastTypeDay3.setText(weatherDayTypes.get(2));
+        tvWeatherForecastTypeDay4.setText(weatherDayTypes.get(3));
+        tvWeatherForecastTypeDay5.setText(weatherDayTypes.get(4));
+        tvWeatherForecastTypeDay6.setText(weatherDayTypes.get(5));
+        //设置天气的折线图
+        int size = weatherHighTemps.size();
+        //白天温度集合
+        int[] dayTemperatures = new int[size];
+        //晚上温度集合
+        int[] nightTemperatures = new int[size];
+        for (int j = 0; j < size; j++) {
+            dayTemperatures[j] = WeatherInfoUtil.parseTemperature(weatherHighTemps.get(j));
+            nightTemperatures[j] = WeatherInfoUtil.parseTemperature(weatherLowTemps.get(j));
+        }
+        lineChart.setTemperatureDay(dayTemperatures);
+        lineChart.setTemperatureNight(nightTemperatures);
+        lineChart.invalidate();
+        //设置夜晚天气类型
+        tvWeatherForecastTypeNight1.setText(weatherNightTypes.get(0));
+        tvWeatherForecastTypeNight2.setText(weatherNightTypes.get(1));
+        tvWeatherForecastTypeNight3.setText(weatherNightTypes.get(2));
+        tvWeatherForecastTypeNight4.setText(weatherNightTypes.get(3));
+        tvWeatherForecastTypeNight5.setText(weatherNightTypes.get(4));
+        tvWeatherForecastTypeNight6.setText(weatherNightTypes.get(5));
+        //设置晚上天气图片
+        ivWeatherForecastNight1.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherNightTypes.get(0), false));
+        ivWeatherForecastNight2.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherNightTypes.get(1), false));
+        ivWeatherForecastNight3.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherNightTypes.get(2), false));
+        ivWeatherForecastNight4.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherNightTypes.get(3), false));
+        ivWeatherForecastNight5.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherNightTypes.get(4), false));
+        ivWeatherForecastNight6.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherNightTypes.get(5), false));
+        //设置风向、风力
+        if (hour < 18) {//白天
+            tvWeatherForecastWindDirection1.setText(weatherDaysForecasts.get(0).getmWindDirectionDay());
+            tvWeatherForecastWindDirection2.setText(weatherDaysForecasts.get(1).getmWindDirectionDay());
+            tvWeatherForecastWindDirection3.setText(weatherDaysForecasts.get(2).getmWindDirectionDay());
+            tvWeatherForecastWindDirection4.setText(weatherDaysForecasts.get(3).getmWindDirectionDay());
+            tvWeatherForecastWindDirection5.setText(weatherDaysForecasts.get(4).getmWindDirectionDay());
+            tvWeatherForecastWindDirection6.setText(weatherDaysForecasts.get(5).getmWindDirectionDay());
+
+            tvWeatherForecastWindPower1.setText(weatherDaysForecasts.get(0).getmWindPowerDay());
+            tvWeatherForecastWindPower2.setText(weatherDaysForecasts.get(1).getmWindPowerDay());
+            tvWeatherForecastWindPower3.setText(weatherDaysForecasts.get(2).getmWindPowerDay());
+            tvWeatherForecastWindPower4.setText(weatherDaysForecasts.get(3).getmWindPowerDay());
+            tvWeatherForecastWindPower5.setText(weatherDaysForecasts.get(4).getmWindPowerDay());
+            tvWeatherForecastWindPower6.setText(weatherDaysForecasts.get(5).getmWindPowerDay());
+        } else {//晚上
+            tvWeatherForecastWindDirection1.setText(weatherDaysForecasts.get(0).getmWindDirectionNight());
+            tvWeatherForecastWindDirection2.setText(weatherDaysForecasts.get(1).getmWindDirectionNight());
+            tvWeatherForecastWindDirection3.setText(weatherDaysForecasts.get(2).getmWindDirectionNight());
+            tvWeatherForecastWindDirection4.setText(weatherDaysForecasts.get(3).getmWindDirectionNight());
+            tvWeatherForecastWindDirection5.setText(weatherDaysForecasts.get(4).getmWindDirectionNight());
+            tvWeatherForecastWindDirection6.setText(weatherDaysForecasts.get(5).getmWindDirectionNight());
+
+            tvWeatherForecastWindPower1.setText(weatherDaysForecasts.get(0).getmWindPowerNight());
+            tvWeatherForecastWindPower2.setText(weatherDaysForecasts.get(1).getmWindPowerNight());
+            tvWeatherForecastWindPower3.setText(weatherDaysForecasts.get(2).getmWindPowerNight());
+            tvWeatherForecastWindPower4.setText(weatherDaysForecasts.get(3).getmWindPowerNight());
+            tvWeatherForecastWindPower5.setText(weatherDaysForecasts.get(4).getmWindPowerNight());
+            tvWeatherForecastWindPower6.setText(weatherDaysForecasts.get(5).getmWindPowerNight());
         }
     }
 
@@ -598,7 +763,7 @@ public class MainFragment extends Fragment {
      */
     private void setAqi(WeatherInfo weatherInfo) {
         String quality = weatherInfo.getmAQ();
-        Drawable drawableLeft = ContextCompat.getDrawable(getContext(), getQualityImageId(quality));
+        Drawable drawableLeft = ContextCompat.getDrawable(getContext(), WeatherInfoUtil.getQualityImageId(quality));
         Drawable drawableRight = ContextCompat.getDrawable(getContext(), R.drawable.ic_right);
         if (drawableLeft != null)
             drawableLeft.setBounds(0, 0, drawableLeft.getMinimumWidth(), drawableLeft.getMinimumHeight());
@@ -606,40 +771,6 @@ public class MainFragment extends Fragment {
             drawableRight.setBounds(0, 0, drawableRight.getMinimumWidth(), drawableRight.getMinimumHeight());
         tvAqi.setCompoundDrawables(drawableLeft, null, drawableRight, null);
         tvAqi.setText(weatherInfo.getmAQI() + " " + quality);
-    }
-
-    /**
-     * 返回空气质量图片id
-     *
-     * @param quality 空气质量
-     * @return 空气质量图片id
-     */
-    private int getQualityImageId(String quality) {
-        int imgId;
-        switch (quality) {
-            case "优":
-                imgId = R.drawable.ic_quality_nice;
-                break;
-            case "良":
-                imgId = R.drawable.ic_quality_good;
-                break;
-            case "轻度污染":
-                imgId = R.drawable.ic_quality_little;
-                break;
-            case "中度污染":
-                imgId = R.drawable.ic_quality_medium;
-                break;
-            case "重度污染":
-                imgId = R.drawable.ic_quality_serious;
-                break;
-            case "严重污染":
-                imgId = R.drawable.ic_quality_terrible;
-                break;
-            default:
-                imgId = R.drawable.ic_quality_nice;
-                break;
-        }
-        return imgId;
     }
 
     /**

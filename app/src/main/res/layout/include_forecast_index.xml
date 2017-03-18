@@ -105,32 +105,32 @@
             android:layout_marginTop="3dp">
 
             <ImageView
-                android:id="@+id/iv_weather_forecast_day_1"
+                android:id="@+id/iv_weather_forecast_day1"
                 style="@style/weather_info_forecast_iv_item"
                 android:src="@drawable/weather_cloudy"/>
 
             <ImageView
-                android:id="@+id/iv_weather_forecast_day_2"
+                android:id="@+id/iv_weather_forecast_day2"
                 style="@style/weather_info_forecast_iv_item"
                 android:src="@drawable/weather_baoyu"/>
 
             <ImageView
-                android:id="@+id/iv_weather_forecast_day_3"
+                android:id="@+id/iv_weather_forecast_day3"
                 style="@style/weather_info_forecast_iv_item"
                 android:src="@drawable/weather_bingbao"/>
 
             <ImageView
-                android:id="@+id/iv_weather_forecast_day_4"
+                android:id="@+id/iv_weather_forecast_day4"
                 style="@style/weather_info_forecast_iv_item"
                 android:src="@drawable/weather_daxue"/>
 
             <ImageView
-                android:id="@+id/iv_weather_forecast_day_5"
+                android:id="@+id/iv_weather_forecast_day5"
                 style="@style/weather_info_forecast_iv_item"
                 android:src="@drawable/weather_leizhenyu"/>
 
             <ImageView
-                android:id="@+id/iv_weather_forecast_day_6"
+                android:id="@+id/iv_weather_forecast_day6"
                 style="@style/weather_info_forecast_iv_item"
                 android:src="@drawable/weather_zhongyu"/>
         </LinearLayout>
@@ -141,32 +141,32 @@
             android:layout_marginTop="3dp">
 
             <TextView
-                android:id="@+id/tv_weather_forecast_type_day_1"
+                android:id="@+id/tv_weather_forecast_type_day1"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="阴"/>
 
             <TextView
-                android:id="@+id/tv_weather_forecast_type_day_2"
+                android:id="@+id/tv_weather_forecast_type_day2"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="晴"/>
 
             <TextView
-                android:id="@+id/tv_weather_forecast_type_day_3"
+                android:id="@+id/tv_weather_forecast_type_day3"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="阴"/>
 
             <TextView
-                android:id="@+id/tv_weather_forecast_type_day_4"
+                android:id="@+id/tv_weather_forecast_type_day4"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="多云"/>
 
             <TextView
-                android:id="@+id/tv_weather_forecast_type_day_5"
+                android:id="@+id/tv_weather_forecast_type_day5"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="小雨"/>
 
             <TextView
-                android:id="@+id/tv_weather_forecast_type_day_6"
+                android:id="@+id/tv_weather_forecast_type_day6"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="大雨"/>
         </LinearLayout>
@@ -185,76 +185,113 @@
             wcv:textColor="@android:color/white"
             wcv:textSize="14sp"/>
 
-        <!--晚上天气-->
-        <LinearLayout
-            style="@style/weather_info_forecast_ll"
-            android:layout_marginTop="3dp">
-
-            <ImageView
-                android:id="@+id/iv_weather_forecast_night_1"
-                style="@style/weather_info_forecast_iv_item"
-                android:src="@drawable/weather_cloudy"/>
-
-            <ImageView
-                android:id="@+id/iv_weather_forecast_night_2"
-                style="@style/weather_info_forecast_iv_item"
-                android:src="@drawable/weather_cloudy"/>
-
-            <ImageView
-                android:id="@+id/iv_weather_forecast_night_3"
-                style="@style/weather_info_forecast_iv_item"
-                android:src="@drawable/weather_cloudy"/>
-
-            <ImageView
-                android:id="@+id/iv_weather_forecast_night_4"
-                style="@style/weather_info_forecast_iv_item"
-                android:src="@drawable/weather_cloudy"/>
-
-            <ImageView
-                android:id="@+id/iv_weather_forecast_night_5"
-                style="@style/weather_info_forecast_iv_item"
-                android:src="@drawable/weather_cloudy"/>
-
-            <ImageView
-                android:id="@+id/iv_weather_forecast_night_6"
-                style="@style/weather_info_forecast_iv_item"
-                android:src="@drawable/weather_cloudy"/>
-        </LinearLayout>
-
         <!--夜晚天气类型-->
         <LinearLayout
             style="@style/weather_info_forecast_ll"
             android:layout_marginTop="3dp">
 
             <TextView
-                android:id="@+id/tv_weather_forecast_type_night_1"
+                android:id="@+id/tv_weather_forecast_type_night1"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="晴"/>
 
             <TextView
-                android:id="@+id/tv_weather_forecast_type_night_2"
+                android:id="@+id/tv_weather_forecast_type_night2"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="晴"/>
 
             <TextView
-                android:id="@+id/tv_weather_forecast_type_night_3"
+                android:id="@+id/tv_weather_forecast_type_night3"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="晴"/>
 
             <TextView
-                android:id="@+id/tv_weather_forecast_type_night_4"
+                android:id="@+id/tv_weather_forecast_type_night4"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="晴"/>
 
             <TextView
-                android:id="@+id/tv_weather_forecast_type_night_5"
+                android:id="@+id/tv_weather_forecast_type_night5"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="晴"/>
 
             <TextView
-                android:id="@+id/tv_weather_forecast_type_night_6"
+                android:id="@+id/tv_weather_forecast_type_night6"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="晴"/>
+        </LinearLayout>
+
+        <!--晚上天气-->
+        <LinearLayout
+            style="@style/weather_info_forecast_ll"
+            android:layout_marginTop="3dp">
+
+            <ImageView
+                android:id="@+id/iv_weather_forecast_night1"
+                style="@style/weather_info_forecast_iv_item"
+                android:src="@drawable/weather_cloudy"/>
+
+            <ImageView
+                android:id="@+id/iv_weather_forecast_night2"
+                style="@style/weather_info_forecast_iv_item"
+                android:src="@drawable/weather_cloudy"/>
+
+            <ImageView
+                android:id="@+id/iv_weather_forecast_night3"
+                style="@style/weather_info_forecast_iv_item"
+                android:src="@drawable/weather_cloudy"/>
+
+            <ImageView
+                android:id="@+id/iv_weather_forecast_night4"
+                style="@style/weather_info_forecast_iv_item"
+                android:src="@drawable/weather_cloudy"/>
+
+            <ImageView
+                android:id="@+id/iv_weather_forecast_night5"
+                style="@style/weather_info_forecast_iv_item"
+                android:src="@drawable/weather_cloudy"/>
+
+            <ImageView
+                android:id="@+id/iv_weather_forecast_night6"
+                style="@style/weather_info_forecast_iv_item"
+                android:src="@drawable/weather_cloudy"/>
+        </LinearLayout>
+
+
+        <!--风力-->
+        <LinearLayout
+            style="@style/weather_info_forecast_ll"
+            android:layout_marginTop="3dp">
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_wind_direction1"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="北风"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_wind_direction2"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="北风"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_wind_direction3"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="北风"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_wind_direction4"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="北风"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_wind_direction5"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="北风"/>
+
+            <TextView
+                android:id="@+id/tv_weather_forecast_wind_direction6"
+                style="@style/weather_info_forecast_tv_item"
+                android:text="北风"/>
         </LinearLayout>
 
         <!--风力-->
@@ -263,68 +300,32 @@
             android:layout_marginTop="3dp">
 
             <TextView
-                android:id="@+id/tv_weather_forecast_wind_direction_1"
-                style="@style/weather_info_forecast_tv_item"
-                android:text="北风"/>
-
-            <TextView
-                android:id="@+id/tv_weather_forecast_wind_direction_2"
-                style="@style/weather_info_forecast_tv_item"
-                android:text="北风"/>
-
-            <TextView
-                android:id="@+id/tv_weather_forecast_wind_direction_3"
-                style="@style/weather_info_forecast_tv_item"
-                android:text="北风"/>
-
-            <TextView
-                android:id="@+id/tv_weather_forecast_wind_direction_4"
-                style="@style/weather_info_forecast_tv_item"
-                android:text="北风"/>
-
-            <TextView
-                android:id="@+id/tv_weather_forecast_wind_direction_5"
-                style="@style/weather_info_forecast_tv_item"
-                android:text="北风"/>
-
-            <TextView
-                android:id="@+id/tv_weather_forecast_wind_direction_6"
-                style="@style/weather_info_forecast_tv_item"
-                android:text="北风"/>
-        </LinearLayout>
-
-        <!--风力-->
-        <LinearLayout
-            style="@style/weather_info_forecast_ll"
-            android:layout_marginTop="3dp">
-
-            <TextView
-                android:id="@+id/tv_weather_forecast_wind_power_1"
+                android:id="@+id/tv_weather_forecast_wind_power1"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="3-4级"/>
 
             <TextView
-                android:id="@+id/tv_weather_forecast_wind_power_2"
+                android:id="@+id/tv_weather_forecast_wind_power2"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="3-4级"/>
 
             <TextView
-                android:id="@+id/tv_weather_forecast_wind_power_3"
+                android:id="@+id/tv_weather_forecast_wind_power3"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="3-4级"/>
 
             <TextView
-                android:id="@+id/tv_weather_forecast_wind_power_4"
+                android:id="@+id/tv_weather_forecast_wind_power4"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="3-4级"/>
 
             <TextView
-                android:id="@+id/tv_weather_forecast_wind_power_5"
+                android:id="@+id/tv_weather_forecast_wind_power5"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="3-4级"/>
 
             <TextView
-                android:id="@+id/tv_weather_forecast_wind_power_6"
+                android:id="@+id/tv_weather_forecast_wind_power6"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="3-4级"/>
         </LinearLayout>

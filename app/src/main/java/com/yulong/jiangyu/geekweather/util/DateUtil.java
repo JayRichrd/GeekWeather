@@ -35,7 +35,7 @@ public class DateUtil {
      * @return 日期和星期的数组
      */
     public static String[] parseDate(String dateStr) {
-        String[] result = dateStr.split(Constant.SPLIT_STR);
+        String[] result = dateStr.split(Constant.SPLIT_DATE_REGEX);
         return result;
     }
 }
