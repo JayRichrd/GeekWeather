@@ -51,6 +51,7 @@ import com.yulong.jiangyu.geekweather.util.WebUtil;
 
 import java.io.ByteArrayInputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -104,6 +105,32 @@ public class MainFragment extends Fragment {
     //日历
     @BindView(R.id.tv_date)
     TextView tvDate;
+    //星期几
+    @BindView(R.id.tv_forecast_week1)
+    TextView tvForecastWeek1;
+    @BindView(R.id.tv_forecast_week2)
+    TextView tvForecastWeek2;
+    @BindView(R.id.tv_forecast_week3)
+    TextView tvForecastWeek3;
+    @BindView(R.id.tv_forecast_week4)
+    TextView tvForecastWeek4;
+    @BindView(R.id.tv_forecast_week5)
+    TextView tvForecastWeek5;
+    @BindView(R.id.tv_forecast_week6)
+    TextView tvForecastWeek6;
+    //日历
+    @BindView(R.id.tv_forecast_date1)
+    TextView tvForecastDate1;
+    @BindView(R.id.tv_forecast_date2)
+    TextView tvForecastDate2;
+    @BindView(R.id.tv_forecast_date3)
+    TextView tvForecastDate3;
+    @BindView(R.id.tv_forecast_date4)
+    TextView tvForecastDate4;
+    @BindView(R.id.tv_forecast_date5)
+    TextView tvForecastDate5;
+    @BindView(R.id.tv_forecast_date6)
+    TextView tvForecastDate6;
     //数据库操作
     Dao<WeatherLifeIndex, Integer> mDao = null;
     private Unbinder mUnbinder;
@@ -408,10 +435,72 @@ public class MainFragment extends Fragment {
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         setTemperature(weatherInfo);
-        setWeatherType(hour, weatherDaysForecast2);
+        setWeatherType(hour, weatherDaysForecasts.get(1));
         tvWind.setText(weatherInfo.getmWindDirection() + " " + weatherInfo.getmWindPower());
         tvHumidity.setText(String.format(getString(R.string.humidity), weatherInfo.getmHumidity()));
         setAqi(weatherInfo);
+        setDaysForecast(weatherDaysForecasts, calendar);
+    }
+
+    /**
+     * 设置多日天气预报
+     *
+     * @param weatherDaysForecasts 多日天气数据
+     * @param calendar             当前日历
+     */
+    private void setDaysForecast(List<WeatherDaysForecast> weatherDaysForecasts, Calendar calendar) {
+        //星期几
+        List<String> weeks = new ArrayList<>();
+        //日
+        List<String> days = new ArrayList<>();
+        //解析日期数据并填充
+        for (WeatherDaysForecast weatherDayForecast : weatherDaysForecasts) {
+            if (weatherDayForecast != null) {
+                String[] results = DateUtil.parseDate(weatherDayForecast.getmDate());
+                if (2 == results.length) {
+                    days.add(results[0]);
+                    weeks.add(results[1]);
+                }
+            }
+        }
+        //设置星期几
+        if (!weeks.isEmpty()) {
+            tvForecastWeek1.setText(getString(R.string.yesterday));
+            tvForecastWeek2.setText(getString(R.string.today));
+            tvForecastWeek3.setText(weeks.get(2));
+            tvForecastWeek4.setText(weeks.get(3));
+            tvForecastWeek5.setText(weeks.get(4));
+            tvForecastWeek6.setText(weeks.get(5));
+        }
+
+        //月
+        List<String> months = new ArrayList<>();
+        for (int i = 1; i <= 6; i++) {
+            if (1 == i)
+                //将当前日期往前推1天，以便计算昨天的日期
+                calendar.add(Calendar.DATE, -1);
+            else
+                //将当前日期往后推1天
+                calendar.add(Calendar.DATE, 1);
+            /**
+             * 这里需要注意：用Calendar返回的月是以0位起始，即：
+             * 0-一月
+             * 1-二月
+             * 2-三月
+             * ……
+             * 故这里需要加1
+             */
+            months.add(calendar.get(Calendar.MONTH) + 1 + "");
+        }
+        //设置日历
+        if (!months.isEmpty()) {
+            tvForecastDate1.setText(String.format(getString(R.string.mm_dd), months.get(1), days.get(1)));
+            tvForecastDate2.setText(String.format(getString(R.string.mm_dd), months.get(2), days.get(2)));
+            tvForecastDate3.setText(String.format(getString(R.string.mm_dd), months.get(3), days.get(3)));
+            tvForecastDate4.setText(String.format(getString(R.string.mm_dd), months.get(4), days.get(4)));
+            tvForecastDate5.setText(String.format(getString(R.string.mm_dd), months.get(5), days.get(5)));
+            tvForecastDate6.setText(String.format(getString(R.string.mm_dd), months.get(6), days.get(6)));
+        }
     }
 
     /**

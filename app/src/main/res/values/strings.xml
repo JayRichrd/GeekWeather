@@ -49,5 +49,11 @@
     <string name="ok_location_offline">离线定位成功</string>
     <string name="ok_location_net">网络定位成功</string>
     <string name="error_location">定位失败</string>
+    <!--昨天-->
+    <string name="yesterday">昨天</string>
+    <!--今天-->
+    <string name="today">今天</string>
+    <!--日历格式-->
+    <string name="mm_dd">%1$s/%2$s</string>
 
 </resources>

@@ -1,5 +1,7 @@
 package com.yulong.jiangyu.geekweather.util;
 
+import com.yulong.jiangyu.geekweather.constant.Constant;
+
 import java.text.SimpleDateFormat;
 
 /**
@@ -24,5 +26,16 @@ public class DateUtil {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatStr);
         currentDate = simpleDateFormat.format(System.currentTimeMillis());
         return currentDate;
+    }
+
+    /**
+     * 解析日期的字符串
+     *
+     * @param dateStr 字符串 18日星期六
+     * @return 日期和星期的数组
+     */
+    public static String[] parseDate(String dateStr) {
+        String[] result = dateStr.split(Constant.SPLIT_STR);
+        return result;
     }
 }

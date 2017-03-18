@@ -40,4 +40,6 @@ public class Constant {
     public static final int UPDATE_WEATHER_UI = 1;
     //更新日期UI界面
     public static final int UPDATE_DATE_UI = 2;
+    //日期的分割字符
+    public static final java.lang.String SPLIT_STR = "日";
 }

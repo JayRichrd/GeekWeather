@@ -35,32 +35,32 @@
             style="@style/weather_info_forecast_ll">
 
             <TextView
-                android:id="@+id/week1"
+                android:id="@+id/tv_forecast_week1"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="周一"/>
 
             <TextView
-                android:id="@+id/week2"
+                android:id="@+id/tv_forecast_week2"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="周二"/>
 
             <TextView
-                android:id="@+id/week3"
+                android:id="@+id/tv_forecast_week3"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="周三"/>
 
             <TextView
-                android:id="@+id/week4"
+                android:id="@+id/tv_forecast_week4"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="周四"/>
 
             <TextView
-                android:id="@+id/week5"
+                android:id="@+id/tv_forecast_week5"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="周五"/>
 
             <TextView
-                android:id="@+id/week6"
+                android:id="@+id/tv_forecast_week6"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="周六"/>
         </LinearLayout>
@@ -70,32 +70,32 @@
             android:layout_marginTop="3dp">
 
             <TextView
-                android:id="@+id/date1"
+                android:id="@+id/tv_forecast_date1"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="3/16"/>
 
             <TextView
-                android:id="@+id/date2"
+                android:id="@+id/tv_forecast_date2"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="3/17"/>
 
             <TextView
-                android:id="@+id/date3"
+                android:id="@+id/tv_forecast_date3"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="3/18"/>
 
             <TextView
-                android:id="@+id/date4"
+                android:id="@+id/tv_forecast_date4"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="3/19"/>
 
             <TextView
-                android:id="@+id/date5"
+                android:id="@+id/tv_forecast_date5"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="3/20"/>
 
             <TextView
-                android:id="@+id/date6"
+                android:id="@+id/tv_forecast_date6"
                 style="@style/weather_info_forecast_tv_item"
                 android:text="3/21"/>
         </LinearLayout>
