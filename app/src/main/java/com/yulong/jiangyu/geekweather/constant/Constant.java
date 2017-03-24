@@ -41,7 +41,7 @@ public class Constant {
     //更新日期UI界面
     public static final int UPDATE_DATE_UI = 2;
     //日期的分割字符
-    public static final java.lang.String SPLIT_DATE_REGEX = "日";
+    public static final String SPLIT_DATE_REGEX = "日";
     //温度的分割字符
-    public static final java.lang.String SPLIT_TEMPERATURE_REGEX = "℃";
+    public static final String SPLIT_TEMPERATURE_REGEX = "℃";
 }

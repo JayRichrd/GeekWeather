@@ -155,9 +155,9 @@ public class WeatherInfoUtil {
                             case "fl_1"://风力
                                 if (weatherDaysForecast != null) {
                                     if (isDay)
-                                        weatherDaysForecast.setmWindDirectionDay(parser.nextText());
+                                        weatherDaysForecast.setmWindPowerDay(parser.nextText());
                                     else
-                                        weatherDaysForecast.setmWindDirectionNight(parser.nextText());
+                                        weatherDaysForecast.setmWindPowerNight(parser.nextText());
                                 }
                                 break;
                             case "weather"://多天天气预报

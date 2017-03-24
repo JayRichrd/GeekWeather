@@ -212,6 +212,8 @@ public class MainFragment extends Fragment {
     TextView tvWeatherForecastWindPower5;
     @BindView(R.id.tv_weather_forecast_wind_power6)
     TextView tvWeatherForecastWindPower6;
+    //请求日历接口
+    //private DateInfo mDateInfo = null;
     //数据库操作
     Dao<WeatherLifeIndex, Integer> mDao = null;
     private Unbinder mUnbinder;
@@ -222,10 +224,9 @@ public class MainFragment extends Fragment {
     private ProgressDialog mProgressDialog = null;
     //当前城市
     private String mCity = "北京";
-    //请求日历接口
-    //private DateInfo mDateInfo = null;
     //数据库
     private WeatherInfoDatabaseHelper mWeatherInfoDatabaseHelper = null;
+
     private ActionBarDrawerToggle mActionBarDrawerToggle = null;
     //抽屉Drawer全部被拉出时的宽度
     private int mDrawerWidth = 0;
@@ -251,11 +252,11 @@ public class MainFragment extends Fragment {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 switch (msg.what) {
-                    case Constant.UPDATE_WEATHER_UI:
+                    case Constant.UPDATE_WEATHER_UI://更新天气
                         WeatherInfo weatherInfo = (WeatherInfo) msg.getData().getSerializable(Constant.WEATHER_INFO);
                         updateWeatherUI(weatherInfo);
                         break;
-                    case Constant.UPDATE_DATE_UI:
+                    case Constant.UPDATE_DATE_UI://更新日历
                         DateInfo dateInfo = (DateInfo) msg.getData().getSerializable(Constant.DATE_INFO);
                         updateDateUI(dateInfo);
                         break;
@@ -274,6 +275,7 @@ public class MainFragment extends Fragment {
         initView();
         //开始位置服务
         startLocation();
+
         return view;
     }
 
@@ -373,7 +375,6 @@ public class MainFragment extends Fragment {
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         //是否可以使用返回键取消
         mProgressDialog.setCancelable(false);
-
         mProgressDialog.show();
     }
 
@@ -434,7 +435,8 @@ public class MainFragment extends Fragment {
                 WeatherInfo weatherInfo = WeatherInfoUtil.handleWeatherInfo(new ByteArrayInputStream(response
                         .getBytes()));
                 try {
-                    initDao();
+                    if (mDao == null)
+                        initDao();
                     //将生活数据存库
                     mDao.create(weatherInfo.getmWeatherLifeIndies());
                 } catch (SQLException e) {
@@ -501,7 +503,6 @@ public class MainFragment extends Fragment {
         //更新头部时间
         tvUpdateTime.setText(String.format(getString(R.string.update_time), weatherInfo.getmUpdateTime()));
 
-        //更新天气
         List<WeatherDaysForecast> weatherDaysForecasts = weatherInfo.getmWeatherDaysForecasts();
         //昨天
         //WeatherDaysForecast weatherDaysForecast1 = weatherDaysForecasts.get(0);
@@ -520,6 +521,7 @@ public class MainFragment extends Fragment {
         tvWind.setText(weatherInfo.getmWindDirection() + " " + weatherInfo.getmWindPower());
         tvHumidity.setText(String.format(getString(R.string.humidity), weatherInfo.getmHumidity()));
         setAqi(weatherInfo);
+        //更新天气
         if (6 == weatherDaysForecasts.size())
             setDaysForecast(weatherDaysForecasts, calendar, hour);
     }

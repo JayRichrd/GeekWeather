@@ -181,14 +181,14 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_centerInParent="true"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="16dp"
             wcv:textColor="@android:color/white"
             wcv:textSize="14sp"/>
 
         <!--夜晚天气类型-->
         <LinearLayout
             style="@style/weather_info_forecast_ll"
-            android:layout_marginTop="3dp">
+            android:layout_marginTop="16dp">
 
             <TextView
                 android:id="@+id/tv_weather_forecast_type_night1"
@@ -258,7 +258,7 @@
         </LinearLayout>
 
 
-        <!--风力-->
+        <!--风向-->
         <LinearLayout
             style="@style/weather_info_forecast_ll"
             android:layout_marginTop="3dp">
