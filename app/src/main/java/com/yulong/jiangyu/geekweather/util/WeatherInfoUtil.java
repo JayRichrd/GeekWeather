@@ -396,4 +396,17 @@ public class WeatherInfoUtil {
         }
         return temperature;
     }
+
+    /**
+     * 重组字符串，当超过3个字符时，在第3个字符后面加上换行符
+     *
+     * @param source 字符源
+     * @return 处理过后的字符串
+     */
+    public static String recombineString(String source) {
+        if (source.length() >= 3)
+            return source.substring(0, 3) + "\n" + source.substring(3);
+        else
+            return source;
+    }
 }
