@@ -44,4 +44,16 @@ public class Constant {
     public static final String SPLIT_DATE_REGEX = "日";
     //温度的分割字符
     public static final String SPLIT_TEMPERATURE_REGEX = "℃";
+    //生活指数索引-运动指数
+    public static final int LIFE_INDEX_EXERCISE = 0;
+    //生活指数索引-舒适度
+    public static final int LIFE_INDEX_COMFORT = 1;
+    //生活指数索引-穿衣指数
+    public static final int LIFE_INDEX_CLOTHE = 2;
+    //生活指数索引-感冒指数
+    public static final int LIFE_INDEX_INFLUENZA = 3;
+    //生活指数索引-紫外线指数
+    public static final int LIFE_INDEX_ULTRAVIOLET = 6;
+    //生活指数索引-洗车指数
+    public static final int LIFE_INDEX_WASH_CAR = 7;
 }

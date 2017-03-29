@@ -58,7 +58,7 @@
                         android:textSize="16sp"/>
 
                     <TextView
-                        android:id="@+id/tv_exercise"
+                        android:id="@+id/tv_weather_life_index_exercise"
                         style="@style/weather_life_index_table_item_tv"
                         android:layout_alignParentBottom="true"
                         android:text="---|---"
@@ -81,7 +81,7 @@
                         android:textSize="16sp"/>
 
                     <TextView
-                        android:id="@+id/tv_clothe"
+                        android:id="@+id/tv_weather_life_index_clothe"
                         style="@style/weather_life_index_table_item_tv"
                         android:layout_alignParentBottom="true"
                         android:text="---|---"
@@ -110,7 +110,7 @@
                         android:textSize="16sp"/>
 
                     <TextView
-                        android:id="@+id/tv_comfort"
+                        android:id="@+id/tv_weather_life_index_comfort"
                         style="@style/weather_life_index_table_item_tv"
                         android:layout_alignParentBottom="true"
                         android:text="---|---"
@@ -133,7 +133,7 @@
                         android:textSize="16sp"/>
 
                     <TextView
-                        android:id="@+id/tv_influenza"
+                        android:id="@+id/tv_weather_life_index_influenza"
                         style="@style/weather_life_index_table_item_tv"
                         android:layout_alignParentBottom="true"
                         android:text="---|---"
@@ -147,7 +147,7 @@
             <TableRow>
                 <!--洗车指数-->
                 <RelativeLayout
-                    android:id="@+id/rl_car"
+                    android:id="@+id/rl_wash_car"
                     style="@style/weather_life_index_table_item"
                     android:paddingRight="16dp">
 
@@ -162,7 +162,7 @@
                         android:textSize="16sp"/>
 
                     <TextView
-                        android:id="@+id/wash_car"
+                        android:id="@+id/tv_weather_life_index_wash_car"
                         style="@style/weather_life_index_table_item_tv"
                         android:layout_alignParentBottom="true"
                         android:text="---|---"
@@ -185,7 +185,7 @@
                         android:textSize="16sp"/>
 
                     <TextView
-                        android:id="@+id/tv_ultraviolet"
+                        android:id="@+id/tv_weather_life_index_ultraviolet"
                         style="@style/weather_life_index_table_item_tv"
                         android:layout_alignParentBottom="true"
                         android:text="---|---"

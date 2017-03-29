@@ -214,6 +214,19 @@ public class MainFragment extends Fragment {
     TextView tvWeatherForecastWindPower6;
     //请求日历接口
     //private DateInfo mDateInfo = null;
+    //生活指数
+    @BindView(R.id.tv_weather_life_index_exercise)
+    TextView tvWeatherLifeIndexExercise;
+    @BindView(R.id.tv_weather_life_index_clothe)
+    TextView tvWeatherLifeIndexClothe;
+    @BindView(R.id.tv_weather_life_index_comfort)
+    TextView tvWeatherLifeIndexComfort;
+    @BindView(R.id.tv_weather_life_index_influenza)
+    TextView tvWeatherLifeIndexInfluenza;
+    @BindView(R.id.tv_weather_life_index_wash_car)
+    TextView tvWeatherLifeIndexWashCar;
+    @BindView(R.id.tv_weather_life_index_ultraviolet)
+    TextView tvWeatherLifeIndexUltraviolet;
     //数据库操作
     Dao<WeatherLifeIndex, Integer> mDao = null;
     private Unbinder mUnbinder;
@@ -224,6 +237,10 @@ public class MainFragment extends Fragment {
     private ProgressDialog mProgressDialog = null;
     //当前城市
     private String mCity = "北京";
+    //天气数据
+    private WeatherInfo mWeatherInfo = null;
+    //生活指数
+    private List<WeatherLifeIndex> mWeatherLifeIndices = null;
     //数据库
     private WeatherInfoDatabaseHelper mWeatherInfoDatabaseHelper = null;
 
@@ -421,7 +438,6 @@ public class MainFragment extends Fragment {
         builder.show();
     }
 
-
     /**
      * 刷新获取天气数据
      */
@@ -432,13 +448,15 @@ public class MainFragment extends Fragment {
             @Override
             public void onFinish(String response) {
                 //获取天气数据
-                WeatherInfo weatherInfo = WeatherInfoUtil.handleWeatherInfo(new ByteArrayInputStream(response
+                mWeatherInfo = WeatherInfoUtil.handleWeatherInfo(new ByteArrayInputStream(response
                         .getBytes()));
+                mWeatherLifeIndices = mWeatherInfo.getmWeatherLifeIndies();
+
                 try {
                     if (mDao == null)
                         initDao();
                     //将生活数据存库
-                    mDao.create(weatherInfo.getmWeatherLifeIndies());
+                    mDao.create(mWeatherInfo.getmWeatherLifeIndies());
                 } catch (SQLException e) {
                     LogUtil.e(LOG_TAG, e.getMessage());
                     e.printStackTrace();
@@ -446,7 +464,7 @@ public class MainFragment extends Fragment {
 
                 //发送Handler消息来更新UI界面
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(Constant.WEATHER_INFO, weatherInfo);
+                bundle.putSerializable(Constant.WEATHER_INFO, mWeatherInfo);
                 Message msg = new Message();
                 msg.setData(bundle);
                 msg.what = Constant.UPDATE_WEATHER_UI;
@@ -524,6 +542,32 @@ public class MainFragment extends Fragment {
         //更新天气
         if (6 == weatherDaysForecasts.size())
             setDaysForecast(weatherDaysForecasts, calendar, hour);
+        //更新生活指数
+        if (mWeatherLifeIndices != null)
+            for (int i = 0; i < mWeatherLifeIndices.size(); i++) {
+                switch (i) {
+                    case Constant.LIFE_INDEX_EXERCISE:
+                        setLifeIndex(tvWeatherLifeIndexExercise, mWeatherLifeIndices.get(i));
+                        break;
+                    case Constant.LIFE_INDEX_COMFORT:
+                        setLifeIndex(tvWeatherLifeIndexComfort, mWeatherLifeIndices.get(i));
+                        break;
+                    case Constant.LIFE_INDEX_CLOTHE:
+                        setLifeIndex(tvWeatherLifeIndexClothe, mWeatherLifeIndices.get(i));
+                        break;
+                    case Constant.LIFE_INDEX_INFLUENZA:
+                        setLifeIndex(tvWeatherLifeIndexInfluenza, mWeatherLifeIndices.get(i));
+                        break;
+                    case Constant.LIFE_INDEX_ULTRAVIOLET:
+                        setLifeIndex(tvWeatherLifeIndexUltraviolet, mWeatherLifeIndices.get(i));
+                        break;
+                    case Constant.LIFE_INDEX_WASH_CAR:
+                        setLifeIndex(tvWeatherLifeIndexWashCar, mWeatherLifeIndices.get(i));
+                        break;
+                    default:
+                        break;
+                }
+            }
     }
 
     /**
@@ -605,12 +649,12 @@ public class MainFragment extends Fragment {
         ivWeatherForecastDay5.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherDayTypes.get(4), true));
         ivWeatherForecastDay6.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherDayTypes.get(5), true));
         //设置白天天气类型
-        tvWeatherForecastTypeDay1.setText(weatherDayTypes.get(0));
-        tvWeatherForecastTypeDay2.setText(weatherDayTypes.get(1));
-        tvWeatherForecastTypeDay3.setText(weatherDayTypes.get(2));
-        tvWeatherForecastTypeDay4.setText(weatherDayTypes.get(3));
-        tvWeatherForecastTypeDay5.setText(weatherDayTypes.get(4));
-        tvWeatherForecastTypeDay6.setText(weatherDayTypes.get(5));
+        tvWeatherForecastTypeDay1.setText(WeatherInfoUtil.recombineString(weatherDayTypes.get(0)));
+        tvWeatherForecastTypeDay2.setText(WeatherInfoUtil.recombineString(weatherDayTypes.get(1)));
+        tvWeatherForecastTypeDay3.setText(WeatherInfoUtil.recombineString(weatherDayTypes.get(2)));
+        tvWeatherForecastTypeDay4.setText(WeatherInfoUtil.recombineString(weatherDayTypes.get(3)));
+        tvWeatherForecastTypeDay5.setText(WeatherInfoUtil.recombineString(weatherDayTypes.get(4)));
+        tvWeatherForecastTypeDay6.setText(WeatherInfoUtil.recombineString(weatherDayTypes.get(5)));
         //设置天气的折线图
         int size = weatherHighTemps.size();
         //白天温度集合
@@ -625,12 +669,12 @@ public class MainFragment extends Fragment {
         lineChart.setTemperatureNight(nightTemperatures);
         lineChart.invalidate();
         //设置夜晚天气类型
-        tvWeatherForecastTypeNight1.setText(weatherNightTypes.get(0));
-        tvWeatherForecastTypeNight2.setText(weatherNightTypes.get(1));
-        tvWeatherForecastTypeNight3.setText(weatherNightTypes.get(2));
-        tvWeatherForecastTypeNight4.setText(weatherNightTypes.get(3));
-        tvWeatherForecastTypeNight5.setText(weatherNightTypes.get(4));
-        tvWeatherForecastTypeNight6.setText(weatherNightTypes.get(5));
+        tvWeatherForecastTypeNight1.setText(WeatherInfoUtil.recombineString(weatherNightTypes.get(0)));
+        tvWeatherForecastTypeNight2.setText(WeatherInfoUtil.recombineString(weatherNightTypes.get(1)));
+        tvWeatherForecastTypeNight3.setText(WeatherInfoUtil.recombineString(weatherNightTypes.get(2)));
+        tvWeatherForecastTypeNight4.setText(WeatherInfoUtil.recombineString(weatherNightTypes.get(3)));
+        tvWeatherForecastTypeNight5.setText(WeatherInfoUtil.recombineString(weatherNightTypes.get(4)));
+        tvWeatherForecastTypeNight6.setText(WeatherInfoUtil.recombineString(weatherNightTypes.get(5)));
         //设置晚上天气图片
         ivWeatherForecastNight1.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherNightTypes.get(0), false));
         ivWeatherForecastNight2.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherNightTypes.get(1), false));
@@ -640,33 +684,57 @@ public class MainFragment extends Fragment {
         ivWeatherForecastNight6.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherNightTypes.get(5), false));
         //设置风向、风力
         if (hour < 18) {//白天
-            tvWeatherForecastWindDirection1.setText(weatherDaysForecasts.get(0).getmWindDirectionDay());
-            tvWeatherForecastWindDirection2.setText(weatherDaysForecasts.get(1).getmWindDirectionDay());
-            tvWeatherForecastWindDirection3.setText(weatherDaysForecasts.get(2).getmWindDirectionDay());
-            tvWeatherForecastWindDirection4.setText(weatherDaysForecasts.get(3).getmWindDirectionDay());
-            tvWeatherForecastWindDirection5.setText(weatherDaysForecasts.get(4).getmWindDirectionDay());
-            tvWeatherForecastWindDirection6.setText(weatherDaysForecasts.get(5).getmWindDirectionDay());
+            tvWeatherForecastWindDirection1.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(0)
+                    .getmWindDirectionDay()));
+            tvWeatherForecastWindDirection2.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(1)
+                    .getmWindDirectionDay()));
+            tvWeatherForecastWindDirection3.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(2)
+                    .getmWindDirectionDay()));
+            tvWeatherForecastWindDirection4.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(3)
+                    .getmWindDirectionDay()));
+            tvWeatherForecastWindDirection5.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(4)
+                    .getmWindDirectionDay()));
+            tvWeatherForecastWindDirection6.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(5)
+                    .getmWindDirectionDay()));
 
-            tvWeatherForecastWindPower1.setText(weatherDaysForecasts.get(0).getmWindPowerDay());
-            tvWeatherForecastWindPower2.setText(weatherDaysForecasts.get(1).getmWindPowerDay());
-            tvWeatherForecastWindPower3.setText(weatherDaysForecasts.get(2).getmWindPowerDay());
-            tvWeatherForecastWindPower4.setText(weatherDaysForecasts.get(3).getmWindPowerDay());
-            tvWeatherForecastWindPower5.setText(weatherDaysForecasts.get(4).getmWindPowerDay());
-            tvWeatherForecastWindPower6.setText(weatherDaysForecasts.get(5).getmWindPowerDay());
+            tvWeatherForecastWindPower1.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(0)
+                    .getmWindPowerDay()));
+            tvWeatherForecastWindPower2.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(1)
+                    .getmWindPowerDay()));
+            tvWeatherForecastWindPower3.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(2)
+                    .getmWindPowerDay()));
+            tvWeatherForecastWindPower4.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(3)
+                    .getmWindPowerDay()));
+            tvWeatherForecastWindPower5.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(4)
+                    .getmWindPowerDay()));
+            tvWeatherForecastWindPower6.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(5)
+                    .getmWindPowerDay()));
         } else {//晚上
-            tvWeatherForecastWindDirection1.setText(weatherDaysForecasts.get(0).getmWindDirectionNight());
-            tvWeatherForecastWindDirection2.setText(weatherDaysForecasts.get(1).getmWindDirectionNight());
-            tvWeatherForecastWindDirection3.setText(weatherDaysForecasts.get(2).getmWindDirectionNight());
-            tvWeatherForecastWindDirection4.setText(weatherDaysForecasts.get(3).getmWindDirectionNight());
-            tvWeatherForecastWindDirection5.setText(weatherDaysForecasts.get(4).getmWindDirectionNight());
-            tvWeatherForecastWindDirection6.setText(weatherDaysForecasts.get(5).getmWindDirectionNight());
+            tvWeatherForecastWindDirection1.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(0)
+                    .getmWindDirectionNight()));
+            tvWeatherForecastWindDirection2.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(1)
+                    .getmWindDirectionNight()));
+            tvWeatherForecastWindDirection3.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(2)
+                    .getmWindDirectionNight()));
+            tvWeatherForecastWindDirection4.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(3)
+                    .getmWindDirectionNight()));
+            tvWeatherForecastWindDirection5.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(4)
+                    .getmWindDirectionNight()));
+            tvWeatherForecastWindDirection6.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(5)
+                    .getmWindDirectionNight()));
 
-            tvWeatherForecastWindPower1.setText(weatherDaysForecasts.get(0).getmWindPowerNight());
-            tvWeatherForecastWindPower2.setText(weatherDaysForecasts.get(1).getmWindPowerNight());
-            tvWeatherForecastWindPower3.setText(weatherDaysForecasts.get(2).getmWindPowerNight());
-            tvWeatherForecastWindPower4.setText(weatherDaysForecasts.get(3).getmWindPowerNight());
-            tvWeatherForecastWindPower5.setText(weatherDaysForecasts.get(4).getmWindPowerNight());
-            tvWeatherForecastWindPower6.setText(weatherDaysForecasts.get(5).getmWindPowerNight());
+            tvWeatherForecastWindPower1.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(0)
+                    .getmWindPowerNight()));
+            tvWeatherForecastWindPower2.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(1)
+                    .getmWindPowerNight()));
+            tvWeatherForecastWindPower3.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(2)
+                    .getmWindPowerNight()));
+            tvWeatherForecastWindPower4.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(3)
+                    .getmWindPowerNight()));
+            tvWeatherForecastWindPower5.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(4)
+                    .getmWindPowerNight()));
+            tvWeatherForecastWindPower6.setText(WeatherInfoUtil.recombineString(weatherDaysForecasts.get(5)
+                    .getmWindPowerNight()));
         }
     }
 
@@ -776,13 +844,61 @@ public class MainFragment extends Fragment {
     }
 
     /**
+     * 设置生活指数
+     *
+     * @param textView         被设置的控件
+     * @param weatherLifeIndex 生活指数实例
+     */
+    private void setLifeIndex(TextView textView, WeatherLifeIndex weatherLifeIndex) {
+        textView.setText(weatherLifeIndex.getmIndexSuggestion());
+    }
+
+    /**
      * 设置生活指数点击事件
      *
      * @param v 被点击的视图
      */
-    @OnClick({R.id.rl_exercise, R.id.rl_clothe, R.id.rl_comfort, R.id.rl_influenza, R.id.rl_car, R.id.rl_ultraviolet})
+    @OnClick({R.id.rl_exercise, R.id.rl_clothe, R.id.rl_comfort, R.id.rl_influenza, R.id.rl_wash_car, R.id
+            .rl_ultraviolet})
     public void onClick(View v) {
+        WeatherLifeIndex weatherLifeIndex = null;
+        String title = null;
+        switch (v.getId()) {
+            case R.id.rl_exercise:
+                weatherLifeIndex = mWeatherInfo.getmWeatherLifeIndies().get(Constant.LIFE_INDEX_EXERCISE);
+                title = getString(R.string.exercise);
+                break;
+            case R.id.rl_comfort:
+                weatherLifeIndex = mWeatherInfo.getmWeatherLifeIndies().get(Constant.LIFE_INDEX_COMFORT);
+                title = getString(R.string.comfort);
+                break;
+            case R.id.rl_clothe:
+                weatherLifeIndex = mWeatherInfo.getmWeatherLifeIndies().get(Constant.LIFE_INDEX_CLOTHE);
+                title = getString(R.string.clothes);
+                break;
+            case R.id.rl_influenza:
+                weatherLifeIndex = mWeatherInfo.getmWeatherLifeIndies().get(Constant.LIFE_INDEX_INFLUENZA);
+                title = getString(R.string.influenza);
+                break;
+            case R.id.rl_ultraviolet:
+                weatherLifeIndex = mWeatherInfo.getmWeatherLifeIndies().get(Constant.LIFE_INDEX_ULTRAVIOLET);
+                title = getString(R.string.ultraviolet);
+                break;
+            case R.id.rl_wash_car:
+                weatherLifeIndex = mWeatherInfo.getmWeatherLifeIndies().get(Constant.LIFE_INDEX_WASH_CAR);
+                title = getString(R.string.wash_car);
+                break;
+            default:
+                break;
+        }
+        if (weatherLifeIndex != null)
+            showDialog(title, weatherLifeIndex.getmIndexDetail());
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
     }
 
     /**
