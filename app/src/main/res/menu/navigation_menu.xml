@@ -3,12 +3,24 @@
     <!--<group android:checkableBehavior="single">-->
     <group>
         <item
+            android:id="@+id/mine"
+            android:icon="@drawable/ic_author"
+            android:title="我"/>
+        <item
             android:id="@+id/app_info"
-            android:icon="@drawable/ic_info"
-            android:title="@string/info"/>
+            android:icon="@drawable/ic_about"
+            android:title="关于"/>
+        <item
+            android:id="@+id/update"
+            android:icon="@drawable/ic_update"
+            android:title="检查更新"/>
+        <item
+            android:id="@+id/share"
+            android:icon="@drawable/ic_share"
+            android:title="分享好友"/>
         <item
             android:id="@+id/app_version"
-            android:icon="@drawable/version"
+            android:icon="@drawable/ic_version"
             android:title="@string/version"/>
     </group>
 </menu>

@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.github.mikephil.charting.charts.Chart.LOG_TAG;
 
 /**
- * author RichardJay
+ * ic_author RichardJay
  * email jiangfengfn12@163.com
  * created 2017/3/7 16:07
  * version v1.0

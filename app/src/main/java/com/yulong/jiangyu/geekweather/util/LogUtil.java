@@ -3,7 +3,7 @@ package com.yulong.jiangyu.geekweather.util;
 import android.util.Log;
 
 /**
- * author RichardJay
+ * ic_author RichardJay
  * email jiangfengfn12@163.com
  * created 2017/3/8 18:48
  * version v1.0

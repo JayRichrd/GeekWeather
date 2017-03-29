@@ -3,7 +3,7 @@ package com.yulong.jiangyu.geekweather.listener;
 import com.yulong.jiangyu.geekweather.bean.DateInfo;
 
 /**
- * author RichardJay
+ * ic_author RichardJay
  * email jiangfengfn12@163.com
  * created 2017/3/17 19:38
  * version v1.0
