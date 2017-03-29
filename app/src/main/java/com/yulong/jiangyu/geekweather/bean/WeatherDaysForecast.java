@@ -3,7 +3,7 @@ package com.yulong.jiangyu.geekweather.bean;
 import java.io.Serializable;
 
 /**
- * author RichardJay
+ * ic_author RichardJay
  * email jiangfengfn12@163.com
  * created 2017/3/7 13:48
  * version v1.0

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * author RichardJay
+ * ic_author RichardJay
  * email jiangfengfn12@163.com
  * created 2017/3/7 13:37
  * version v1.0

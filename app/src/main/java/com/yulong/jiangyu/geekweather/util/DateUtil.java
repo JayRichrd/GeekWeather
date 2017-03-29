@@ -5,7 +5,7 @@ import com.yulong.jiangyu.geekweather.constant.Constant;
 import java.text.SimpleDateFormat;
 
 /**
- * author RichardJay
+ * ic_author RichardJay
  * email jiangfengfn12@163.com
  * created 2017/3/17 19:56
  * version v1.0
