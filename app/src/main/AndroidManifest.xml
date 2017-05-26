@@ -43,6 +43,7 @@
             android:theme="@style/NoTitleFullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -52,10 +53,15 @@
             android:theme="@style/NoTitleFullscreen">
         </activity>
         <activity android:name=".ui.CustomedViewActivity">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN"/>-->
-            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN"/> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".ui.CityManageActivity"
+            android:theme="@style/NoTitleFullscreen">
         </activity>
     </application>
 

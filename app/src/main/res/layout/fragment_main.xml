@@ -28,6 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:drawableRight="@drawable/ic_down"
                 android:text="---city---"
                 android:textColor="@color/font_color_update_title"
                 android:textSize="@dimen/font_size_city"
@@ -40,6 +41,7 @@
             android:layout_height="match_parent"
             android:overScrollMode="never"
             android:scrollbars="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

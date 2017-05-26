@@ -22,16 +22,12 @@ public class Constant {
     public static final String dateBaseUrl = "http://v.juhe.cn/";
     public static final String statusOK = "ok";
     public static final int errorCode = 0;
-    //数据库名
-    //public static final String TABLE_NAME = "suggestion.db";
-    public static final String TABLE_NAME1 = "life_index.db";
     //数据版本号
     public static final int TABLE_VERSION = 1;
     //查询的ID
     //public static final Integer ID = 1;
     //默认城市
     public static final String DEFAULT_PREFERENCE = "preference_file";
-    public static final String DEFAULT_CITY = "default_city";
     //weatherinfo的标识
     public static final String WEATHER_INFO = "weather_info";
     //dateinfo的标识
@@ -44,16 +40,13 @@ public class Constant {
     public static final String SPLIT_DATE_REGEX = "日";
     //温度的分割字符
     public static final String SPLIT_TEMPERATURE_REGEX = "℃";
-    //生活指数索引-运动指数
-    public static final int LIFE_INDEX_EXERCISE = 0;
-    //生活指数索引-舒适度
-    public static final int LIFE_INDEX_COMFORT = 1;
-    //生活指数索引-穿衣指数
-    public static final int LIFE_INDEX_CLOTHE = 2;
-    //生活指数索引-感冒指数
-    public static final int LIFE_INDEX_INFLUENZA = 3;
-    //生活指数索引-紫外线指数
-    public static final int LIFE_INDEX_ULTRAVIOLET = 6;
-    //生活指数索引-洗车指数
-    public static final int LIFE_INDEX_WASH_CAR = 7;
+    // share preference
+    public static final String WEATHER_SHARE_PREFERENCE = "share_preference_weather";
+    // default city
+    public static final String DEFAULT_CITY = "default_city";
+    // weather code
+    public static final String DEFAULT_CITY_WEATHER_CODE = "default_city_weather_code";
+    // SQLite db
+    public static final String CITY_MANAGE_DB = "city_manage.db";
+    public static final String TABLE_NAME1 = "life_index.db";
 }

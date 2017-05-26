@@ -18,7 +18,6 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.github.mikephil.charting.charts.Chart.LOG_TAG;
 
 /**
  * ic_author RichardJay
@@ -30,6 +29,9 @@ import static com.github.mikephil.charting.charts.Chart.LOG_TAG;
  **/
 
 public class WebUtil {
+    //日志TAG
+    private static final String LOG_TAG = "WebUtil";
+
     private static OkHttpClient mOkHttpClient;
     private static DateImpl mDateImpl;
     private static Retrofit dateRetrofit;

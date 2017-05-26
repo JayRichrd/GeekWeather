@@ -55,5 +55,8 @@
     <string name="today">今天</string>
     <!--日历格式-->
     <string name="mm_dd">%1$s/%2$s</string>
+    <string name="auto_location">自动定位</string>
+    <string name="my_default">默认</string>
+    <string name="set_default">设为默认</string>
 
 </resources>
