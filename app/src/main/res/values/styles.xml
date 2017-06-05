@@ -18,6 +18,12 @@
     <!--没有ActionBar的主题-->
     <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar"/>
 
+    <!-- AppCompat主题 -->
+    <style name="Transparent.Light" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:screenOrientation">portrait</item>
+    </style>
+
     <!--date_title-->
     <style name="date_title">
         <item name="android:layout_width">wrap_content</item>
@@ -108,4 +114,72 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">18sp</item>
     </style>
+
+    <style name="wea_forecast_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/white_trans90</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="wea_forecast_content_llyt">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:padding">5dp</item>
+    </style>
+
+    <style name="wea_forecast_content_iv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:src">@drawable/ic_weather_no</item>
+    </style>
+
+    <style name="wea_forecast_content_degree_rlyt">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginLeft">10dp</item>
+    </style>
+
+    <style name="wea_forecast_content_degree_rlyt_tv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:textColor">@color/white_trans90</item>
+        <item name="android:text">N/A℃</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="action_llyt">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">54dp</item>
+    </style>
+
+    <style name="action_icon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/bg_action_bar_button</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_marginBottom">3dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="action_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:alpha">0.9</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
 </resources>

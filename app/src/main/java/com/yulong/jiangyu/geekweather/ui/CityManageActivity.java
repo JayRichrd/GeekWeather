@@ -14,7 +14,6 @@ import com.yulong.jiangyu.geekweather.bean.CityManage;
 import com.yulong.jiangyu.geekweather.dao.CityManageDBHelper;
 import com.yulong.jiangyu.geekweather.impl.CityManageDBListener;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class CityManageActivity extends AppCompatActivity {
     ImageView ivOk;
 
     private Unbinder unbinder;
-    // city list
+    // 城市列表
     private List<CityManage> mCityManageList;
 
     private Dao<CityManage, Integer> mCityManageDBDao;
@@ -59,28 +58,40 @@ public class CityManageActivity extends AppCompatActivity {
     }
 
     /**
-     * init Adapter
+     * 初始化适配器
      */
     private void initAdapter() {
         mCityManageList = new ArrayList<>();
         mCityManageDBDao = CityManageDBHelper.getInstance(getApplicationContext()).getCityManageDBDao();
-        try {
-            mCityManageList = mCityManageDBDao.queryForAll();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            mCityManageList = mCityManageDBDao.queryForAll();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
         // TODO don't forget to delete test data
-        CityManage cityManageDemo = new CityManage();
-        cityManageDemo.setCityName("深圳");
-        cityManageDemo.setTempLow("23");
-        cityManageDemo.setTempTop("28");
-        cityManageDemo.setWeatherType("阵雨");
-        cityManageDemo.setWeatherTypeDay("阵雨");
-        cityManageDemo.setWeatherTypeNight("阵雨");
-        mCityManageList.add(cityManageDemo);
+        CityManage cityManageDemo1 = new CityManage();
+        cityManageDemo1.setLocationCity("自动定位");
+        cityManageDemo1.setCityName("深圳");
+        cityManageDemo1.setTempLow("23");
+        cityManageDemo1.setTempTop("28");
+        cityManageDemo1.setWeatherType("阵雨");
+        cityManageDemo1.setWeatherTypeDay("阵雨");
+        cityManageDemo1.setWeatherTypeNight("阵雨");
+        cityManageDemo1.setWeatherCode("101280601");
+        mCityManageList.add(cityManageDemo1);
 
-        // at least there is add city item
+        CityManage cityManageDemo2 = new CityManage();
+        cityManageDemo2.setCityName("北京");
+        cityManageDemo2.setTempLow("23");
+        cityManageDemo2.setTempTop("28");
+        cityManageDemo2.setWeatherType("晴");
+        cityManageDemo2.setWeatherTypeDay("晴");
+        cityManageDemo2.setWeatherTypeNight("晴");
+        cityManageDemo2.setWeatherCode("101010100");
+        mCityManageList.add(cityManageDemo2);
+
+        // 最后一个添加城市的item
         mCityManageList.add(new CityManage());
 
         mCityManageAdapter = new CityManageAdapter(this, 0, mCityManageList);
@@ -94,7 +105,7 @@ public class CityManageActivity extends AppCompatActivity {
     }
 
     /**
-     * init layout
+     * 初始化布局
      */
     private void initViews() {
         gvCityManage.setAdapter(mCityManageAdapter);
@@ -132,7 +143,7 @@ public class CityManageActivity extends AppCompatActivity {
          */
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            if (position == mCityManageList.size() - 1) {// the last item that is add city
+            if (position == mCityManageList.size() - 1) {// 最后一项添加城市
 
             } else {
 

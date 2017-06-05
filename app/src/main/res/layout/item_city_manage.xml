@@ -11,7 +11,8 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_item_city_manage">
 
         <LinearLayout
             android:id="@+id/ll_city_weather"
@@ -83,7 +84,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@android:color/darker_gray"
                 android:clickable="false"
                 android:text="默认"/>
         </LinearLayout>

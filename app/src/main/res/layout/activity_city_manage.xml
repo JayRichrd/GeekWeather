@@ -42,6 +42,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
             android:layout_toLeftOf="@id/iv_refresh"
+            android:background="@drawable/bg_edit_city_manage"
             android:src="@drawable/ic_action_edit"/>
 
         <ImageView

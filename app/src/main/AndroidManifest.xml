@@ -63,6 +63,10 @@
             android:name=".ui.CityManageActivity"
             android:theme="@style/NoTitleFullscreen">
         </activity>
+        <activity
+            android:name=".ui.AddCityActivity"
+            android:theme="@style/NoTitleFullscreen">
+        </activity>
     </application>
 
 </manifest>

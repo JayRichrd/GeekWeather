@@ -49,13 +49,13 @@ public class CityManage implements Serializable {
     private String weatherType;
 
     /**
-     * 天气类型白天
+     * 白天天气类型
      */
     @DatabaseField
     private String weatherTypeDay;
 
     /**
-     * 天气类型夜间
+     * 夜间天气类型
      */
     @DatabaseField
     private String weatherTypeNight;

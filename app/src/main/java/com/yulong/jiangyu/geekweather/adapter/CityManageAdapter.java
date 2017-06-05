@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,7 +22,6 @@ import com.yulong.jiangyu.geekweather.dao.CityManageDBHelper;
 import com.yulong.jiangyu.geekweather.impl.CityManageDBListener;
 import com.yulong.jiangyu.geekweather.util.WeatherInfoUtil;
 
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 
@@ -37,16 +35,21 @@ import butterknife.ButterKnife;
  * created 2017/5/4 20:36
  * version v1.0
  * modified 2017/5/4
- * note Adapter of CityManage instance
+ * note
  **/
 
 public class CityManageAdapter extends ArrayAdapter<CityManage> {
     private Context mContext;
+    // 城市列表
     private List<CityManage> mCityList;
+    // 默认城市
     private String mDefaultCity;
+    // 删除按钮的可见性
     private boolean mIsVisibleForDeleteBtn = false;
+    // 城市列表数据库
     private CityManageDBHelper mCityManageDBHelper;
     private Dao<CityManage, Integer> mCityManageDBDao;
+
     private CityManageDBListener mCityManageDBListener;
 
     /**
@@ -62,14 +65,14 @@ public class CityManageAdapter extends ArrayAdapter<CityManage> {
         mContext = context;
         mCityList = cityList;
 
-        // get default city
+        // 获取默认城市
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(Constant.WEATHER_SHARE_PREFERENCE,
                 Context.MODE_PRIVATE);
         mDefaultCity = sharedPreferences.getString(Constant.DEFAULT_CITY, "");
     }
 
     /**
-     * set visibility of delete button
+     * 设置删除按钮的可见性
      *
      * @param visible visibility of delete button
      */
@@ -78,7 +81,7 @@ public class CityManageAdapter extends ArrayAdapter<CityManage> {
     }
 
     /**
-     * set listener
+     * 设置数据库监听
      *
      * @param cityManageDBListener
      */
@@ -92,6 +95,8 @@ public class CityManageAdapter extends ArrayAdapter<CityManage> {
         final CityManage cityManage = getItem(position);
         final String cityName = cityManage.getCityName();
         ViewHolder viewHolder;
+
+        // 获取布局
         if (null == convertView) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_city_manage, parent, false);
             viewHolder = new ViewHolder(convertView);
@@ -100,69 +105,74 @@ public class CityManageAdapter extends ArrayAdapter<CityManage> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        //city list is empty
-        if (1 == mCityList.size()) {
+        if (1 == mCityList.size()) { // 城市列表为空
             mIsVisibleForDeleteBtn = false;
-            viewHolder.llCityWeather.setVisibility(View.GONE);
+            /**
+             * llCityWeather的可见性必须设置为INVISIBLE
+             * 不能设置为GONE
+             * 否则最后一项——添加城市，显示的高度会自适应地变矮，而与前面的各个Item高度不一致
+             */
+            viewHolder.llCityWeather.setVisibility(View.INVISIBLE);
+
             viewHolder.ivAddCity.setVisibility(View.VISIBLE);
             viewHolder.ivDeleteCity.setVisibility(View.GONE);
-            mCityManageDBListener.onDBDataChanged();
-        } else {
-            if (position != mCityList.size() - 1) {// not the last add city item
+            // mCityManageDBListener.onDBDataChanged();
+        } else { // 城市列表非空
+            if (position != mCityList.size() - 1) {// 非最后一项——添加城市
                 viewHolder.llCityWeather.setVisibility(View.VISIBLE);
                 viewHolder.ivAddCity.setVisibility(View.GONE);
-                //set the delete btn
-                if (mIsVisibleForDeleteBtn) {// delete btn is visible
+
+                // 根据删除图标的可见性进行设置
+                if (mIsVisibleForDeleteBtn) {
                     viewHolder.ivDeleteCity.setVisibility(View.VISIBLE);
                     viewHolder.ivDeleteCity.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (cityName != null && mDefaultCity.equals(cityName))//do not delete default city
-                                return;
-
-                            if (mCityManageDBHelper == null)
-                                mCityManageDBHelper = CityManageDBHelper.getInstance(mContext);
-                            mCityManageDBDao = mCityManageDBHelper.getCityManageDBDao();
-                            // delete CityManage obj from db
-                            try {
-                                mCityManageDBDao.delete(cityManage);
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            }
-
-                            //delete CityManage obj from List
-                            mCityList.remove(cityManage);
-                            notifyDataSetChanged();
+//                            if (cityName != null && mDefaultCity.equals(cityName))
+//                                return;
+//
+//                            if (mCityManageDBHelper == null)
+//                                mCityManageDBHelper = CityManageDBHelper.getInstance(mContext);
+//                            mCityManageDBDao = mCityManageDBHelper.getCityManageDBDao();
+//                            try {
+//                                // 从数据库中删除数据
+//                                mCityManageDBDao.delete(cityManage);
+//                            } catch (SQLException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                            // 从城市列表中删除数据
+//                            mCityList.remove(cityManage);
+//                            notifyDataSetChanged();
                         }
                     });
                 } else {
                     viewHolder.ivDeleteCity.setVisibility(View.GONE);
                 }
 
-                //fill the weather layout
+                // 设置城市天气信息
                 if (cityManage.getCityName() != null) {
-                    // set city name
+                    // 城市名
                     viewHolder.tvCityName.setText(cityManage.getCityName());
-                    // set weather icon depending on the type of weather
-                    int weatherTypeId;
-                    //hour of current time
+                    // 根据当前时间获取天气类型图标并设置
                     int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-                    if (hour >= 0 && hour <= 6) {//the morning
+                    int weatherTypeId;
+                    if (hour >= 0 && hour <= 6) { // 上午
                         weatherTypeId = WeatherInfoUtil.getWeatherImageId(cityManage.getWeatherTypeDay(), false);
-                    } else if (hour > 6 && hour <= 18) {// daytime
+                    } else if (hour > 6 && hour <= 18) { // 白昼
                         weatherTypeId = WeatherInfoUtil.getWeatherImageId(cityManage.getWeatherTypeDay(), true);
-                    } else {// night
+                    } else {// 黑夜
                         weatherTypeId = WeatherInfoUtil.getWeatherImageId(cityManage.getWeatherTypeNight(), false);
                     }
                     viewHolder.ivWeatherType.setImageResource(weatherTypeId);
-                    //set top temperature and low temperature
+                    // 设置高温和低温
                     viewHolder.tvTopTemp.setText(cityManage.getTempTop());
                     viewHolder.tvLowTemp.setText(cityManage.getTempLow());
-                    //set weather type
+                    // 设置天气类型
                     viewHolder.tvWeatherType.setText(cityManage.getWeatherType());
                 }
 
-                //whether if it is default city
+                // 设置默认城市
                 if (cityName != null && mDefaultCity.equals(cityName)) {
                     viewHolder.tvDefault.setText(R.string.my_default);
                 } else {
@@ -173,31 +183,36 @@ public class CityManageAdapter extends ArrayAdapter<CityManage> {
                 viewHolder.tvDefault.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SharedPreferences sharedPreferences = mContext.getSharedPreferences(Constant
-                                .WEATHER_SHARE_PREFERENCE, Context.MODE_PRIVATE);
-                        // check if set default city repeatedly
-                        if (cityName != null && sharedPreferences.getString(Constant.DEFAULT_CITY, "").equals(cityName))
-                            return;
-
-                        String weatherCode;
-                        if (cityManage.getLocationCity() == null) {
-                            weatherCode = cityManage.getWeatherCode();
-                        } else {
-                            weatherCode = mContext.getString(R.string.auto_location);
-                        }
-
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString(Constant.DEFAULT_CITY, cityName);
-                        editor.putString(Constant.DEFAULT_CITY_WEATHER_CODE, weatherCode);
-                        editor.apply();
-                        //set default city and notify change
-                        mDefaultCity = cityName;
-                        notifyDataSetChanged();
+//                        SharedPreferences sharedPreferences = mContext.getSharedPreferences(Constant
+//                                .WEATHER_SHARE_PREFERENCE, Context.MODE_PRIVATE);
+//                        if (cityName != null && sharedPreferences.getString(Constant.DEFAULT_CITY, "").equals
+// (cityName))
+//                            return;
+//
+//                        String weatherCode;
+//                        if (cityManage.getLocationCity() == null) {
+//                            weatherCode = cityManage.getWeatherCode();
+//                        } else {
+//                            weatherCode = mContext.getString(R.string.auto_location);
+//                        }
+//
+//                        SharedPreferences.Editor editor = sharedPreferences.edit();
+//                        editor.putString(Constant.DEFAULT_CITY, cityName);
+//                        editor.putString(Constant.DEFAULT_CITY_WEATHER_CODE, weatherCode);
+//                        editor.apply();
+//                        mDefaultCity = cityName;
+//                        notifyDataSetChanged();
                     }
                 });
 
-            } else {// the last add city item
-                viewHolder.llCityWeather.setVisibility(View.GONE);
+            } else { // 最后一项——添加城市
+                /**
+                 * llCityWeather的可见性必须设置为INVISIBLE
+                 * 不能设置为GONE
+                 * 否则最后一项——添加城市，显示的高度会自适应地变矮，而与前面的各个Item高度不一致
+                 */
+                viewHolder.llCityWeather.setVisibility(View.INVISIBLE);
+
                 viewHolder.ivAddCity.setVisibility(View.VISIBLE);
                 viewHolder.ivDeleteCity.setVisibility(View.GONE);
             }
@@ -227,7 +242,7 @@ public class CityManageAdapter extends ArrayAdapter<CityManage> {
         @BindView(R.id.iv_delete_city)
         ImageView ivDeleteCity;
         @BindView(R.id.fl_item)
-        FrameLayout flItem;
+        ViewGroup flItem;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
