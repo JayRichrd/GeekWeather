@@ -15,12 +15,12 @@ public interface HttpCallbackListener {
      *
      * @param response http返回的数据
      */
-    void onFinish(String response);
+    void onFinished(Object response);
 
     /**
      * 加载失败
      *
-     * @param e 错误信息
+     * @param t 错误信息
      */
-    void onError(Exception e);
+    void onError(Throwable t);
 }

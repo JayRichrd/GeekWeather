@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
-import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.yulong.jiangyu.geekweather.bean.CityManage;
@@ -23,7 +22,6 @@ import java.sql.SQLException;
 
 public class CityManageDBHelper extends OrmLiteSqliteOpenHelper {
     private static CityManageDBHelper instance = null;
-    private Dao<CityManage, Integer> cityManageDBDao = null;
 
     private CityManageDBHelper(Context context) {
         super(context, Constant.CITY_MANAGE_DB, null, Constant.TABLE_VERSION);
@@ -90,27 +88,10 @@ public class CityManageDBHelper extends OrmLiteSqliteOpenHelper {
     }
 
     /**
-     * get the dao obj that we use to access the db table
-     *
-     * @return
-     */
-    public Dao<CityManage, Integer> getCityManageDBDao() {
-        if (cityManageDBDao == null) {
-            try {
-                cityManageDBDao = getDao(CityManage.class);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return cityManageDBDao;
-    }
-
-    /**
      * Close any open connections.
      */
     @Override
     public void close() {
         super.close();
-        cityManageDBDao = null;
     }
 }

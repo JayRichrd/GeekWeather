@@ -43,12 +43,6 @@ public class CityManage implements Serializable {
     private String tempLow;
 
     /**
-     * 天气类型
-     */
-    @DatabaseField
-    private String weatherType;
-
-    /**
      * 白天天气类型
      */
     @DatabaseField
@@ -65,6 +59,20 @@ public class CityManage implements Serializable {
      */
     @DatabaseField
     private String weatherCode;
+
+    public CityManage() {
+    }
+
+    public CityManage(String locationCity, String cityName, String tempTop, String tempLow, String weatherTypeDay,
+                      String weatherTypeNight, String weatherCode) {
+        this.locationCity = locationCity;
+        this.cityName = cityName;
+        this.tempTop = tempTop;
+        this.tempLow = tempLow;
+        this.weatherTypeDay = weatherTypeDay;
+        this.weatherTypeNight = weatherTypeNight;
+        this.weatherCode = weatherCode;
+    }
 
     public int getId() {
         return id;
@@ -104,14 +112,6 @@ public class CityManage implements Serializable {
 
     public void setTempLow(String tempLow) {
         this.tempLow = tempLow;
-    }
-
-    public String getWeatherType() {
-        return weatherType;
-    }
-
-    public void setWeatherType(String weatherType) {
-        this.weatherType = weatherType;
     }
 
     public String getWeatherTypeDay() {

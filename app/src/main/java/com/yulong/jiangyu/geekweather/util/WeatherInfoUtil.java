@@ -409,4 +409,51 @@ public class WeatherInfoUtil {
         else
             return source;
     }
+
+//    public static void refreshWeatherData(final Context context, final String weatherRequest, final boolean
+//            isWeatherCode, final RefreshCallbackListener refreshCallbackListener) {
+//
+//        String address_weather;
+//        if (isWeatherCode) {// 用城市编码请求天气数据
+//            address_weather = context.getString(R.string.weather_city_key_base_url, weatherRequest);
+//        } else { // 用城市名请求天气数据
+//            address_weather = context.getString(R.string.weather_city_base_url, weatherRequest);
+//        }
+//
+//        WebUtil.requestWeatherData(address_weather, new HttpCallbackListener() {
+//            @Override
+//            public void onFinished(Object response) {
+//                //获取天气数据
+//                WeatherInfo weatherInfo = WeatherInfoUtil.handleWeatherInfo(new ByteArrayInputStream(((String)
+// response)
+//                        .getBytes()));
+//                refreshCallbackListener.onRefreshed(weatherInfo);
+//
+//
+//                if (isWeatherCode) {
+//                    // 解析出天气数据后建立CityManage对象
+//                    String cityName = weatherInfo.getmCity();
+//                    String tempTop = weatherInfo.getmWeatherDaysForecasts().get(1).getmHighTemperature();
+//                    String tempLow = weatherInfo.getmWeatherDaysForecasts().get(1).getmLowTemperature();
+//                    String weatherTypeDay = weatherInfo.getmWeatherDaysForecasts().get(1).getmTypeDay();
+//                    String weatherTypeNight = weatherInfo.getmWeatherDaysForecasts().get(1).getmTypeNight();
+//                    CityManage cityManage = new CityManage(null, cityName, tempTop, tempLow, weatherTypeDay,
+//                            weatherTypeNight, weatherRequest);
+//
+//                    // 将CityManage对象插入数据库
+//                    CityMangeDao cityMangeDao = new CityMangeDao(context);
+//                    refreshCallbackListener.onRefreshed(cityMangeDao.insert(cityManage));
+//                } else {
+//                    WeatherLifeIndexDao weatherLifeIndexDao = new WeatherLifeIndexDao(context);
+//                    weatherLifeIndexDao.insert(weatherInfo.getmWeatherLifeIndies());
+//                }
+//            }
+//
+//            @Override
+//            public void onError(Throwable t) {
+//
+//            }
+//        });
+//    }
+
 }

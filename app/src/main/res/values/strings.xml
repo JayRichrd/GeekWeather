@@ -20,16 +20,17 @@
     <string name="btn_confirm">知道了</string>
     <!--生活指数-->
     <string name="pm_value">PM2.5</string>
-    <string name="exercise">锻炼</string>
-    <string name="clothes">穿衣</string>
+    <string name="exercise">晨练指数</string>
+    <string name="clothes">穿衣指数</string>
     <string name="comfort">舒适度</string>
     <string name="influenza">感冒指数</string>
-    <string name="wash_car">洗车</string>
-    <string name="ultraviolet">紫外线指数</string>
+    <string name="wash_car">洗车指数</string>
+    <string name="ultraviolet">紫外线强度</string>
     <!--Fragment Tag-->
     <string name="MainFragment">MainFragment</string>
     <!--请求天气url-->
-    <string name="weather_base_url">http://wthrcdn.etouch.cn/WeatherApi?city=%1$s</string>
+    <string name="weather_city_base_url">http://wthrcdn.etouch.cn/WeatherApi?city=%1$s</string>
+    <string name="weather_city_key_base_url">http://wthrcdn.etouch.cn/WeatherApi?citykey=%1$s</string>
 
     <string name="start_location">开始定位</string>
     <string name="location_tip">……正在努力定位中……</string>
@@ -56,7 +57,17 @@
     <!--日历格式-->
     <string name="mm_dd">%1$s/%2$s</string>
     <string name="auto_location">自动定位</string>
-    <string name="my_default">默认</string>
-    <string name="set_default">设为默认</string>
 
+    <string name="default_text">N/A</string>
+
+    <!--activity_city_manage-->
+    <string name="city_manage">城市管理</string>
+    <string name="set_default">设为默认</string>
+    <string name="my_default">默认</string>
+
+    <!--activity_add_city-->
+    <string name="add_city">添加城市</string>
+    <string name="hint_search">请输入城市名称或拼音</string>
+    <string name="hot_city_label">热门城市</string>
+    <string name="no_matched_city">没有符合条件的城市</string>
 </resources>

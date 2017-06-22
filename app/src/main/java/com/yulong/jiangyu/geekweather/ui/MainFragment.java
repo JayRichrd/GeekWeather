@@ -1,6 +1,7 @@
 package com.yulong.jiangyu.geekweather.ui;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,16 +35,15 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.j256.ormlite.dao.Dao;
 import com.yulong.jiangyu.chartview.ChartView;
 import com.yulong.jiangyu.geekweather.R;
+import com.yulong.jiangyu.geekweather.bean.CityManage;
 import com.yulong.jiangyu.geekweather.bean.DateInfo;
 import com.yulong.jiangyu.geekweather.bean.WeatherDaysForecast;
 import com.yulong.jiangyu.geekweather.bean.WeatherInfo;
 import com.yulong.jiangyu.geekweather.bean.WeatherLifeIndex;
 import com.yulong.jiangyu.geekweather.constant.Constant;
-import com.yulong.jiangyu.geekweather.dao.WeatherInfoDatabaseHelper;
-import com.yulong.jiangyu.geekweather.listener.DateCallbackListener;
+import com.yulong.jiangyu.geekweather.dao.WeatherLifeIndexDao;
 import com.yulong.jiangyu.geekweather.listener.HttpCallbackListener;
 import com.yulong.jiangyu.geekweather.util.DateUtil;
 import com.yulong.jiangyu.geekweather.util.LogUtil;
@@ -51,7 +51,6 @@ import com.yulong.jiangyu.geekweather.util.WeatherInfoUtil;
 import com.yulong.jiangyu.geekweather.util.WebUtil;
 
 import java.io.ByteArrayInputStream;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -63,9 +62,12 @@ import butterknife.Unbinder;
 
 import static android.content.ContentValues.TAG;
 
+
 public class MainFragment extends Fragment {
     //日志TAG
     private static final String LOG_TAG = "MainFragment";
+
+    private static final int MAIN_FRAGMENT_REQUEST_CODE = 1;
     //toolbar
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -213,11 +215,27 @@ public class MainFragment extends Fragment {
     TextView tvWeatherForecastWindPower5;
     @BindView(R.id.tv_weather_forecast_wind_power6)
     TextView tvWeatherForecastWindPower6;
-    //请求日历接口
-    //private DateInfo mDateInfo = null;
-    //数据库操作
-    Dao<WeatherLifeIndex, Integer> mDao = null;
+    // 生活指数
+    @BindView(R.id.tv_weather_life_index_exercise)
+    TextView tvWeatherLifeIndexExercise;
+    @BindView(R.id.tv_weather_life_index_clothe)
+    TextView tvWeatherLifeIndexClothe;
+    @BindView(R.id.tv_weather_life_index_comfort)
+    TextView tvWeatherLifeIndexComfort;
+    @BindView(R.id.tv_weather_life_index_influenza)
+    TextView tvWeatherLifeIndexInfluenza;
+    @BindView(R.id.tv_weather_life_index_wash_car)
+    TextView tvWeatherLifeIndexWashCar;
+    @BindView(R.id.tv_weather_life_index_ultraviolet)
+    TextView tvWeatherLifeIndexUltraviolet;
+    //    @BindView(R.id.iv_add_city)
+//    ImageView ivAddCity;
+    // 生活指数数据库操作
+    WeatherLifeIndexDao mWeatherLifeIndexDao;
+    // 天气信息对象
+    WeatherInfo mWeatherInfo;
     private Unbinder mUnbinder;
+    private ActionBarDrawerToggle mActionBarDrawerToggle = null;
     //百度定位服务
     private LocationClient mLocationClient = null;
     private MyLocationListener myLocationListener = null;
@@ -225,45 +243,40 @@ public class MainFragment extends Fragment {
     private ProgressDialog mProgressDialog = null;
     //当前城市
     private String mCity = "北京";
-    //数据库
-    private WeatherInfoDatabaseHelper mWeatherInfoDatabaseHelper = null;
-
-    private ActionBarDrawerToggle mActionBarDrawerToggle = null;
     //抽屉Drawer全部被拉出时的宽度
     private int mDrawerWidth = 0;
     //抽屉被拉出部分的宽度
     private float mScrollWidth = 0f;
     //更新UI的Handler
-    private Handler mHandler = null;
+    private Handler mHandler = new Handler() {
+        /**
+         * Subclasses must implement this to receive messages.
+         *
+         * @param msg 处理的消息
+         */
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case Constant.UPDATE_WEATHER_UI://更新天气
+                    WeatherInfo weatherInfo = (WeatherInfo) msg.getData().getSerializable(Constant.WEATHER_INFO);
+                    updateWeatherUI(weatherInfo);
+                    break;
+                case Constant.UPDATE_DATE_UI://更新日历
+                    DateInfo dateInfo = (DateInfo) msg.getData().getSerializable(Constant.DATE_INFO);
+                    updateDateUI(dateInfo);
+                    break;
+            }
+        }
+    };
 
     public MainFragment() {
+
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mHandler = new Handler() {
-            /**
-             * Subclasses must implement this to receive messages.
-             *
-             * @param msg 处理的消息
-             */
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                switch (msg.what) {
-                    case Constant.UPDATE_WEATHER_UI://更新天气
-                        WeatherInfo weatherInfo = (WeatherInfo) msg.getData().getSerializable(Constant.WEATHER_INFO);
-                        updateWeatherUI(weatherInfo);
-                        break;
-                    case Constant.UPDATE_DATE_UI://更新日历
-                        DateInfo dateInfo = (DateInfo) msg.getData().getSerializable(Constant.DATE_INFO);
-                        updateDateUI(dateInfo);
-                        break;
-                }
-            }
-        };
     }
 
     @Override
@@ -271,12 +284,11 @@ public class MainFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         mUnbinder = ButterKnife.bind(this, view);
-
+        mWeatherLifeIndexDao = new WeatherLifeIndexDao(getActivity());
         //初始化控件
         initView();
         //开始位置服务
         startLocation();
-
         return view;
     }
 
@@ -291,30 +303,14 @@ public class MainFragment extends Fragment {
     }
 
     /**
-     * 初始化数据库操作实例
-     */
-    private void initDao() {
-        try {
-            if (mWeatherInfoDatabaseHelper == null) {
-                mWeatherInfoDatabaseHelper = WeatherInfoDatabaseHelper.getInstance(getActivity()
-                        .getApplicationContext());
-                mDao = mWeatherInfoDatabaseHelper.getDaoWeatherLifeIndex();
-            }
-        } catch (SQLException e) {
-            LogUtil.e(LOG_TAG, e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * 初始化控件
      */
     private void initView() {
         toolbar.setTitleTextColor(Color.WHITE);
-        //将默认标题设置为空，从而使用textview的内容
+        //将默认标题设置为空，从而使用TextView的内容
         toolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        //设置Drawerlayout的滑入滑出
+        //设置DrawerLayout的滑入滑出
         mActionBarDrawerToggle = new ActionBarDrawerToggle(getActivity(), dlMain, toolbar, R.string.drawer_open, R
                 .string.drawer_close) {
             @Override
@@ -427,27 +423,19 @@ public class MainFragment extends Fragment {
      * 刷新获取天气数据
      */
     private void refreshData() {
-        //请求天气数据
-        String address_weather = getString(R.string.weather_base_url, mCity);
-        WebUtil.requestWeather(address_weather, new HttpCallbackListener() {
+        // 请求天气数据
+        WebUtil.requestWeatherData(getActivity(), mCity, false, new HttpCallbackListener() {
             @Override
-            public void onFinish(String response) {
-                //获取天气数据
-                WeatherInfo weatherInfo = WeatherInfoUtil.handleWeatherInfo(new ByteArrayInputStream(response
-                        .getBytes()));
-                try {
-                    if (mDao == null)
-                        initDao();
-                    //将生活数据存库
-                    mDao.create(weatherInfo.getmWeatherLifeIndies());
-                } catch (SQLException e) {
-                    LogUtil.e(LOG_TAG, e.getMessage());
-                    e.printStackTrace();
-                }
-
+            public void onFinished(Object response) {
+                String weatherInfoStr = (String) response;
+                // 解析处理获取的天气数据
+                mWeatherInfo = WeatherInfoUtil.handleWeatherInfo(new ByteArrayInputStream
+                        (weatherInfoStr.getBytes()));
+                // 将生活指数数据存库
+                mWeatherLifeIndexDao.insert(mWeatherInfo.getmWeatherLifeIndies());
                 //发送Handler消息来更新UI界面
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(Constant.WEATHER_INFO, weatherInfo);
+                bundle.putSerializable(Constant.WEATHER_INFO, mWeatherInfo);
                 Message msg = new Message();
                 msg.setData(bundle);
                 msg.what = Constant.UPDATE_WEATHER_UI;
@@ -455,20 +443,19 @@ public class MainFragment extends Fragment {
             }
 
             @Override
-            public void onError(Exception e) {
-                LogUtil.e(LOG_TAG, e.getMessage());
+            public void onError(Throwable t) {
+
             }
         });
 
         //请求日历数据
         String dateStr = DateUtil.getCurrentDate(getString(R.string.date_request));
-        WebUtil.requesDate(dateStr, new DateCallbackListener() {
+        WebUtil.requestDateData(dateStr, new HttpCallbackListener() {
             @Override
-            public void onFinish(DateInfo dateInfo) {
-                //mDateInfo = dateInfo;
+            public void onFinished(Object response) {
                 //发送Handler消息来更新UI界面
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(Constant.DATE_INFO, dateInfo);
+                bundle.putSerializable(Constant.DATE_INFO, (DateInfo) response);
                 Message msg = new Message();
                 msg.setData(bundle);
                 msg.what = Constant.UPDATE_DATE_UI;
@@ -500,8 +487,9 @@ public class MainFragment extends Fragment {
      * @param weatherInfo 天气信息数据
      */
     private void updateWeatherUI(WeatherInfo weatherInfo) {
+        // 设置城市
         tvCity.setText(weatherInfo.getmCity());
-        //更新头部时间
+        // 更新头部时间
         tvUpdateTime.setText(String.format(getString(R.string.update_time), weatherInfo.getmUpdateTime()));
 
         List<WeatherDaysForecast> weatherDaysForecasts = weatherInfo.getmWeatherDaysForecasts();
@@ -522,9 +510,11 @@ public class MainFragment extends Fragment {
         tvWind.setText(weatherInfo.getmWindDirection() + " " + weatherInfo.getmWindPower());
         tvHumidity.setText(String.format(getString(R.string.humidity), weatherInfo.getmHumidity()));
         setAqi(weatherInfo);
-        //更新天气
+        //更新未来几天天气
         if (6 == weatherDaysForecasts.size())
             setDaysForecast(weatherDaysForecasts, calendar, hour);
+        // 更新生活指数信息
+        setWeatherLifeIndex(weatherInfo.getmWeatherLifeIndies());
     }
 
     /**
@@ -766,6 +756,8 @@ public class MainFragment extends Fragment {
      */
     private void setAqi(WeatherInfo weatherInfo) {
         String quality = weatherInfo.getmAQ();
+        if (quality == null)
+            return;
         Drawable drawableLeft = ContextCompat.getDrawable(getContext(), WeatherInfoUtil.getQualityImageId(quality));
         Drawable drawableRight = ContextCompat.getDrawable(getContext(), R.drawable.ic_right);
         if (drawableLeft != null)
@@ -777,25 +769,103 @@ public class MainFragment extends Fragment {
     }
 
     /**
+     * 设置生活指数
+     *
+     * @param weatherLifeIndexList
+     */
+    private void setWeatherLifeIndex(List<WeatherLifeIndex> weatherLifeIndexList) {
+        for (WeatherLifeIndex weatherLifeIndex : weatherLifeIndexList) {
+            switch (weatherLifeIndex.getmIndexName()) {
+                case "晨练指数":
+                    tvWeatherLifeIndexExercise.setText(weatherLifeIndex.getmIndexSuggestion());
+                    break;
+                case "穿衣指数":
+                    tvWeatherLifeIndexClothe.setText(weatherLifeIndex.getmIndexSuggestion());
+                    break;
+                case "舒适度":
+                    tvWeatherLifeIndexComfort.setText(weatherLifeIndex.getmIndexSuggestion());
+                    break;
+                case "感冒指数":
+                    tvWeatherLifeIndexInfluenza.setText(weatherLifeIndex.getmIndexSuggestion());
+                    break;
+                case "洗车指数":
+                    tvWeatherLifeIndexWashCar.setText(weatherLifeIndex.getmIndexSuggestion());
+                    break;
+                case "紫外线强度":
+                    tvWeatherLifeIndexUltraviolet.setText(weatherLifeIndex.getmIndexSuggestion());
+                    break;
+            }
+        }
+    }
+
+    /**
      * 设置生活指数点击事件
      *
      * @param v 被点击的视图
      */
     @OnClick({R.id.rl_exercise, R.id.rl_clothe, R.id.rl_comfort, R.id.rl_influenza, R.id.rl_wash_car, R.id
-            .rl_ultraviolet,
-            R.id.tv_city})
+            .rl_ultraviolet, R.id.iv_add_city, R.id.tv_city})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_city:
-                Intent intent = new Intent(getActivity(), CityManageActivity.class);
-                startActivityForResult(intent, 1);
+                // Intent intent = new Intent(getActivity(), AddCityActivity.class);
+                // Intent intent = new Intent(getActivity(), CityManageActivity.class);
+                // startActivityForResult(intent, MAIN_FRAGMENT_REQUEST_CODE);
                 break;
+            case R.id.iv_add_city:
+                // Intent intent = new Intent(getActivity(), AddCityActivity.class);
+                Intent intent = new Intent(getActivity(), CityManageActivity.class);
+                startActivityForResult(intent, MAIN_FRAGMENT_REQUEST_CODE);
+                break;
+            case R.id.rl_exercise:
+                weatherLifeIndexClicked(getString(R.string.exercise));
+                break;
+            case R.id.rl_clothe:
+                weatherLifeIndexClicked(getString(R.string.clothes));
+                break;
+            case R.id.rl_comfort:
+                weatherLifeIndexClicked(getString(R.string.comfort));
+                break;
+            case R.id.rl_influenza:
+                weatherLifeIndexClicked(getString(R.string.influenza));
+                break;
+            case R.id.rl_wash_car:
+                weatherLifeIndexClicked(getString(R.string.wash_car));
+                break;
+            case R.id.rl_ultraviolet:
+                weatherLifeIndexClicked(getString(R.string.ultraviolet));
+                break;
+        }
+    }
+
+    /**
+     * 点击生活指数显示详情对话框
+     *
+     * @param indexName 生活指数名
+     */
+    private void weatherLifeIndexClicked(String indexName) {
+        List<WeatherLifeIndex> weatherLifeIndexList;
+        weatherLifeIndexList = mWeatherLifeIndexDao.query(indexName);
+        if (!weatherLifeIndexList.isEmpty() && 1 == weatherLifeIndexList.size()) {
+            String msg = weatherLifeIndexList.get(0).getmIndexDetail();
+            showDialog(indexName, msg);
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (MAIN_FRAGMENT_REQUEST_CODE == requestCode && resultCode == Activity.RESULT_OK) {
+            CityManage cityManage = (CityManage) data.getSerializableExtra(Constant.CHOSEN_CITY);
+            mCity = cityManage.getCityName();
+            refreshData();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
     }
 
     /**
@@ -835,7 +905,7 @@ public class MainFragment extends Fragment {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString(Constant.DEFAULT_CITY, mCity);
             editor.apply();
-
+            // 刷新数据
             refreshData();
         }
     }

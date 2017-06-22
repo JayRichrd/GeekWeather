@@ -1,13 +1,15 @@
 package com.yulong.jiangyu.geekweather.util;
 
 
+import android.content.Context;
+
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import com.yulong.jiangyu.geekweather.R;
 import com.yulong.jiangyu.geekweather.bean.DateInfo;
 import com.yulong.jiangyu.geekweather.constant.Constant;
 import com.yulong.jiangyu.geekweather.impl.DateImpl;
-import com.yulong.jiangyu.geekweather.listener.DateCallbackListener;
 import com.yulong.jiangyu.geekweather.listener.HttpCallbackListener;
 
 import java.io.IOException;
@@ -39,9 +41,19 @@ public class WebUtil {
     /**
      * 请求天气数据
      *
-     * @param addressWeather 获取天气数据的url地址
+     * @param context
+     * @param weatherRequest       天气请求码
+     * @param isWeatherCode        是否使用天气代码
+     * @param httpCallbackListener http返回成功的回调接口
      */
-    public static void requestWeather(final String addressWeather, final HttpCallbackListener httpCallbackListener) {
+    public static void requestWeatherData(Context context, final String weatherRequest, final boolean isWeatherCode,
+                                          final HttpCallbackListener httpCallbackListener) {
+        final String address_weather;
+        if (isWeatherCode) {// 用城市编码请求天气数据
+            address_weather = context.getString(R.string.weather_city_key_base_url, weatherRequest);
+        } else { // 用城市名请求天气数据
+            address_weather = context.getString(R.string.weather_city_base_url, weatherRequest);
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -52,14 +64,14 @@ public class WebUtil {
                 mOkHttpClient.setConnectTimeout(5 * 1000, TimeUnit.MILLISECONDS);
                 mOkHttpClient.setWriteTimeout(5 * 1000, TimeUnit.MILLISECONDS);
                 //发起请求
-                Request request = new Request.Builder().url(addressWeather).build();
+                Request request = new Request.Builder().url(address_weather).build();
                 try {
                     Response response = mOkHttpClient.newCall(request).execute();
                     String result = response.body().string();
                     if (httpCallbackListener != null)
                         // TODO: 2017/3/8  不能直接使用response.body().string()传递参数
-                        //httpCallbackListener.onFinish(response.body().string());
-                        httpCallbackListener.onFinish(result);
+                        //httpCallbackListener.onFinished(response.body().string());
+                        httpCallbackListener.onFinished(result);
                 } catch (IOException e) {
                     e.printStackTrace();
                     if (httpCallbackListener != null)
@@ -74,7 +86,7 @@ public class WebUtil {
      *
      * @param dateStr 日期 2017-1-1
      */
-    public static void requesDate(String dateStr, final DateCallbackListener dateCallbackListener) {
+    public static void requestDateData(String dateStr, final HttpCallbackListener httpCallbackListener) {
         //聚合数据万年历网络请求
         dateRetrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl
                 (Constant.dateBaseUrl).build();
@@ -93,14 +105,13 @@ public class WebUtil {
             public void onResponse(Call<DateInfo> call, retrofit2.Response<DateInfo> response) {
                 DateInfo dateInfo = response.body();
                 if (Constant.errorCode == dateInfo.getError_code()) {//检查返回的结果
-                    dateCallbackListener.onFinish(dateInfo);
-//                    DateInfo.ResultBean.DataBean dataBean = dateInfo.getResult().getData();
+                    httpCallbackListener.onFinished(dateInfo);
                 }
             }
 
             @Override
             public void onFailure(Call<DateInfo> call, Throwable t) {
-                dateCallbackListener.onError(t);
+                httpCallbackListener.onError(t);
                 LogUtil.e(LOG_TAG, "获取日历数据失败！");
             }
         });

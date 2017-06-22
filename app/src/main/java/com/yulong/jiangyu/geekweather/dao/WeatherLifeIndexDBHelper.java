@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
-import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.yulong.jiangyu.geekweather.bean.WeatherLifeIndex;
@@ -16,21 +15,21 @@ import java.sql.SQLException;
  * Created by jiangyu on 2017/2/3.
  */
 
-public class WeatherInfoDatabaseHelper extends OrmLiteSqliteOpenHelper {
-    private static WeatherInfoDatabaseHelper instance = null;
-    private Dao<WeatherLifeIndex, Integer> daoWeatherLifeIndex = null;
+public class WeatherLifeIndexDBHelper extends OrmLiteSqliteOpenHelper {
+
+    private static WeatherLifeIndexDBHelper instance = null;
 
     //私有构造函数
-    private WeatherInfoDatabaseHelper(Context context) {
+    private WeatherLifeIndexDBHelper(Context context) {
         super(context, Constant.TABLE_NAME1, null, Constant.TABLE_VERSION);
     }
 
     //单例模式创建数据库的实例
-    public static synchronized WeatherInfoDatabaseHelper getInstance(Context context) {
+    public static synchronized WeatherLifeIndexDBHelper getInstance(Context context) {
         if (instance == null) {
-            synchronized (WeatherInfoDatabaseHelper.class) {
+            synchronized (WeatherLifeIndexDBHelper.class) {
                 if (instance == null)
-                    instance = new WeatherInfoDatabaseHelper(context);
+                    instance = new WeatherLifeIndexDBHelper(context);
             }
         }
         return instance;
@@ -79,21 +78,5 @@ public class WeatherInfoDatabaseHelper extends OrmLiteSqliteOpenHelper {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    //操作数据库的类Dao
-    public Dao<WeatherLifeIndex, Integer> getDaoWeatherLifeIndex() throws SQLException {
-        if (daoWeatherLifeIndex == null)
-            daoWeatherLifeIndex = getDao(WeatherLifeIndex.class);
-        return daoWeatherLifeIndex;
-    }
-
-    /**
-     * Close any open connections.
-     */
-    @Override
-    public void close() {
-        super.close();
-        daoWeatherLifeIndex = null;
     }
 }

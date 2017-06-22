@@ -44,9 +44,10 @@ public class Constant {
     public static final String WEATHER_SHARE_PREFERENCE = "share_preference_weather";
     // default city
     public static final String DEFAULT_CITY = "default_city";
-    // weather code
-    public static final String DEFAULT_CITY_WEATHER_CODE = "default_city_weather_code";
     // SQLite db
     public static final String CITY_MANAGE_DB = "city_manage.db";
     public static final String TABLE_NAME1 = "life_index.db";
+
+    public static final String CITY_INFO_DB = "city_info.db";
+    public static final String CHOSEN_CITY = "chosen_city";
 }
