@@ -44,11 +44,16 @@
         </android.support.v7.widget.Toolbar>
         <!--content-->
         <!--设置ScrollView用来滑动，但注意ScrollView的内部只允许存在一个子布局-->
-        <ScrollView
+        <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+            xmlns:ptr="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ptrs_root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never"
-            android:scrollbars="vertical">
+            android:scrollbars="vertical"
+            ptr:ptrAnimationStyle="rotate"
+            ptr:ptrHeaderSubTextColor="@color/white_trans60"
+            ptr:ptrHeaderTextColor="@color/white_trans90">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -63,7 +68,7 @@
                 <!--建议-->
                 <include layout="@layout/include_suggestion_info"/>
             </LinearLayout>
-        </ScrollView>
+        </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
     </LinearLayout>
     <!-- The navigation drawer -->
     <android.support.design.widget.NavigationView

@@ -29,12 +29,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.yulong.jiangyu.chartview.ChartView;
 import com.yulong.jiangyu.geekweather.R;
 import com.yulong.jiangyu.geekweather.bean.CityManage;
@@ -74,6 +78,9 @@ public class MainFragment extends Fragment {
 
     @BindView(R.id.ll_root_content)
     LinearLayout llRootContent;
+
+    @BindView(R.id.ptrs_root)
+    PullToRefreshScrollView ptrsRoot;
     //抽屉控件
     @BindView(R.id.nav_view)
     NavigationView navView;
@@ -234,6 +241,7 @@ public class MainFragment extends Fragment {
     WeatherLifeIndexDao mWeatherLifeIndexDao;
     // 天气信息对象
     WeatherInfo mWeatherInfo;
+
     private Unbinder mUnbinder;
     private ActionBarDrawerToggle mActionBarDrawerToggle = null;
     //百度定位服务
@@ -260,6 +268,9 @@ public class MainFragment extends Fragment {
             switch (msg.what) {
                 case Constant.UPDATE_WEATHER_UI://更新天气
                     WeatherInfo weatherInfo = (WeatherInfo) msg.getData().getSerializable(Constant.WEATHER_INFO);
+                    if (ptrsRoot.isRefreshing())
+                        stopRefresh();
+                    Toast.makeText(getActivity(), "更新数据完毕", Toast.LENGTH_SHORT).show();
                     updateWeatherUI(weatherInfo);
                     break;
                 case Constant.UPDATE_DATE_UI://更新日历
@@ -283,6 +294,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+//        View view = inflater.inflate()
         mUnbinder = ButterKnife.bind(this, view);
         mWeatherLifeIndexDao = new WeatherLifeIndexDao(getActivity());
         //初始化控件
@@ -373,6 +385,27 @@ public class MainFragment extends Fragment {
         //是否可以使用返回键取消
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
+
+        // 设置下拉刷新控件
+        ptrsRoot.getLoadingLayoutProxy().setPullLabel(getString(R.string.pull_to_refresh));
+        ptrsRoot.getLoadingLayoutProxy().setRefreshingLabel(getString(R.string.refreshing));
+        ptrsRoot.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                refreshData();
+            }
+        });
+        ptrsRoot.getLoadingLayoutProxy().setReleaseLabel(getString(R.string.leave_to_refresh));
+    }
+
+    /**
+     * 停止刷新
+     */
+    private void stopRefresh() {
+        // 结束刷新
+        ptrsRoot.onRefreshComplete();
+        // 结束动画
+        ptrsRoot.clearAnimation();
     }
 
     /**
@@ -423,6 +456,7 @@ public class MainFragment extends Fragment {
      * 刷新获取天气数据
      */
     private void refreshData() {
+        Toast.makeText(getActivity(), "正在更新……", Toast.LENGTH_SHORT).show();
         // 请求天气数据
         WebUtil.requestWeatherData(getActivity(), mCity, false, new HttpCallbackListener() {
             @Override
@@ -440,6 +474,7 @@ public class MainFragment extends Fragment {
                 msg.setData(bundle);
                 msg.what = Constant.UPDATE_WEATHER_UI;
                 mHandler.sendMessage(msg);
+
             }
 
             @Override

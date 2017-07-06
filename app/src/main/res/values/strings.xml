@@ -70,4 +70,8 @@
     <string name="hint_search">请输入城市名称或拼音</string>
     <string name="hot_city_label">热门城市</string>
     <string name="no_matched_city">没有符合条件的城市</string>
+
+    <string name="pull_to_refresh">下拉更新哟</string>
+    <string name="refreshing">别着急，正在更新哈…</string>
+    <string name="leave_to_refresh">您松松手就可以更新啦</string>
 </resources>
