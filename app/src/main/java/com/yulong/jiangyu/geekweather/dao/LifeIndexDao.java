@@ -12,21 +12,21 @@ import android.content.Context;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.yulong.jiangyu.geekweather.bean.WeatherLifeIndex;
+import com.yulong.jiangyu.geekweather.entity.LifeIndexEntity;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class LifeIndexDao {
     WeatherLifeIndexDBHelper helper;
-    Dao<WeatherLifeIndex, Integer> mDao;
+    Dao<LifeIndexEntity, Integer> mDao;
     private Context mContext;
 
     public LifeIndexDao(Context context) {
         this.mContext = context;
         helper = WeatherLifeIndexDBHelper.getInstance(context);
         try {
-            mDao = helper.getDao(WeatherLifeIndex.class);
+            mDao = helper.getDao(LifeIndexEntity.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -38,7 +38,7 @@ public class LifeIndexDao {
      * @param weatherLifeIndexes 将被插入数据库中的对象
      * @return 如果成功则返回true，否则返回false
      */
-    public boolean insert(List<WeatherLifeIndex> weatherLifeIndexes) {
+    public boolean insert(List<LifeIndexEntity> weatherLifeIndexes) {
         boolean result = false;
         try {
             // 表格中本来就有数据，先删除数据
@@ -59,8 +59,8 @@ public class LifeIndexDao {
      * @param indexName 生活指数名
      * @return
      */
-    public List<WeatherLifeIndex> query(String indexName) {
-        List<WeatherLifeIndex> weatherLifeIndexList = null;
+    public List<LifeIndexEntity> query(String indexName) {
+        List<LifeIndexEntity> weatherLifeIndexList = null;
         try {
             QueryBuilder queryBuilder = mDao.queryBuilder();
             queryBuilder.where().eq("mIndexName", indexName);

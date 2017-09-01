@@ -1,4 +1,4 @@
-package com.yulong.jiangyu.geekweather.bean;
+package com.yulong.jiangyu.geekweather.entity;
 
 import java.io.Serializable;
 
@@ -11,7 +11,7 @@ import java.io.Serializable;
  * note 多天天气预报实例
  **/
 
-public class WeatherDaysForecast implements Serializable {
+public class WeatherForecastDaysEntity implements Serializable {
     private static final long serialVersionUID = -888062980292384724L;
     //日期
     private String mDate;

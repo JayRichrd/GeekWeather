@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--请求时间的格式-->
+    <!--请求时间格式-->
     <string name="format_request_date">yyyy-M-d</string>
+    <!--显示时间格式-->
+    <string name="format_ui_date">M月dd日</string>
+    <!--日历格式-->
+    <string name="format_date">%1$s\n%2$s</string>
+    <!--更新时间格式-->
+    <string name="format_update_time">%1$s 更新</string>
+    <!--湿度格式-->
+    <string name="format_humidity">湿度 %1$s</string>
 </resources>

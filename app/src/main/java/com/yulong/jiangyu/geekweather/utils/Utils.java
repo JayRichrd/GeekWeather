@@ -3,8 +3,8 @@ package com.yulong.jiangyu.geekweather.utils;
 import android.util.Xml;
 
 import com.yulong.jiangyu.geekweather.R;
-import com.yulong.jiangyu.geekweather.bean.WeatherDaysForecast;
-import com.yulong.jiangyu.geekweather.bean.WeatherLifeIndex;
+import com.yulong.jiangyu.geekweather.entity.WeatherForecastDaysEntity;
+import com.yulong.jiangyu.geekweather.entity.LifeIndexEntity;
 import com.yulong.jiangyu.geekweather.constant.Constant;
 import com.yulong.jiangyu.geekweather.entity.WeatherEntity;
 
@@ -36,10 +36,10 @@ public class Utils {
     public static WeatherEntity handleWeatherInfo(InputStream inputStream) {
         //初始化
         WeatherEntity weatherInfo = new WeatherEntity();
-        WeatherDaysForecast weatherDaysForecast = null;
-        List<WeatherDaysForecast> weatherDaysForecasts = new ArrayList<>();
-        WeatherLifeIndex weatherLifeIndex = null;
-        List<WeatherLifeIndex> weatherLifeIndices = new ArrayList<>();
+        WeatherForecastDaysEntity weatherDaysForecast = null;
+        List<WeatherForecastDaysEntity> weatherDaysForecasts = new ArrayList<>();
+        LifeIndexEntity weatherLifeIndex = null;
+        List<LifeIndexEntity> weatherLifeIndices = new ArrayList<>();
         //是否是多天天气预报
         boolean isDaysForecast = false;
         //是否是白天
@@ -117,7 +117,7 @@ public class Utils {
                                 break;
                             case "yesterday"://昨日天气
                                 isDaysForecast = true;
-                                weatherDaysForecast = new WeatherDaysForecast();
+                                weatherDaysForecast = new WeatherForecastDaysEntity();
                                 break;
                             case "date_1"://日期
                                 if (weatherDaysForecast != null)
@@ -162,7 +162,7 @@ public class Utils {
                                 }
                                 break;
                             case "weather"://多天天气预报
-                                weatherDaysForecast = new WeatherDaysForecast();
+                                weatherDaysForecast = new WeatherForecastDaysEntity();
                                 break;
                             case "date"://日期
                                 if (weatherDaysForecast != null)
@@ -190,7 +190,7 @@ public class Utils {
                                         weatherDaysForecast.setmTypeNight(parser.nextText());
                                 break;
                             case "zhishu"://生活指数
-                                weatherLifeIndex = new WeatherLifeIndex();
+                                weatherLifeIndex = new LifeIndexEntity();
                                 break;
                             case "name"://指数名
                                 if (weatherLifeIndex != null)

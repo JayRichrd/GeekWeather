@@ -43,8 +43,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.yulong.jiangyu.chartview.ChartView;
 import com.yulong.jiangyu.geekweather.R;
 import com.yulong.jiangyu.geekweather.bean.CityManage;
-import com.yulong.jiangyu.geekweather.bean.WeatherDaysForecast;
-import com.yulong.jiangyu.geekweather.bean.WeatherLifeIndex;
+import com.yulong.jiangyu.geekweather.entity.WeatherForecastDaysEntity;
+import com.yulong.jiangyu.geekweather.entity.LifeIndexEntity;
 import com.yulong.jiangyu.geekweather.constant.Constant;
 import com.yulong.jiangyu.geekweather.dao.LifeIndexDao;
 import com.yulong.jiangyu.geekweather.entity.DateEntity;
@@ -507,8 +507,7 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onError(Throwable t) {
-                //LogUtil.e(TAG, getString(R.string.error_get_data));
-                LogUtil.e(TAG, t.getMessage());
+                Log.e(TAG, t.getMessage());
             }
         });
     }
@@ -516,27 +515,26 @@ public class MainFragment extends Fragment {
     /**
      * 更新日期界面
      *
-     * @param dateInfo 日期信息
+     * @param dateEntity 日期信息
      */
-    private void updateDateUI(DateEntity dateInfo) {
-        String dateStr = DateUtil.getCurrentDate(getString(R.string.date_ui));
-        String lunarStr = dateInfo.getResult().getData().getLunar();
-        tvDate.setText(String.format(getString(R.string.date), dateStr, lunarStr));
+    private void updateDateUI(DateEntity dateEntity) {
+        String dateStr = DateUtil.getCurrentDate(getString(R.string.format_ui_date));
+        String lunarStr = dateEntity.getResult().getData().getLunar();
+        tvDate.setText(String.format(getString(R.string.format_date), dateStr, lunarStr));
     }
 
     /**
      * 更新UI界面
      *
-     * @param weatherInfo 天气信息数据
+     * @param weatherEntity 天气信息数据
      */
-    private void updateWeatherUI(WeatherEntity weatherInfo) {
+    private void updateWeatherUI(WeatherEntity weatherEntity) {
         // 设置城市
-        tvCity.setText(weatherInfo.getmCity());
+        tvCity.setText(weatherEntity.getmCity());
         // 更新头部时间
-        tvUpdateTime.setText(
-                String.format(getString(R.string.update_time), weatherInfo.getmUpdateTime()));
+        tvUpdateTime.setText(String.format(getString(R.string.format_update_time), weatherEntity.getmUpdateTime()));
 
-        List<WeatherDaysForecast> weatherDaysForecasts = weatherInfo.getmWeatherDaysForecasts();
+        List<WeatherForecastDaysEntity> weatherForecastDaysList = weatherEntity.getmWeatherDaysForecasts();
         //昨天
         //WeatherDaysForecast weatherDaysForecast1 = weatherDaysForecasts.get(0);
         //今天
@@ -549,17 +547,17 @@ public class MainFragment extends Fragment {
         //当前时间的小时数
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        setTemperature(weatherInfo);
-        setWeatherType(hour, weatherDaysForecasts.get(1));
-        tvWind.setText(weatherInfo.getmWindDirection() + " " + weatherInfo.getmWindPower());
-        tvHumidity.setText(String.format(getString(R.string.humidity), weatherInfo.getmHumidity()));
-        setAqi(weatherInfo);
-        //更新未来几天天气
-        if (6 == weatherDaysForecasts.size()) {
-            setDaysForecast(weatherDaysForecasts, calendar, hour);
+        setTemperature(weatherEntity);
+        setWeatherType(hour, weatherForecastDaysList.get(1));
+        tvWind.setText(weatherEntity.getmWindDirection() + " " + weatherEntity.getmWindPower());
+        tvHumidity.setText(String.format(getString(R.string.format_humidity), weatherEntity.getmHumidity()));
+        setAqi(weatherEntity);
+        //设置未来几天天气
+        if (6 == weatherForecastDaysList.size()) {
+            setDaysForecast(weatherForecastDaysList, calendar, hour);
         }
         // 更新生活指数信息
-        setWeatherLifeIndex(weatherInfo.getmWeatherLifeIndies());
+        setLifeIndex(weatherEntity.getmWeatherLifeIndies());
     }
 
     /**
@@ -568,7 +566,7 @@ public class MainFragment extends Fragment {
      * @param weatherDaysForecasts 多日天气数据
      * @param calendar             当前日历
      */
-    private void setDaysForecast(List<WeatherDaysForecast> weatherDaysForecasts, Calendar calendar,
+    private void setDaysForecast(List<WeatherForecastDaysEntity> weatherDaysForecasts, Calendar calendar,
                                  int hour) {
         //星期几
         List<String> weeks = new ArrayList<>();
@@ -583,7 +581,7 @@ public class MainFragment extends Fragment {
         //最低温
         List<String> weatherLowTemps = new ArrayList<>();
         //解析日期数据、天气类型、温度等数据并填充
-        for (WeatherDaysForecast weatherDayForecast : weatherDaysForecasts) {
+        for (WeatherForecastDaysEntity weatherDayForecast : weatherDaysForecasts) {
             if (weatherDayForecast != null) {
                 String[] results = DateUtil.parseDate(weatherDayForecast.getmDate());
                 if (2 == results.length) {
@@ -746,7 +744,7 @@ public class MainFragment extends Fragment {
      * @param hour                当前时间小时数
      * @param weatherDaysForecast 天气信息
      */
-    private void setWeatherType(int hour, WeatherDaysForecast weatherDaysForecast) {
+    private void setWeatherType(int hour, WeatherForecastDaysEntity weatherDaysForecast) {
         if (hour < 18) //白天
         {
             tvWeatherType.setText(weatherDaysForecast.getmTypeDay());
@@ -859,26 +857,26 @@ public class MainFragment extends Fragment {
     /**
      * 设置生活指数
      */
-    private void setWeatherLifeIndex(List<WeatherLifeIndex> weatherLifeIndexList) {
-        for (WeatherLifeIndex weatherLifeIndex : weatherLifeIndexList) {
-            switch (weatherLifeIndex.getmIndexName()) {
+    private void setLifeIndex(List<LifeIndexEntity> lifeIndexList) {
+        for (LifeIndexEntity lifeIndex : lifeIndexList) {
+            switch (lifeIndex.getmIndexName()) {
                 case "晨练指数":
-                    tvWeatherLifeIndexExercise.setText(weatherLifeIndex.getmIndexSuggestion());
+                    tvWeatherLifeIndexExercise.setText(lifeIndex.getmIndexSuggestion());
                     break;
                 case "穿衣指数":
-                    tvWeatherLifeIndexClothe.setText(weatherLifeIndex.getmIndexSuggestion());
+                    tvWeatherLifeIndexClothe.setText(lifeIndex.getmIndexSuggestion());
                     break;
                 case "舒适度":
-                    tvWeatherLifeIndexComfort.setText(weatherLifeIndex.getmIndexSuggestion());
+                    tvWeatherLifeIndexComfort.setText(lifeIndex.getmIndexSuggestion());
                     break;
                 case "感冒指数":
-                    tvWeatherLifeIndexInfluenza.setText(weatherLifeIndex.getmIndexSuggestion());
+                    tvWeatherLifeIndexInfluenza.setText(lifeIndex.getmIndexSuggestion());
                     break;
                 case "洗车指数":
-                    tvWeatherLifeIndexWashCar.setText(weatherLifeIndex.getmIndexSuggestion());
+                    tvWeatherLifeIndexWashCar.setText(lifeIndex.getmIndexSuggestion());
                     break;
                 case "紫外线强度":
-                    tvWeatherLifeIndexUltraviolet.setText(weatherLifeIndex.getmIndexSuggestion());
+                    tvWeatherLifeIndexUltraviolet.setText(lifeIndex.getmIndexSuggestion());
                     break;
             }
         }
@@ -932,7 +930,7 @@ public class MainFragment extends Fragment {
      * @param indexName 生活指数名
      */
     private void weatherLifeIndexClicked(String indexName) {
-        List<WeatherLifeIndex> weatherLifeIndexList;
+        List<LifeIndexEntity> weatherLifeIndexList;
         weatherLifeIndexList = mLifeIndexDao.query(indexName);
         if (!weatherLifeIndexList.isEmpty() && 1 == weatherLifeIndexList.size()) {
             String msg = weatherLifeIndexList.get(0).getmIndexDetail();

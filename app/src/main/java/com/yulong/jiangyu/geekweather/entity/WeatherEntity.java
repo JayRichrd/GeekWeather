@@ -1,8 +1,5 @@
 package com.yulong.jiangyu.geekweather.entity;
 
-import com.yulong.jiangyu.geekweather.bean.WeatherDaysForecast;
-import com.yulong.jiangyu.geekweather.bean.WeatherLifeIndex;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -48,9 +45,9 @@ public class WeatherEntity implements Serializable {
     //警报详情
     private String mAlarmDetail;
     //多天天气预报
-    private List<WeatherDaysForecast> mWeatherDaysForecasts;
+    private List<WeatherForecastDaysEntity> mWeatherDaysForecasts;
     //生活指数
-    private List<WeatherLifeIndex> mWeatherLifeIndies;
+    private List<LifeIndexEntity> mWeatherLifeIndies;
 
     public String getmCity() {
         return mCity;
@@ -172,19 +169,19 @@ public class WeatherEntity implements Serializable {
         this.mAlarmDetail = mAlarmDetail;
     }
 
-    public List<WeatherDaysForecast> getmWeatherDaysForecasts() {
+    public List<WeatherForecastDaysEntity> getmWeatherDaysForecasts() {
         return mWeatherDaysForecasts;
     }
 
-    public void setmWeatherDaysForecasts(List<WeatherDaysForecast> mWeatherDaysForecasts) {
+    public void setmWeatherDaysForecasts(List<WeatherForecastDaysEntity> mWeatherDaysForecasts) {
         this.mWeatherDaysForecasts = mWeatherDaysForecasts;
     }
 
-    public List<WeatherLifeIndex> getmWeatherLifeIndies() {
+    public List<LifeIndexEntity> getmWeatherLifeIndies() {
         return mWeatherLifeIndies;
     }
 
-    public void setmWeatherLifeIndies(List<WeatherLifeIndex> mWeatherLifeIndies) {
+    public void setmWeatherLifeIndies(List<LifeIndexEntity> mWeatherLifeIndies) {
         this.mWeatherLifeIndies = mWeatherLifeIndies;
     }
 }

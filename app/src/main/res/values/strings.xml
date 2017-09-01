@@ -35,17 +35,13 @@
     </string>
 
 
-    <!--显示的时间格式-->
-    <string name="date_ui">M月dd日</string>
 
-    <!--更新时间-->
-    <string name="update_time">%1$s 更新</string>
 
-    <!--湿度-->
-    <string name="humidity">湿度 %1$s</string>
 
-    <!--日历-->
-    <string name="date">%1$s\n%2$s</string>
+
+
+
+
 
     <!--日历格式-->
     <string name="mm_dd">%1$s/%2$s</string>

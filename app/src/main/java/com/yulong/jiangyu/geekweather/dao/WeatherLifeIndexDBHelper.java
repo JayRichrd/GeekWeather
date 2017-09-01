@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.yulong.jiangyu.geekweather.bean.WeatherLifeIndex;
+import com.yulong.jiangyu.geekweather.entity.LifeIndexEntity;
 import com.yulong.jiangyu.geekweather.constant.Constant;
 
 import java.sql.SQLException;
@@ -50,7 +50,7 @@ public class WeatherLifeIndexDBHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
-            TableUtils.createTableIfNotExists(connectionSource, WeatherLifeIndex.class);
+            TableUtils.createTableIfNotExists(connectionSource, LifeIndexEntity.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -73,7 +73,7 @@ public class WeatherLifeIndexDBHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {//先删除，再重新建立
-            TableUtils.dropTable(connectionSource, WeatherLifeIndex.class, true);
+            TableUtils.dropTable(connectionSource, LifeIndexEntity.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();

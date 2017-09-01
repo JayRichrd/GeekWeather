@@ -1,4 +1,4 @@
-package com.yulong.jiangyu.geekweather.bean;
+package com.yulong.jiangyu.geekweather.entity;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -6,15 +6,15 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.io.Serializable;
 
 /**
- * ic_author RichardJay
+ * author RichardJay
  * email jiangfengfn12@163.com
  * created 2017/3/7 13:58
  * version v1.0
  * modified 2017/3/7
- * note 生活指数实例
+ * note 生活指数实体
  **/
 @DatabaseTable(tableName = "weather_life_index")
-public class WeatherLifeIndex implements Serializable {
+public class LifeIndexEntity implements Serializable {
     private static final long serialVersionUID = -6000595252788417505L;
     @DatabaseField(generatedId = true)
     private int id;
@@ -28,7 +28,7 @@ public class WeatherLifeIndex implements Serializable {
     @DatabaseField
     private String mIndexDetail;
 
-    public WeatherLifeIndex() {
+    public LifeIndexEntity() {
     }
 
     public String getmIndexName() {
