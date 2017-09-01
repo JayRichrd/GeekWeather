@@ -1,40 +1,41 @@
-package com.yulong.jiangyu.geekweather.util;
+package com.yulong.jiangyu.geekweather.utils;
 
 import android.util.Xml;
 
 import com.yulong.jiangyu.geekweather.R;
 import com.yulong.jiangyu.geekweather.bean.WeatherDaysForecast;
-import com.yulong.jiangyu.geekweather.bean.WeatherInfo;
 import com.yulong.jiangyu.geekweather.bean.WeatherLifeIndex;
 import com.yulong.jiangyu.geekweather.constant.Constant;
+import com.yulong.jiangyu.geekweather.entity.WeatherEntity;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ic_author RichardJay
+ * author RichardJay
  * email jiangfengfn12@163.com
  * created 2017/3/8 10:17
  * version v1.0
  * modified 2017/3/8
- * note 操作天气数据的工具类
+ * note 工具类
  **/
 
-public class WeatherInfoUtil {
+public class Utils {
     private static final String LOG_TAG = "WeatherInfoUtil";
 
     /**
      * @param inputStream 输入流
      * @return 解析好的天气信息
      */
-    public static WeatherInfo handleWeatherInfo(InputStream inputStream) {
+    public static WeatherEntity handleWeatherInfo(InputStream inputStream) {
         //初始化
-        WeatherInfo weatherInfo = new WeatherInfo();
+        WeatherEntity weatherInfo = new WeatherEntity();
         WeatherDaysForecast weatherDaysForecast = null;
         List<WeatherDaysForecast> weatherDaysForecasts = new ArrayList<>();
         WeatherLifeIndex weatherLifeIndex = null;
@@ -408,6 +409,19 @@ public class WeatherInfoUtil {
             return source.substring(0, 3) + "\n" + source.substring(3);
         else
             return source;
+    }
+
+    /**
+     * 根据时间格式获取系统当前日期
+     *
+     * @param formatStr 时间格式
+     * @return 系统当前日期
+     */
+    public static String getCurrentDate(String formatStr) {
+        String currentDate;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatStr);
+        currentDate = simpleDateFormat.format(System.currentTimeMillis());
+        return currentDate;
     }
 
 //    public static void refreshWeatherData(final Context context, final String weatherRequest, final boolean

@@ -6,21 +6,21 @@
 
     <ImageView
         android:id="@+id/iv_back"
-        style="@style/both_w_and_h_wrap"
+        style="@style/common_both_w_and_h_wrap"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/margin_left"
         android:src="@drawable/ic_action_previous_item"/>
 
     <TextView
         android:id="@+id/tv_title"
-        style="@style/both_w_and_h_wrap"
+        style="@style/common_both_w_and_h_wrap"
         android:layout_centerInParent="true"
         android:text="@string/default_text"
         android:textSize="@dimen/font_size_title"/>
 
     <ImageView
         android:id="@+id/iv_refresh"
-        style="@style/both_w_and_h_wrap"
+        style="@style/common_both_w_and_h_wrap"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/margin_right"
@@ -29,7 +29,7 @@
 
     <ImageView
         android:id="@+id/iv_edit"
-        style="@style/both_w_and_h_wrap"
+        style="@style/common_both_w_and_h_wrap"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/margin_right"
         android:layout_toLeftOf="@id/iv_refresh"
@@ -39,7 +39,7 @@
 
     <ImageView
         android:id="@+id/iv_ok"
-        style="@style/both_w_and_h_wrap"
+        style="@style/common_both_w_and_h_wrap"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/margin_right"
         android:layout_toLeftOf="@id/iv_refresh"

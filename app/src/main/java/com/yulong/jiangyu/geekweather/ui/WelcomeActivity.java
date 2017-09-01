@@ -13,6 +13,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
 import com.yulong.jiangyu.geekweather.R;
+import com.yulong.jiangyu.geekweather.activity.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

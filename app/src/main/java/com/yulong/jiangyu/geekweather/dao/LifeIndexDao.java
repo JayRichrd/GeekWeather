@@ -17,12 +17,12 @@ import com.yulong.jiangyu.geekweather.bean.WeatherLifeIndex;
 import java.sql.SQLException;
 import java.util.List;
 
-public class WeatherLifeIndexDao {
+public class LifeIndexDao {
     WeatherLifeIndexDBHelper helper;
     Dao<WeatherLifeIndex, Integer> mDao;
     private Context mContext;
 
-    public WeatherLifeIndexDao(Context context) {
+    public LifeIndexDao(Context context) {
         this.mContext = context;
         helper = WeatherLifeIndexDBHelper.getInstance(context);
         try {

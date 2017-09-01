@@ -1,6 +1,6 @@
 package com.yulong.jiangyu.geekweather.impl;
 
-import com.yulong.jiangyu.geekweather.bean.DateInfo;
+import com.yulong.jiangyu.geekweather.entity.DateEntity;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -13,5 +13,5 @@ import retrofit2.http.Query;
 
 public interface DateImpl {
     @GET("calendar/day?")
-    Call<DateInfo> getDate(@Query("date") String date, @Query("key") String key);
+    Call<DateEntity> getDate(@Query("date") String date, @Query("key") String key);
 }

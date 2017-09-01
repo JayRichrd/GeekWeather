@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/both_w_and_h_match"
+    style="@style/common_both_w_and_h_match"
     android:background="@android:color/holo_purple"
     android:orientation="vertical">
 
     <include layout="@layout/include_title"/>
 
     <LinearLayout
-        style="@style/w_match_and_h_wrap"
+        style="@style/common_w_match_and_h_wrap"
         android:layout_margin="10dp"
         android:background="@drawable/bg_search_city_edit_text"
         android:orientation="horizontal">
@@ -33,7 +33,7 @@
 
         <ImageView
             android:id="@+id/iv_clear"
-            style="@style/both_w_and_h_wrap"
+            style="@style/common_both_w_and_h_wrap"
             android:layout_gravity="center"
             android:layout_marginRight="5dp"
             android:src="@drawable/ic_clear"
@@ -47,11 +47,11 @@
 
         <LinearLayout
             android:id="@+id/ll_hot_city"
-            style="@style/both_w_and_h_match"
+            style="@style/common_both_w_and_h_match"
             android:orientation="vertical">
 
             <TextView
-                style="@style/both_w_and_h_wrap"
+                style="@style/common_both_w_and_h_wrap"
                 android:layout_marginLeft="19dp"
                 android:text="@string/hot_city_label"
                 android:textSize="18sp"/>
@@ -65,13 +65,13 @@
 
             <GridView
                 android:id="@+id/gv_hot_city"
-                style="@style/both_w_and_h_match"
+                style="@style/common_both_w_and_h_match"
                 android:numColumns="4"/>
         </LinearLayout>
 
         <TextView
             android:id="@+id/tv_no_matched_city"
-            style="@style/both_w_and_h_wrap"
+            style="@style/common_both_w_and_h_wrap"
             android:layout_marginLeft="19dp"
             android:text="@string/no_matched_city"
             android:textSize="16sp"
@@ -79,7 +79,7 @@
 
         <ListView
             android:id="@+id/lv_search_city"
-            style="@style/both_w_and_h_match"
+            style="@style/common_both_w_and_h_match"
             android:layout_marginLeft="19dp"
             android:layout_marginRight="19dp"
             android:dividerHeight="0.5dp"

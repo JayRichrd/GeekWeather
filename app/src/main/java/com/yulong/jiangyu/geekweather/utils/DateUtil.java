@@ -1,4 +1,4 @@
-package com.yulong.jiangyu.geekweather.util;
+package com.yulong.jiangyu.geekweather.utils;
 
 import com.yulong.jiangyu.geekweather.constant.Constant;
 

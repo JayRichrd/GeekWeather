@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-          style="@style/w_match_and_h_wrap"
+          style="@style/common_w_match_and_h_wrap"
           android:gravity="center_vertical"
           android:paddingBottom="16dp"
           android:paddingLeft="9dp"

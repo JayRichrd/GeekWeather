@@ -4,51 +4,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dl_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/common_both_w_and_h_match"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
-    <!-- The main content view -->
+    <!-- 主布局 -->
     <LinearLayout
         android:id="@+id/ll_root_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        style="@style/common_both_w_and_h_match"
         android:background="@drawable/wallpaper"
         android:orientation="vertical">
-        <!--toolbar-->
+
+        <!--toolbar标题栏-->
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
+            style="@style/common_w_match_and_h_wrap"
             android:minHeight="?attr/actionBarSize">
-            <!--城市标题居中-->
-            <!--android:drawableRight="@drawable/ic_down"-->
+            <!--城市标题-->
             <TextView
                 android:id="@+id/tv_city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/common_both_w_and_h_wrap"
                 android:layout_gravity="center"
-                android:text="---city---"
-                android:textColor="@color/font_color_update_title"
-                android:textSize="@dimen/font_size_city"
+                android:text="@string/common_default_txt"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_xx_large"
                 android:textStyle="bold"/>
-
+            <!--添加城市图标-->
             <ImageView
                 android:id="@+id/iv_add_city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/common_both_w_and_h_wrap"
                 android:layout_gravity="right"
-                android:layout_marginRight="12dp"
-                android:src="@drawable/home_48"/>
+                android:layout_marginRight="@dimen/margin_12dp"
+                android:src="@drawable/ic_home"/>
         </android.support.v7.widget.Toolbar>
-        <!--content-->
-        <!--设置ScrollView用来滑动，但注意ScrollView的内部只允许存在一个子布局-->
+
+        <!--下拉刷新ScrollView-->
+        <!--注意ScrollView的内部只允许存在一个子布局-->
         <com.handmark.pulltorefresh.library.PullToRefreshScrollView
             xmlns:ptr="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/ptrs_root"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/ptrsv_root"
+            style="@style/common_both_w_and_h_match"
             android:overScrollMode="never"
             android:scrollbars="vertical"
             ptr:ptrAnimationStyle="rotate"
@@ -56,27 +50,30 @@
             ptr:ptrHeaderTextColor="@color/white_trans90">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                style="@style/common_both_w_and_h_match"
                 android:orientation="vertical">
                 <!--顶部的时间-->
-                <include layout="@layout/include_date_title"/>
+                <include layout="@layout/include_main_fragment_date"/>
                 <!--中间的天气-->
-                <include layout="@layout/include_weather_info"/>
+                <include layout="@layout/include_main_fragment_weather_info"/>
                 <!--多日天气预报-->
-                <include layout="@layout/include_forecast_index"/>
-                <!--建议-->
-                <include layout="@layout/include_suggestion_info"/>
+                <include layout="@layout/include_main_fragment_forecast"/>
+                <!--生活指数-->
+                <include layout="@layout/include_main_fragment_life_index"/>
             </LinearLayout>
+
         </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+
     </LinearLayout>
-    <!-- The navigation drawer -->
+
+    <!-- 抽屉 -->
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
-        android:layout_width="@dimen/drawer_width"
+        android:layout_width="@dimen/width_250dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/include_nav_head"
+        app:headerLayout="@layout/include_main_fragment_nav_head"
         app:menu="@menu/navigation_menu"/>
+
 </android.support.v4.widget.DrawerLayout>

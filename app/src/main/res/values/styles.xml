@@ -24,78 +24,82 @@
         <item name="android:screenOrientation">portrait</item>
     </style>
 
-    <!--date_title-->
+    <!--时间-->
     <style name="date_title">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/font_size_update_title</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/font_size_small</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:text">@string/common_default_txt</item>
     </style>
 
-    <!--weather_info_text-->
+    <!--天气质量-->
     <style name="weather_info_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:drawablePadding">5dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:drawablePadding">@dimen/padding_5dp</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:text">@string/common_default_txt</item>
+        <item name="android:textSize">@dimen/font_size_medium</item>
     </style>
 
-    <!--weather_info_degree-->
+    <!--温度-->
     <style name="weather_info_degree">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
     </style>
 
-    <!--weather_info_forecast_ll-->
-    <style name="weather_info_forecast_ll">
+    <!--多日天气-->
+    <style name="ll_weather_forecast">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
     </style>
 
-    <!--weather_info_forecast_tv_item-->
-    <style name="weather_info_forecast_tv_item">
-        <item name="android:layout_width">0dp</item>
+    <!--多日天气预报文字-->
+    <style name="tv_item_weather_forecast">
+        <item name="android:layout_width">@dimen/width_0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/font_size_medium</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:text">@string/common_default_txt</item>
     </style>
 
-    <!--weather_info_forecast_iv_item-->
-    <style name="weather_info_forecast_iv_item">
-        <item name="android:layout_width">0dp</item>
+    <!--多日天气预报图片-->
+    <style name="iv_item_weather_forecast">
+        <item name="android:layout_width">@dimen/width_0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
+        <item name="android:src">@drawable/ic_weather_no</item>
     </style>
 
-    <!--weather_life_index_table_item-->
-    <style name="weather_life_index_table_item">
-        <item name="android:layout_width">0dp</item>
+    <!--生活指数table项-->
+    <style name="rl_life_index_table_item">
+        <item name="android:layout_width">@dimen/width_0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:paddingTop">16dp</item>
-        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingTop">@dimen/padding_16dp</item>
+        <item name="android:paddingBottom">@dimen/padding_16dp</item>
     </style>
 
-    <!--weather_life_index_table_item_tv_title-->
-    <style name="weather_life_index_table_item_tv">
+    <!--生活指数table项文字-->
+    <style name="tv_life_index_table_item">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:gravity">right</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/white</item>
     </style>
-    <!--weather_life_index_table_item_iv-->
-    <style name="weather_life_index_table_item_iv">
+    <!--生活指数table项图片-->
+    <style name="iv_life_index_table_item">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingTop">@dimen/padding_16dp</item>
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:layout_centerVertical">true</item>
     </style>
@@ -107,12 +111,12 @@
         <item name="android:background">@color/white_trans20</item>
     </style>
 
-    <!--indicate_text-->
+    <!--提示文字-->
     <style name="indicate_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/font_size_x_large</item>
     </style>
 
     <style name="wea_forecast_title">
@@ -183,29 +187,40 @@
     </style>
 
     <!--通用style-->
-    <style name="both_w_and_h_wrap">
+    <style name="common_both_w_and_h_wrap">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="both_w_and_h_match">
+    <style name="common_both_w_and_h_match">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="w_match_and_h_wrap">
+    <style name="common_w_match_and_h_wrap">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="w_wrap_and_h_match">
+    <style name="common_w_wrap_and_h_match">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
     </style>
 
+    <!--水平分隔线-->
     <style name="divider_line_horizontal">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">0.5dp</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/white_trans20</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <!--垂直分隔线-->
+    <style name="divider_line_vertical">
+        <item name="android:layout_width">0.5dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/white_trans20</item>
+        <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
 </resources>

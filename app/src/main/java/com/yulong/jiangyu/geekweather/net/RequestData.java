@@ -1,4 +1,4 @@
-package com.yulong.jiangyu.geekweather.util;
+package com.yulong.jiangyu.geekweather.net;
 
 
 import android.content.Context;
@@ -7,10 +7,11 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.yulong.jiangyu.geekweather.R;
-import com.yulong.jiangyu.geekweather.bean.DateInfo;
 import com.yulong.jiangyu.geekweather.constant.Constant;
+import com.yulong.jiangyu.geekweather.entity.DateEntity;
 import com.yulong.jiangyu.geekweather.impl.DateImpl;
 import com.yulong.jiangyu.geekweather.listener.HttpCallbackListener;
+import com.yulong.jiangyu.geekweather.utils.LogUtil;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -22,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
- * ic_author RichardJay
+ * author RichardJay
  * email jiangfengfn12@163.com
  * created 2017/3/7 16:07
  * version v1.0
@@ -30,9 +31,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * note 网络请求工具类
  **/
 
-public class WebUtil {
+public class RequestData {
     //日志TAG
-    private static final String LOG_TAG = "WebUtil";
+    private static final String TAG = "RequestData";
 
     private static OkHttpClient mOkHttpClient;
     private static DateImpl mDateImpl;
@@ -100,19 +101,19 @@ public class WebUtil {
 //        } catch (ParseException e) {
 //            e.printStackTrace();
 //        }
-        mDateImpl.getDate(dateStr, Constant.dateKey).enqueue(new Callback<DateInfo>() {
+        mDateImpl.getDate(dateStr, Constant.dateKey).enqueue(new Callback<DateEntity>() {
             @Override
-            public void onResponse(Call<DateInfo> call, retrofit2.Response<DateInfo> response) {
-                DateInfo dateInfo = response.body();
+            public void onResponse(Call<DateEntity> call, retrofit2.Response<DateEntity> response) {
+                DateEntity dateInfo = response.body();
                 if (Constant.errorCode == dateInfo.getError_code()) {//检查返回的结果
                     httpCallbackListener.onFinished(dateInfo);
                 }
             }
 
             @Override
-            public void onFailure(Call<DateInfo> call, Throwable t) {
+            public void onFailure(Call<DateEntity> call, Throwable t) {
                 httpCallbackListener.onError(t);
-                LogUtil.e(LOG_TAG, "获取日历数据失败！");
+                LogUtil.e(TAG, "获取日历数据失败！");
             }
         });
     }

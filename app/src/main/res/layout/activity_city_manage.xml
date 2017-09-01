@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/both_w_and_h_match"
+    style="@style/common_both_w_and_h_match"
     android:background="@android:color/holo_green_dark"
     android:orientation="vertical">
     <!--标题栏-->
@@ -9,7 +9,7 @@
     <!--城市列表-->
     <GridView
         android:id="@+id/gv_city_manage"
-        style="@style/both_w_and_h_match"
+        style="@style/common_both_w_and_h_match"
         android:layout_margin="10dp"
         android:background="@android:color/holo_orange_dark"
         android:listSelector="@android:color/transparent"

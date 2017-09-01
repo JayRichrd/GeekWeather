@@ -1,18 +1,21 @@
-package com.yulong.jiangyu.geekweather.bean;
+package com.yulong.jiangyu.geekweather.entity;
+
+import com.yulong.jiangyu.geekweather.bean.WeatherDaysForecast;
+import com.yulong.jiangyu.geekweather.bean.WeatherLifeIndex;
 
 import java.io.Serializable;
 import java.util.List;
 
 /**
- * ic_author RichardJay
+ * author RichardJay
  * email jiangfengfn12@163.com
  * created 2017/3/7 13:37
  * version v1.0
  * modified 2017/3/7
- * note 天气实例
+ * note 天气实体
  **/
 
-public class WeatherInfo implements Serializable {
+public class WeatherEntity implements Serializable {
     private static final long serialVersionUID = -1817778761471469646L;
     //城市
     private String mCity;

@@ -1,4 +1,4 @@
-package com.yulong.jiangyu.geekweather.bean;
+package com.yulong.jiangyu.geekweather.entity;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by jiangyu on 2017/1/26.
  */
 
-public class DateInfo implements Serializable {
+public class DateEntity implements Serializable {
     private static final long serialVersionUID = -642688239048492271L;
     /**
      * reason : Success

@@ -3,6 +3,7 @@ package com.yulong.jiangyu.geekweather.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,17 +43,17 @@ import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.yulong.jiangyu.chartview.ChartView;
 import com.yulong.jiangyu.geekweather.R;
 import com.yulong.jiangyu.geekweather.bean.CityManage;
-import com.yulong.jiangyu.geekweather.bean.DateInfo;
 import com.yulong.jiangyu.geekweather.bean.WeatherDaysForecast;
-import com.yulong.jiangyu.geekweather.bean.WeatherInfo;
 import com.yulong.jiangyu.geekweather.bean.WeatherLifeIndex;
 import com.yulong.jiangyu.geekweather.constant.Constant;
-import com.yulong.jiangyu.geekweather.dao.WeatherLifeIndexDao;
+import com.yulong.jiangyu.geekweather.dao.LifeIndexDao;
+import com.yulong.jiangyu.geekweather.entity.DateEntity;
+import com.yulong.jiangyu.geekweather.entity.WeatherEntity;
 import com.yulong.jiangyu.geekweather.listener.HttpCallbackListener;
-import com.yulong.jiangyu.geekweather.util.DateUtil;
-import com.yulong.jiangyu.geekweather.util.LogUtil;
-import com.yulong.jiangyu.geekweather.util.WeatherInfoUtil;
-import com.yulong.jiangyu.geekweather.util.WebUtil;
+import com.yulong.jiangyu.geekweather.net.RequestData;
+import com.yulong.jiangyu.geekweather.utils.DateUtil;
+import com.yulong.jiangyu.geekweather.utils.LogUtil;
+import com.yulong.jiangyu.geekweather.utils.Utils;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -64,27 +65,24 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-import static android.content.ContentValues.TAG;
-
 
 public class MainFragment extends Fragment {
     //日志TAG
-    private static final String LOG_TAG = "MainFragment";
+    private static final String TAG = "MainFragment";
 
-    private static final int MAIN_FRAGMENT_REQUEST_CODE = 1;
     //toolbar
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
+    //主布局
     @BindView(R.id.ll_root_content)
     LinearLayout llRootContent;
-
-    @BindView(R.id.ptrs_root)
-    PullToRefreshScrollView ptrsRoot;
+    //下拉刷新
+    @BindView(R.id.ptrsv_root)
+    PullToRefreshScrollView ptrsvRoot;
     //抽屉控件
     @BindView(R.id.nav_view)
     NavigationView navView;
-
+    //抽屉布局
     @BindView(R.id.dl_main)
     DrawerLayout dlMain;
     //城市
@@ -103,43 +101,43 @@ public class MainFragment extends Fragment {
     @BindView(R.id.tv_aqi)
     TextView tvAqi;
     //温度
+    @BindView(R.id.iv_symbol)
+    ImageView ivSymbol;
     @BindView(R.id.iv_number1)
     ImageView ivNumber1;
     @BindView(R.id.iv_number2)
     ImageView ivNumber2;
-    @BindView(R.id.iv_number3)
-    ImageView ivNumber3;
     //天气类型
     @BindView(R.id.tv_weather_type)
     TextView tvWeatherType;
     //日历
     @BindView(R.id.tv_date)
     TextView tvDate;
-    //星期几
-    @BindView(R.id.tv_forecast_week1)
+    //星期
+    @BindView(R.id.tv_weather_forecast_week1)
     TextView tvForecastWeek1;
-    @BindView(R.id.tv_forecast_week2)
+    @BindView(R.id.tv_weather_forecast_week2)
     TextView tvForecastWeek2;
-    @BindView(R.id.tv_forecast_week3)
+    @BindView(R.id.tv_weather_forecast_week3)
     TextView tvForecastWeek3;
-    @BindView(R.id.tv_forecast_week4)
+    @BindView(R.id.tv_weather_forecast_week4)
     TextView tvForecastWeek4;
-    @BindView(R.id.tv_forecast_week5)
+    @BindView(R.id.tv_weather_forecast_week5)
     TextView tvForecastWeek5;
-    @BindView(R.id.tv_forecast_week6)
+    @BindView(R.id.tv_weather_forecast_week6)
     TextView tvForecastWeek6;
     //日历
-    @BindView(R.id.tv_forecast_date1)
+    @BindView(R.id.tv_weather_forecast_date1)
     TextView tvForecastDate1;
-    @BindView(R.id.tv_forecast_date2)
+    @BindView(R.id.tv_weather_forecast_date2)
     TextView tvForecastDate2;
-    @BindView(R.id.tv_forecast_date3)
+    @BindView(R.id.tv_weather_forecast_date3)
     TextView tvForecastDate3;
-    @BindView(R.id.tv_forecast_date4)
+    @BindView(R.id.tv_weather_forecast_date4)
     TextView tvForecastDate4;
-    @BindView(R.id.tv_forecast_date5)
+    @BindView(R.id.tv_weather_forecast_date5)
     TextView tvForecastDate5;
-    @BindView(R.id.tv_forecast_date6)
+    @BindView(R.id.tv_weather_forecast_date6)
     TextView tvForecastDate6;
     //白天天气图片
     @BindView(R.id.iv_weather_forecast_day1)
@@ -167,7 +165,7 @@ public class MainFragment extends Fragment {
     TextView tvWeatherForecastTypeDay5;
     @BindView(R.id.tv_weather_forecast_type_day6)
     TextView tvWeatherForecastTypeDay6;
-    //折线图
+    //温度折线图
     @BindView(R.id.line_chart)
     ChartView lineChart;
     //晚上天气图片
@@ -238,23 +236,23 @@ public class MainFragment extends Fragment {
     //    @BindView(R.id.iv_add_city)
 //    ImageView ivAddCity;
     // 生活指数数据库操作
-    WeatherLifeIndexDao mWeatherLifeIndexDao;
+    private LifeIndexDao mLifeIndexDao;
     // 天气信息对象
-    WeatherInfo mWeatherInfo;
+    private WeatherEntity mWeatherEntity;
 
     private Unbinder mUnbinder;
     private ActionBarDrawerToggle mActionBarDrawerToggle = null;
     //百度定位服务
     private LocationClient mLocationClient = null;
-    private MyLocationListener myLocationListener = null;
+    private BaiDuLocationListener mBaiDuLocationListener = null;
     //定位提示框
     private ProgressDialog mProgressDialog = null;
     //当前城市
     private String mCity = "北京";
     //抽屉Drawer全部被拉出时的宽度
-    private int mDrawerWidth = 0;
+    private int drawerWidth = 0;
     //抽屉被拉出部分的宽度
-    private float mScrollWidth = 0f;
+    private float scrollWidth = 0f;
     //更新UI的Handler
     private Handler mHandler = new Handler() {
         /**
@@ -267,14 +265,18 @@ public class MainFragment extends Fragment {
             super.handleMessage(msg);
             switch (msg.what) {
                 case Constant.UPDATE_WEATHER_UI://更新天气
-                    WeatherInfo weatherInfo = (WeatherInfo) msg.getData().getSerializable(Constant.WEATHER_INFO);
-                    if (ptrsRoot.isRefreshing())
+                    WeatherEntity weatherInfo = (WeatherEntity) msg.getData().getSerializable(Constant.WEATHER_INFO);
+                    // 先停止刷新
+                    if (ptrsvRoot.isRefreshing())
                         stopRefresh();
-                    Toast.makeText(getActivity(), "更新数据完毕", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.main_fragment_toast_update_finished), Toast
+                            .LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "更新数据完毕", Toast.LENGTH_SHORT).show();
+                    // 再刷新天气
                     updateWeatherUI(weatherInfo);
                     break;
                 case Constant.UPDATE_DATE_UI://更新日历
-                    DateInfo dateInfo = (DateInfo) msg.getData().getSerializable(Constant.DATE_INFO);
+                    DateEntity dateInfo = (DateEntity) msg.getData().getSerializable(Constant.DATE_INFO);
                     updateDateUI(dateInfo);
                     break;
             }
@@ -294,9 +296,8 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-//        View view = inflater.inflate()
         mUnbinder = ButterKnife.bind(this, view);
-        mWeatherLifeIndexDao = new WeatherLifeIndexDao(getActivity());
+        mLifeIndexDao = new LifeIndexDao(getActivity());
         //初始化控件
         initView();
         //开始位置服务
@@ -323,56 +324,61 @@ public class MainFragment extends Fragment {
         toolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         //设置DrawerLayout的滑入滑出
-        mActionBarDrawerToggle = new ActionBarDrawerToggle(getActivity(), dlMain, toolbar, R.string.drawer_open, R
-                .string.drawer_close) {
+        mActionBarDrawerToggle = new ActionBarDrawerToggle(getActivity(), dlMain, toolbar, R.string
+                .main_fragment_dl_drawer_open, R.string.main_fragment_dl_drawer_close) {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
-                mDrawerWidth = navView.getMeasuredWidth();
-                mScrollWidth = mDrawerWidth * slideOffset;
+                drawerWidth = navView.getMeasuredWidth();
+                scrollWidth = drawerWidth * slideOffset;
                 //TODO 背景没有随着被挤压！
                 //根据Drawer抽屉被拉出的宽度伸缩主布局内容
-                llRootContent.setScrollX((int) (-1 * mScrollWidth));
+                llRootContent.setScrollX((int) (-1 * scrollWidth));
             }
         };
         mActionBarDrawerToggle.syncState();
         dlMain.addDrawerListener(mActionBarDrawerToggle);
         //设置菜单menu项点击事件
-        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.app_info:
-                        showDialog(getString(R.string.info_title), getString(R.string.app_info));
-                        break;
-                    case R.id.app_version:
-                        Context context = getActivity().getApplicationContext();
-                        try {
-                            //获取应用的版本号
-                            String version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0)
-                                    .versionName;
-                            showDialog(getString(R.string.version_title), getString(R.string.app_version) + version);
+        navView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.item_about:
+                                showDialog(getString(R.string.main_fragment_drawer_about_title), getString(R.string
+                                        .main_fragment_drawer_app_info));
+                                break;
+                            case R.id.item_version:
+                                Context context = getActivity().getApplicationContext();
+                                try {
+                                    //获取应用的版本号
+                                    String version = context.getPackageManager().getPackageInfo(context
+                                            .getPackageName(), 0)
+                                            .versionName;
+                                    showDialog(getString(R.string.main_fragment_drawer_version_title),
+                                            getString(R.string.main_fragment_drawer_version_app_version_prefix) +
+                                                    version);
 
-                        } catch (PackageManager.NameNotFoundException e) {
-                            Log.e(TAG, "***onNavigationItemSelected***:failed to get application version!");
-                            e.printStackTrace();
+                                } catch (PackageManager.NameNotFoundException e) {
+                                    Log.e(ContentValues.TAG, "failed to get application version!");
+                                    e.printStackTrace();
+                                }
+                                break;
+                            default:
                         }
-                        break;
-                    default:
-                }
-                return true;
-            }
+                        return true;
+                    }
 
-            /**
-             * 根据id返回字符串内容
-             *
-             * @param resourceID id
-             * @return 字符串内容
-             */
-            private String getString(int resourceID) {
-                return getResources().getString(resourceID);
-            }
-        });
+                    /**
+                     * 根据id返回字符串内容
+                     *
+                     * @param resourceID 资源id
+                     * @return 字符串内容
+                     */
+                    private String getString(int resourceID) {
+                        return getResources().getString(resourceID);
+                    }
+                });
 
         //lineChart.setTemperatureDay(new int[]{14, 15, 16, 17, 9, 9});
         //lineChart.setTemperatureNight(new int[]{7, 5, 9, 10, 3, 2});
@@ -380,22 +386,23 @@ public class MainFragment extends Fragment {
 
         //初始化定位进度对话框
         mProgressDialog = new ProgressDialog(getActivity());
-        mProgressDialog.setMessage(getString(R.string.location_tip));
+        mProgressDialog.setMessage(getString(R.string.main_fragment_progress_dlg_locating));
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         //是否可以使用返回键取消
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
         // 设置下拉刷新控件
-        ptrsRoot.getLoadingLayoutProxy().setPullLabel(getString(R.string.pull_to_refresh));
-        ptrsRoot.getLoadingLayoutProxy().setRefreshingLabel(getString(R.string.refreshing));
-        ptrsRoot.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
+        ptrsvRoot.getLoadingLayoutProxy().setPullLabel(getString(R.string.main_fragment_ptrsv_pull_to_refresh));
+        ptrsvRoot.getLoadingLayoutProxy().setRefreshingLabel(getString(R.string.main_fragment_ptrsv_refreshing));
+        ptrsvRoot.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                //更新数据
                 refreshData();
             }
         });
-        ptrsRoot.getLoadingLayoutProxy().setReleaseLabel(getString(R.string.leave_to_refresh));
+        ptrsvRoot.getLoadingLayoutProxy().setReleaseLabel(getString(R.string.main_fragment_ptrsv_loosen_to_refresh));
     }
 
     /**
@@ -403,9 +410,9 @@ public class MainFragment extends Fragment {
      */
     private void stopRefresh() {
         // 结束刷新
-        ptrsRoot.onRefreshComplete();
+        ptrsvRoot.onRefreshComplete();
         // 结束动画
-        ptrsRoot.clearAnimation();
+        ptrsvRoot.clearAnimation();
     }
 
     /**
@@ -413,6 +420,7 @@ public class MainFragment extends Fragment {
      */
     private void startLocation() {
         LocationClientOption locationClientOption = new LocationClientOption();
+        //设置位置服务参数
         locationClientOption.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//设置定位模式
         locationClientOption.setCoorType("bd0911");//设置返回的坐标值类型，这里是返回百度坐标
         locationClientOption.setScanSpan(3 * 1000);//设置扫描时间间隔3秒
@@ -423,14 +431,16 @@ public class MainFragment extends Fragment {
         locationClientOption.setIgnoreKillProcess(false);
         locationClientOption.SetIgnoreCacheException(false);
         locationClientOption.setEnableSimulateGps(false);
-        if (mLocationClient == null)
+        if (mLocationClient == null) {
             mLocationClient = new LocationClient(getActivity().getApplicationContext());
+        }
         mLocationClient.setLocOption(locationClientOption);
-        if (myLocationListener == null)
-            myLocationListener = new MyLocationListener();
-        mLocationClient.registerLocationListener(myLocationListener);
+        if (mBaiDuLocationListener == null) {
+            mBaiDuLocationListener = new BaiDuLocationListener();
+        }
+        mLocationClient.registerLocationListener(mBaiDuLocationListener);
         mLocationClient.start();
-        LogUtil.i(LOG_TAG, getString(R.string.start_location));
+        Log.i(TAG, getString(R.string.main_fragment_log_start_locate));
     }
 
     /**
@@ -456,20 +466,19 @@ public class MainFragment extends Fragment {
      * 刷新获取天气数据
      */
     private void refreshData() {
-        Toast.makeText(getActivity(), "正在更新……", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), getString(R.string.main_fragment_toast_update_start), Toast.LENGTH_SHORT).show();
         // 请求天气数据
-        WebUtil.requestWeatherData(getActivity(), mCity, false, new HttpCallbackListener() {
+        RequestData.requestWeatherData(getActivity(), mCity, false, new HttpCallbackListener() {
             @Override
             public void onFinished(Object response) {
                 String weatherInfoStr = (String) response;
-                // 解析处理获取的天气数据
-                mWeatherInfo = WeatherInfoUtil.handleWeatherInfo(new ByteArrayInputStream
-                        (weatherInfoStr.getBytes()));
+                // 解析天气数据
+                mWeatherEntity = Utils.handleWeatherInfo(new ByteArrayInputStream(weatherInfoStr.getBytes()));
                 // 将生活指数数据存库
-                mWeatherLifeIndexDao.insert(mWeatherInfo.getmWeatherLifeIndies());
+                mLifeIndexDao.insert(mWeatherEntity.getmWeatherLifeIndies());
                 //发送Handler消息来更新UI界面
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(Constant.WEATHER_INFO, mWeatherInfo);
+                bundle.putSerializable(Constant.WEATHER_INFO, mWeatherEntity);
                 Message msg = new Message();
                 msg.setData(bundle);
                 msg.what = Constant.UPDATE_WEATHER_UI;
@@ -479,18 +488,17 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onError(Throwable t) {
-
             }
         });
 
         //请求日历数据
-        String dateStr = DateUtil.getCurrentDate(getString(R.string.date_request));
-        WebUtil.requestDateData(dateStr, new HttpCallbackListener() {
+        String dateStr = Utils.getCurrentDate(getString(R.string.format_request_date));
+        RequestData.requestDateData(dateStr, new HttpCallbackListener() {
             @Override
             public void onFinished(Object response) {
                 //发送Handler消息来更新UI界面
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(Constant.DATE_INFO, (DateInfo) response);
+                bundle.putSerializable(Constant.DATE_INFO, (DateEntity) response);
                 Message msg = new Message();
                 msg.setData(bundle);
                 msg.what = Constant.UPDATE_DATE_UI;
@@ -499,8 +507,8 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onError(Throwable t) {
-                //LogUtil.e(LOG_TAG, getString(R.string.error_get_data));
-                LogUtil.e(LOG_TAG, t.getMessage());
+                //LogUtil.e(TAG, getString(R.string.error_get_data));
+                LogUtil.e(TAG, t.getMessage());
             }
         });
     }
@@ -510,7 +518,7 @@ public class MainFragment extends Fragment {
      *
      * @param dateInfo 日期信息
      */
-    private void updateDateUI(DateInfo dateInfo) {
+    private void updateDateUI(DateEntity dateInfo) {
         String dateStr = DateUtil.getCurrentDate(getString(R.string.date_ui));
         String lunarStr = dateInfo.getResult().getData().getLunar();
         tvDate.setText(String.format(getString(R.string.date), dateStr, lunarStr));
@@ -521,11 +529,12 @@ public class MainFragment extends Fragment {
      *
      * @param weatherInfo 天气信息数据
      */
-    private void updateWeatherUI(WeatherInfo weatherInfo) {
+    private void updateWeatherUI(WeatherEntity weatherInfo) {
         // 设置城市
         tvCity.setText(weatherInfo.getmCity());
         // 更新头部时间
-        tvUpdateTime.setText(String.format(getString(R.string.update_time), weatherInfo.getmUpdateTime()));
+        tvUpdateTime.setText(
+                String.format(getString(R.string.update_time), weatherInfo.getmUpdateTime()));
 
         List<WeatherDaysForecast> weatherDaysForecasts = weatherInfo.getmWeatherDaysForecasts();
         //昨天
@@ -546,8 +555,9 @@ public class MainFragment extends Fragment {
         tvHumidity.setText(String.format(getString(R.string.humidity), weatherInfo.getmHumidity()));
         setAqi(weatherInfo);
         //更新未来几天天气
-        if (6 == weatherDaysForecasts.size())
+        if (6 == weatherDaysForecasts.size()) {
             setDaysForecast(weatherDaysForecasts, calendar, hour);
+        }
         // 更新生活指数信息
         setWeatherLifeIndex(weatherInfo.getmWeatherLifeIndies());
     }
@@ -558,7 +568,8 @@ public class MainFragment extends Fragment {
      * @param weatherDaysForecasts 多日天气数据
      * @param calendar             当前日历
      */
-    private void setDaysForecast(List<WeatherDaysForecast> weatherDaysForecasts, Calendar calendar, int hour) {
+    private void setDaysForecast(List<WeatherDaysForecast> weatherDaysForecasts, Calendar calendar,
+                                 int hour) {
         //星期几
         List<String> weeks = new ArrayList<>();
         //日
@@ -599,11 +610,14 @@ public class MainFragment extends Fragment {
         List<String> months = new ArrayList<>();
         for (int i = 1; i <= 6; i++) {
             if (1 == i)
-                //将当前日期往前推1天，以便计算昨天的日期
+            //将当前日期往前推1天，以便计算昨天的日期
+            {
                 calendar.add(Calendar.DATE, -1);
-            else
-                //将当前日期往后推1天
+            } else
+            //将当前日期往后推1天
+            {
                 calendar.add(Calendar.DATE, 1);
+            }
             /**
              * 这里需要注意：用Calendar返回的月是以0位起始，即：
              * 0-一月
@@ -616,20 +630,32 @@ public class MainFragment extends Fragment {
         }
         //设置日历
         if (!months.isEmpty()) {
-            tvForecastDate1.setText(String.format(getString(R.string.mm_dd), months.get(0), days.get(0)));
-            tvForecastDate2.setText(String.format(getString(R.string.mm_dd), months.get(1), days.get(1)));
-            tvForecastDate3.setText(String.format(getString(R.string.mm_dd), months.get(2), days.get(2)));
-            tvForecastDate4.setText(String.format(getString(R.string.mm_dd), months.get(3), days.get(3)));
-            tvForecastDate5.setText(String.format(getString(R.string.mm_dd), months.get(4), days.get(4)));
-            tvForecastDate6.setText(String.format(getString(R.string.mm_dd), months.get(5), days.get(5)));
+            tvForecastDate1.setText(
+                    String.format(getString(R.string.mm_dd), months.get(0), days.get(0)));
+            tvForecastDate2.setText(
+                    String.format(getString(R.string.mm_dd), months.get(1), days.get(1)));
+            tvForecastDate3.setText(
+                    String.format(getString(R.string.mm_dd), months.get(2), days.get(2)));
+            tvForecastDate4.setText(
+                    String.format(getString(R.string.mm_dd), months.get(3), days.get(3)));
+            tvForecastDate5.setText(
+                    String.format(getString(R.string.mm_dd), months.get(4), days.get(4)));
+            tvForecastDate6.setText(
+                    String.format(getString(R.string.mm_dd), months.get(5), days.get(5)));
         }
         //设置白天天气图片
-        ivWeatherForecastDay1.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherDayTypes.get(0), true));
-        ivWeatherForecastDay2.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherDayTypes.get(1), true));
-        ivWeatherForecastDay3.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherDayTypes.get(2), true));
-        ivWeatherForecastDay4.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherDayTypes.get(3), true));
-        ivWeatherForecastDay5.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherDayTypes.get(4), true));
-        ivWeatherForecastDay6.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherDayTypes.get(5), true));
+        ivWeatherForecastDay1.setImageResource(
+                Utils.getWeatherImageId(weatherDayTypes.get(0), true));
+        ivWeatherForecastDay2.setImageResource(
+                Utils.getWeatherImageId(weatherDayTypes.get(1), true));
+        ivWeatherForecastDay3.setImageResource(
+                Utils.getWeatherImageId(weatherDayTypes.get(2), true));
+        ivWeatherForecastDay4.setImageResource(
+                Utils.getWeatherImageId(weatherDayTypes.get(3), true));
+        ivWeatherForecastDay5.setImageResource(
+                Utils.getWeatherImageId(weatherDayTypes.get(4), true));
+        ivWeatherForecastDay6.setImageResource(
+                Utils.getWeatherImageId(weatherDayTypes.get(5), true));
         //设置白天天气类型
         tvWeatherForecastTypeDay1.setText(weatherDayTypes.get(0));
         tvWeatherForecastTypeDay2.setText(weatherDayTypes.get(1));
@@ -644,8 +670,8 @@ public class MainFragment extends Fragment {
         //晚上温度集合
         int[] nightTemperatures = new int[size];
         for (int j = 0; j < size; j++) {
-            dayTemperatures[j] = WeatherInfoUtil.parseTemperature(weatherHighTemps.get(j));
-            nightTemperatures[j] = WeatherInfoUtil.parseTemperature(weatherLowTemps.get(j));
+            dayTemperatures[j] = Utils.parseTemperature(weatherHighTemps.get(j));
+            nightTemperatures[j] = Utils.parseTemperature(weatherLowTemps.get(j));
         }
         lineChart.setTemperatureDay(dayTemperatures);
         lineChart.setTemperatureNight(nightTemperatures);
@@ -658,20 +684,32 @@ public class MainFragment extends Fragment {
         tvWeatherForecastTypeNight5.setText(weatherNightTypes.get(4));
         tvWeatherForecastTypeNight6.setText(weatherNightTypes.get(5));
         //设置晚上天气图片
-        ivWeatherForecastNight1.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherNightTypes.get(0), false));
-        ivWeatherForecastNight2.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherNightTypes.get(1), false));
-        ivWeatherForecastNight3.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherNightTypes.get(2), false));
-        ivWeatherForecastNight4.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherNightTypes.get(3), false));
-        ivWeatherForecastNight5.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherNightTypes.get(4), false));
-        ivWeatherForecastNight6.setImageResource(WeatherInfoUtil.getWeatherImageId(weatherNightTypes.get(5), false));
+        ivWeatherForecastNight1.setImageResource(
+                Utils.getWeatherImageId(weatherNightTypes.get(0), false));
+        ivWeatherForecastNight2.setImageResource(
+                Utils.getWeatherImageId(weatherNightTypes.get(1), false));
+        ivWeatherForecastNight3.setImageResource(
+                Utils.getWeatherImageId(weatherNightTypes.get(2), false));
+        ivWeatherForecastNight4.setImageResource(
+                Utils.getWeatherImageId(weatherNightTypes.get(3), false));
+        ivWeatherForecastNight5.setImageResource(
+                Utils.getWeatherImageId(weatherNightTypes.get(4), false));
+        ivWeatherForecastNight6.setImageResource(
+                Utils.getWeatherImageId(weatherNightTypes.get(5), false));
         //设置风向、风力
         if (hour < 18) {//白天
-            tvWeatherForecastWindDirection1.setText(weatherDaysForecasts.get(0).getmWindDirectionDay());
-            tvWeatherForecastWindDirection2.setText(weatherDaysForecasts.get(1).getmWindDirectionDay());
-            tvWeatherForecastWindDirection3.setText(weatherDaysForecasts.get(2).getmWindDirectionDay());
-            tvWeatherForecastWindDirection4.setText(weatherDaysForecasts.get(3).getmWindDirectionDay());
-            tvWeatherForecastWindDirection5.setText(weatherDaysForecasts.get(4).getmWindDirectionDay());
-            tvWeatherForecastWindDirection6.setText(weatherDaysForecasts.get(5).getmWindDirectionDay());
+            tvWeatherForecastWindDirection1.setText(
+                    weatherDaysForecasts.get(0).getmWindDirectionDay());
+            tvWeatherForecastWindDirection2.setText(
+                    weatherDaysForecasts.get(1).getmWindDirectionDay());
+            tvWeatherForecastWindDirection3.setText(
+                    weatherDaysForecasts.get(2).getmWindDirectionDay());
+            tvWeatherForecastWindDirection4.setText(
+                    weatherDaysForecasts.get(3).getmWindDirectionDay());
+            tvWeatherForecastWindDirection5.setText(
+                    weatherDaysForecasts.get(4).getmWindDirectionDay());
+            tvWeatherForecastWindDirection6.setText(
+                    weatherDaysForecasts.get(5).getmWindDirectionDay());
 
             tvWeatherForecastWindPower1.setText(weatherDaysForecasts.get(0).getmWindPowerDay());
             tvWeatherForecastWindPower2.setText(weatherDaysForecasts.get(1).getmWindPowerDay());
@@ -680,12 +718,18 @@ public class MainFragment extends Fragment {
             tvWeatherForecastWindPower5.setText(weatherDaysForecasts.get(4).getmWindPowerDay());
             tvWeatherForecastWindPower6.setText(weatherDaysForecasts.get(5).getmWindPowerDay());
         } else {//晚上
-            tvWeatherForecastWindDirection1.setText(weatherDaysForecasts.get(0).getmWindDirectionNight());
-            tvWeatherForecastWindDirection2.setText(weatherDaysForecasts.get(1).getmWindDirectionNight());
-            tvWeatherForecastWindDirection3.setText(weatherDaysForecasts.get(2).getmWindDirectionNight());
-            tvWeatherForecastWindDirection4.setText(weatherDaysForecasts.get(3).getmWindDirectionNight());
-            tvWeatherForecastWindDirection5.setText(weatherDaysForecasts.get(4).getmWindDirectionNight());
-            tvWeatherForecastWindDirection6.setText(weatherDaysForecasts.get(5).getmWindDirectionNight());
+            tvWeatherForecastWindDirection1.setText(
+                    weatherDaysForecasts.get(0).getmWindDirectionNight());
+            tvWeatherForecastWindDirection2.setText(
+                    weatherDaysForecasts.get(1).getmWindDirectionNight());
+            tvWeatherForecastWindDirection3.setText(
+                    weatherDaysForecasts.get(2).getmWindDirectionNight());
+            tvWeatherForecastWindDirection4.setText(
+                    weatherDaysForecasts.get(3).getmWindDirectionNight());
+            tvWeatherForecastWindDirection5.setText(
+                    weatherDaysForecasts.get(4).getmWindDirectionNight());
+            tvWeatherForecastWindDirection6.setText(
+                    weatherDaysForecasts.get(5).getmWindDirectionNight());
 
             tvWeatherForecastWindPower1.setText(weatherDaysForecasts.get(0).getmWindPowerNight());
             tvWeatherForecastWindPower2.setText(weatherDaysForecasts.get(1).getmWindPowerNight());
@@ -704,9 +748,12 @@ public class MainFragment extends Fragment {
      */
     private void setWeatherType(int hour, WeatherDaysForecast weatherDaysForecast) {
         if (hour < 18) //白天
+        {
             tvWeatherType.setText(weatherDaysForecast.getmTypeDay());
-        else //晚上
+        } else //晚上
+        {
             tvWeatherType.setText(weatherDaysForecast.getmTypeNight());
+        }
     }
 
     /**
@@ -714,32 +761,32 @@ public class MainFragment extends Fragment {
      *
      * @param weatherInfo 天气信息
      */
-    private void setTemperature(WeatherInfo weatherInfo) {
+    private void setTemperature(WeatherEntity weatherInfo) {
         String temperature = weatherInfo.getmTemperature();
         if (temperature != null) {
             if (temperature.contains("-")) {//负数
-                ivNumber1.setVisibility(View.VISIBLE);
-                ivNumber1.setImageResource(R.drawable.ic_minus);
+                ivSymbol.setVisibility(View.VISIBLE);
+                ivSymbol.setImageResource(R.drawable.ic_minus);
                 if (1 == (temperature.length() - 1)) {//1位
-                    setTemperatureImage(Integer.parseInt(temperature.substring(1, 2)), ivNumber3);
-                } else {//2位
-                    ivNumber2.setVisibility(View.VISIBLE);
                     setTemperatureImage(Integer.parseInt(temperature.substring(1, 2)), ivNumber2);
-                    setTemperatureImage(Integer.parseInt(temperature.substring(2, 3)), ivNumber3);
+                } else {//2位
+                    ivNumber1.setVisibility(View.VISIBLE);
+                    setTemperatureImage(Integer.parseInt(temperature.substring(1, 2)), ivNumber1);
+                    setTemperatureImage(Integer.parseInt(temperature.substring(2, 3)), ivNumber2);
                 }
             } else {//正数
                 if (1 == temperature.length()) {//1位
-                    setTemperatureImage(Integer.parseInt(temperature), ivNumber3);
+                    setTemperatureImage(Integer.parseInt(temperature), ivNumber2);
                 } else {//2位
-                    ivNumber2.setVisibility(View.VISIBLE);
-                    setTemperatureImage(Integer.parseInt(temperature.substring(0, 1)), ivNumber2);
-                    setTemperatureImage(Integer.parseInt(temperature.substring(1, 2)), ivNumber3);
+                    ivNumber1.setVisibility(View.VISIBLE);
+                    setTemperatureImage(Integer.parseInt(temperature.substring(0, 1)), ivNumber1);
+                    setTemperatureImage(Integer.parseInt(temperature.substring(1, 2)), ivNumber2);
                 }
             }
         } else {
+            ivSymbol.setImageResource(R.drawable.number_0);
             ivNumber1.setImageResource(R.drawable.number_0);
             ivNumber2.setImageResource(R.drawable.number_0);
-            ivNumber3.setImageResource(R.drawable.number_0);
         }
     }
 
@@ -789,24 +836,28 @@ public class MainFragment extends Fragment {
      *
      * @param weatherInfo 天气信息
      */
-    private void setAqi(WeatherInfo weatherInfo) {
+    private void setAqi(WeatherEntity weatherInfo) {
         String quality = weatherInfo.getmAQ();
-        if (quality == null)
+        if (quality == null) {
             return;
-        Drawable drawableLeft = ContextCompat.getDrawable(getContext(), WeatherInfoUtil.getQualityImageId(quality));
+        }
+        Drawable drawableLeft = ContextCompat.getDrawable(getContext(),
+                Utils.getQualityImageId(quality));
         Drawable drawableRight = ContextCompat.getDrawable(getContext(), R.drawable.ic_right);
-        if (drawableLeft != null)
-            drawableLeft.setBounds(0, 0, drawableLeft.getMinimumWidth(), drawableLeft.getMinimumHeight());
-        if (drawableRight != null)
-            drawableRight.setBounds(0, 0, drawableRight.getMinimumWidth(), drawableRight.getMinimumHeight());
+        if (drawableLeft != null) {
+            drawableLeft.setBounds(0, 0, drawableLeft.getMinimumWidth(),
+                    drawableLeft.getMinimumHeight());
+        }
+        if (drawableRight != null) {
+            drawableRight.setBounds(0, 0, drawableRight.getMinimumWidth(),
+                    drawableRight.getMinimumHeight());
+        }
         tvAqi.setCompoundDrawables(drawableLeft, null, drawableRight, null);
         tvAqi.setText(weatherInfo.getmAQI() + " " + quality);
     }
 
     /**
      * 设置生活指数
-     *
-     * @param weatherLifeIndexList
      */
     private void setWeatherLifeIndex(List<WeatherLifeIndex> weatherLifeIndexList) {
         for (WeatherLifeIndex weatherLifeIndex : weatherLifeIndexList) {
@@ -838,7 +889,8 @@ public class MainFragment extends Fragment {
      *
      * @param v 被点击的视图
      */
-    @OnClick({R.id.rl_exercise, R.id.rl_clothe, R.id.rl_comfort, R.id.rl_influenza, R.id.rl_wash_car, R.id
+    @OnClick({R.id.rl_exercise, R.id.rl_clothe, R.id.rl_comfort, R.id.rl_influenza,
+            R.id.rl_wash_car, R.id
             .rl_ultraviolet, R.id.iv_add_city, R.id.tv_city})
     public void onClick(View v) {
         switch (v.getId()) {
@@ -850,25 +902,26 @@ public class MainFragment extends Fragment {
             case R.id.iv_add_city:
                 // Intent intent = new Intent(getActivity(), AddCityActivity.class);
                 Intent intent = new Intent(getActivity(), CityManageActivity.class);
-                startActivityForResult(intent, MAIN_FRAGMENT_REQUEST_CODE);
+                startActivityForResult(intent, Constant.MAIN_FRAGMENT_REQUEST_CODE);
                 break;
             case R.id.rl_exercise:
-                weatherLifeIndexClicked(getString(R.string.exercise));
+                weatherLifeIndexClicked(getString(R.string.main_fragment_tv_life_index_exercise));
                 break;
             case R.id.rl_clothe:
-                weatherLifeIndexClicked(getString(R.string.clothes));
+                weatherLifeIndexClicked(getString(R.string.main_fragment_tv_life_index_clothes));
                 break;
             case R.id.rl_comfort:
-                weatherLifeIndexClicked(getString(R.string.comfort));
+                weatherLifeIndexClicked(getString(R.string.main_fragment_tv_life_index_comfort));
                 break;
             case R.id.rl_influenza:
-                weatherLifeIndexClicked(getString(R.string.influenza));
+                weatherLifeIndexClicked(getString(R.string.main_fragment_tv_life_index_influenza));
                 break;
             case R.id.rl_wash_car:
-                weatherLifeIndexClicked(getString(R.string.wash_car));
+                weatherLifeIndexClicked(getString(R.string.main_fragment_tv_life_index_wash_car));
                 break;
             case R.id.rl_ultraviolet:
-                weatherLifeIndexClicked(getString(R.string.ultraviolet));
+                weatherLifeIndexClicked(
+                        getString(R.string.main_fragment_tv_life_index_ultraviolet));
                 break;
         }
     }
@@ -880,7 +933,7 @@ public class MainFragment extends Fragment {
      */
     private void weatherLifeIndexClicked(String indexName) {
         List<WeatherLifeIndex> weatherLifeIndexList;
-        weatherLifeIndexList = mWeatherLifeIndexDao.query(indexName);
+        weatherLifeIndexList = mLifeIndexDao.query(indexName);
         if (!weatherLifeIndexList.isEmpty() && 1 == weatherLifeIndexList.size()) {
             String msg = weatherLifeIndexList.get(0).getmIndexDetail();
             showDialog(indexName, msg);
@@ -890,7 +943,8 @@ public class MainFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (MAIN_FRAGMENT_REQUEST_CODE == requestCode && resultCode == Activity.RESULT_OK) {
+        if (Constant.MAIN_FRAGMENT_REQUEST_CODE == requestCode
+                && resultCode == Activity.RESULT_OK) {
             CityManage cityManage = (CityManage) data.getSerializableExtra(Constant.CHOSEN_CITY);
             mCity = cityManage.getCityName();
             refreshData();
@@ -906,26 +960,26 @@ public class MainFragment extends Fragment {
     /**
      * 位置监听
      */
-    private class MyLocationListener implements BDLocationListener {
+    private class BaiDuLocationListener implements BDLocationListener {
 
         @Override
         public void onReceiveLocation(BDLocation bdLocation) {
             //监听一次后注销
             mLocationClient.stop();
-            mLocationClient.unRegisterLocationListener(myLocationListener);
+            mLocationClient.unRegisterLocationListener(mBaiDuLocationListener);
 
             switch (bdLocation.getLocType()) {
                 case BDLocation.TypeGpsLocation:
-                    LogUtil.i(LOG_TAG, getString(R.string.ok_location_gps));
+                    LogUtil.i(TAG, getString(R.string.ok_location_gps));
                     break;
                 case BDLocation.TypeOffLineLocation:
-                    LogUtil.i(LOG_TAG, getString(R.string.ok_location_offline));
+                    LogUtil.i(TAG, getString(R.string.ok_location_offline));
                     break;
                 case BDLocation.TypeNetWorkLocation:
-                    LogUtil.i(LOG_TAG, getString(R.string.ok_location_net));
+                    LogUtil.i(TAG, getString(R.string.ok_location_net));
                     break;
                 case BDLocation.TypeCriteriaException:
-                    LogUtil.e(LOG_TAG, getString(R.string.error_location));
+                    LogUtil.e(TAG, getString(R.string.error_location));
                     break;
             }
             if (bdLocation != null) {
@@ -935,8 +989,9 @@ public class MainFragment extends Fragment {
             //截掉返回城市的行政单位：“市”、"县"、“镇”等
             mCity = mCity.substring(0, mCity.length() - 1);
             //使用SharedPreferences保存默认城市
-            SharedPreferences sharedPreferences = getActivity().getApplication().getSharedPreferences(Constant
-                    .DEFAULT_PREFERENCE, Context.MODE_PRIVATE);
+            SharedPreferences sharedPreferences =
+                    getActivity().getApplication().getSharedPreferences(Constant
+                            .DEFAULT_PREFERENCE, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString(Constant.DEFAULT_CITY, mCity);
             editor.apply();

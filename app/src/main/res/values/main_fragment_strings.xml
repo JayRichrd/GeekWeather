@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_fragment_toast_update_finished">更新数据完毕</string>
+    <string name="main_fragment_toast_update_start">开始更新</string>
+    <!--定位-->
+    <string name="main_fragment_log_start_locate">开始定位</string>
+    <string name="main_fragment_progress_dlg_locating">……正在努力定位中……</string>
+    <!--下拉刷新-->
+    <string name="main_fragment_ptrsv_pull_to_refresh">下拉更新</string>
+    <string name="main_fragment_ptrsv_refreshing">别着急，正在更新</string>
+    <string name="main_fragment_ptrsv_loosen_to_refresh">您松松手就可以更新</string>
+
+</resources>

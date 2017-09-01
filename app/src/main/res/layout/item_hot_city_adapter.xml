@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/both_w_and_h_match"
+              style="@style/common_both_w_and_h_match"
               android:background="@android:color/holo_orange_dark"
               android:orientation="horizontal">
 
     <TextView
         android:id="@+id/tv_hot_city"
-        style="@style/w_match_and_h_wrap"
+        style="@style/common_w_match_and_h_wrap"
         android:gravity="center"
         android:paddingBottom="9dp"
         android:paddingTop="9dp"

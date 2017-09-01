@@ -30,30 +30,32 @@ public class CityManageDBHelper extends OrmLiteSqliteOpenHelper {
     /**
      * return the instance in singleton pattern
      *
-     * @param context
      * @return instance initialized
      */
     public static synchronized CityManageDBHelper getInstance(Context context) {
         if (null == instance) {
             synchronized (CityManageDBHelper.class) {
-                if (null == instance)
+                if (null == instance) {
                     instance = new CityManageDBHelper(context);
+                }
             }
         }
         return instance;
     }
 
     /**
-     * What to do when your database needs to be created. Usually this entails creating the tables and loading any
+     * What to do when your database needs to be created. Usually this entails creating the tables
+     * and loading any
      * initial data.
      * <p>
      * <p>
-     * <b>NOTE:</b> You should use the connectionSource argument that is passed into this method call or the one
-     * returned by getConnectionSource(). If you use your own, a recursive call or other unexpected results may result.
+     * <b>NOTE:</b> You should use the connectionSource argument that is passed into this method
+     * call or the one
+     * returned by getConnectionSource(). If you use your own, a recursive call or other unexpected
+     * results may result.
      * </p>
      *
-     * @param database         Database being created.
-     * @param connectionSource
+     * @param database Database being created.
      */
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
@@ -65,21 +67,25 @@ public class CityManageDBHelper extends OrmLiteSqliteOpenHelper {
     }
 
     /**
-     * What to do when your database needs to be updated. This could mean careful migration of old data to new data.
+     * What to do when your database needs to be updated. This could mean careful migration of old
+     * data to new data.
      * Maybe adding or deleting database columns, etc..
      * <p>
      * <p>
-     * <b>NOTE:</b> You should use the connectionSource argument that is passed into this method call or the one
-     * returned by getConnectionSource(). If you use your own, a recursive call or other unexpected results may result.
+     * <b>NOTE:</b> You should use the connectionSource argument that is passed into this method
+     * call or the one
+     * returned by getConnectionSource(). If you use your own, a recursive call or other unexpected
+     * results may result.
      * </p>
      *
      * @param database         Database being upgraded.
      * @param connectionSource To use get connections to the database to be updated.
-     * @param oldVersion       The version of the current database so we can know what to do to the database.
-     * @param newVersion
+     * @param oldVersion       The version of the current database so we can know what to do to the
+     *                         database.
      */
     @Override
-    public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource,
+                          int oldVersion, int newVersion) {
         try {
             TableUtils.dropTable(connectionSource, CityManage.class, true);
         } catch (SQLException e) {

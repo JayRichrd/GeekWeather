@@ -1,77 +1,84 @@
 <resources>
     <string name="app_name">GeekWeather</string>
-    <!--欢迎动画界面-->
-    <string name="copyright">Copyright©2016 JiangYu</string>
-    <!--用户信息界面-->
-    <string name="info">info</string>
-    <string name="info_title">关于我</string>
-    <string name="app_info">• 它是一款查询天气的App\n
-        • 采用极简风格、注重效率、快速提供必要信息\n
-        • 功能甚至简化到只有——选城市、定位、更新</string>
-    <string name="version">v1.0</string>
-    <string name="version_title">版本</string>
-    <string name="app_version">当前版本:v</string>
-    <!--抽屉-->
-    <string name="drawer_open">open</string>
-    <string name="drawer_close">close</string>
-    <!--主界面-->
-    <string name="default_city">深圳</string>
-    <!--对话框-->
-    <string name="btn_confirm">知道了</string>
-    <!--生活指数-->
-    <string name="pm_value">PM2.5</string>
-    <string name="exercise">晨练指数</string>
-    <string name="clothes">穿衣指数</string>
-    <string name="comfort">舒适度</string>
-    <string name="influenza">感冒指数</string>
-    <string name="wash_car">洗车指数</string>
-    <string name="ultraviolet">紫外线强度</string>
     <!--Fragment Tag-->
     <string name="MainFragment">MainFragment</string>
+
+    <!--欢迎动画界面-->
+    <string name="copyright">Copyright©2016 JiangYu</string>
+
+
+    <!--菜单选项界面-->
+    <string name="navigation_menu_item_author">我</string>
+    <string name="navigation_menu_item_about">关于</string>
+    <string name="navigation_menu_item_update">检查更新</string>
+    <string name="navigation_menu_item_share">分享给好友</string>
+
+
+    <!--主界面-->
+    <string name="default_city">深圳</string>
+    <!--天气预报-->
+    <string name="main_fragment_tv_weather_forecast_caption">多日天气预报</string>
+    <!--生活指数-->
+    <string name="main_fragment_tv_life_index_caption">生活指数</string>
+    <string name="main_fragment_tv_life_index_pm_25">PM2.5</string>
+    <string name="main_fragment_tv_life_index_exercise">晨练指数</string>
+    <string name="main_fragment_tv_life_index_clothes">穿衣指数</string>
+    <string name="main_fragment_tv_life_index_comfort">舒适度</string>
+    <string name="main_fragment_tv_life_index_influenza">感冒指数</string>
+    <string name="main_fragment_tv_life_index_wash_car">洗车指数</string>
+    <string name="main_fragment_tv_life_index_ultraviolet">紫外线强度</string>
+
+
     <!--请求天气url-->
     <string name="weather_city_base_url">http://wthrcdn.etouch.cn/WeatherApi?city=%1$s</string>
-    <string name="weather_city_key_base_url">http://wthrcdn.etouch.cn/WeatherApi?citykey=%1$s</string>
+    <string name="weather_city_key_base_url">http://wthrcdn.etouch.cn/WeatherApi?citykey=%1$s
+    </string>
 
-    <string name="start_location">开始定位</string>
-    <string name="location_tip">……正在努力定位中……</string>
+
     <!--显示的时间格式-->
     <string name="date_ui">M月dd日</string>
-    <!--请求的时间格式-->
-    <string name="date_request">yyyy-M-d</string>
+
     <!--更新时间-->
     <string name="update_time">%1$s 更新</string>
+
     <!--湿度-->
     <string name="humidity">湿度 %1$s</string>
+
     <!--日历-->
     <string name="date">%1$s\n%2$s</string>
 
-    <string name="error_get_data">获取日历数据失败！</string>
-    <string name="ok_location_gps">GPS定位成功</string>
-    <string name="ok_location_offline">离线定位成功</string>
-    <string name="ok_location_net">网络定位成功</string>
-    <string name="error_location">定位失败</string>
+    <!--日历格式-->
+    <string name="mm_dd">%1$s/%2$s</string>
+
     <!--昨天-->
     <string name="yesterday">昨天</string>
     <!--今天-->
     <string name="today">今天</string>
-    <!--日历格式-->
-    <string name="mm_dd">%1$s/%2$s</string>
+
+    <!--自动定位-->
     <string name="auto_location">自动定位</string>
 
-    <string name="default_text">N/A</string>
 
-    <!--activity_city_manage-->
+    <!--城市管理界面-->
     <string name="city_manage">城市管理</string>
     <string name="set_default">设为默认</string>
     <string name="my_default">默认</string>
 
-    <!--activity_add_city-->
+    <!--添加城市界面-->
     <string name="add_city">添加城市</string>
     <string name="hint_search">请输入城市名称或拼音</string>
     <string name="hot_city_label">热门城市</string>
     <string name="no_matched_city">没有符合条件的城市</string>
 
-    <string name="pull_to_refresh">下拉更新哟</string>
-    <string name="refreshing">别着急，正在更新哈…</string>
-    <string name="leave_to_refresh">您松松手就可以更新啦</string>
+
+    <!--log输出-->
+    <string name="error_get_data">获取日历数据失败！</string>
+    <string name="ok_location_gps">GPS定位成功</string>
+    <string name="ok_location_offline">离线定位成功</string>
+    <string name="ok_location_net">网络定位成功</string>
+    <string name="error_location">定位失败</string>
+
+    <!--默认文本-->
+    <string name="default_text">N/A</string>
+
 </resources>

@@ -16,12 +16,12 @@ import com.yulong.jiangyu.geekweather.R;
 import com.yulong.jiangyu.geekweather.adapter.CityManageAdapter;
 import com.yulong.jiangyu.geekweather.bean.CityInfo;
 import com.yulong.jiangyu.geekweather.bean.CityManage;
-import com.yulong.jiangyu.geekweather.bean.WeatherInfo;
 import com.yulong.jiangyu.geekweather.constant.Constant;
 import com.yulong.jiangyu.geekweather.dao.CityMangeDao;
+import com.yulong.jiangyu.geekweather.entity.WeatherEntity;
 import com.yulong.jiangyu.geekweather.listener.HttpCallbackListener;
-import com.yulong.jiangyu.geekweather.util.WeatherInfoUtil;
-import com.yulong.jiangyu.geekweather.util.WebUtil;
+import com.yulong.jiangyu.geekweather.net.RequestData;
+import com.yulong.jiangyu.geekweather.utils.Utils;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
@@ -100,12 +100,12 @@ public class CityManageActivity extends AppCompatActivity {
             // 禁止点击城市列表
             gvCityManage.setOnItemClickListener(null);
             // 请求天气数据
-            WebUtil.requestWeatherData(this, weatherCode, true, new HttpCallbackListener() {
+            RequestData.requestWeatherData(this, weatherCode, true, new HttpCallbackListener() {
                 @Override
                 public void onFinished(Object response) {
                     String weatherInfoStr = (String) response;
                     // 解析处理获取的天气数据
-                    WeatherInfo weatherInfo = WeatherInfoUtil.handleWeatherInfo(new ByteArrayInputStream
+                    WeatherEntity weatherInfo = Utils.handleWeatherInfo(new ByteArrayInputStream
                             (weatherInfoStr.getBytes()));
                     // 插入数据库
                     boolean result = mCityMangeDao.insert(new CityManage(null, weatherInfo.getmCity(), weatherInfo
@@ -211,12 +211,12 @@ public class CityManageActivity extends AppCompatActivity {
      */
     private void refresh() {
         for (final CityManage cityManage : mCityManageList) {
-            WebUtil.requestWeatherData(this, cityManage.getWeatherCode(), true, new HttpCallbackListener() {
+            RequestData.requestWeatherData(this, cityManage.getWeatherCode(), true, new HttpCallbackListener() {
                 @Override
                 public void onFinished(Object response) {
                     String weatherInfoStr = (String) response;
                     // 解析处理获取的天气数据
-                    WeatherInfo weatherInfo = WeatherInfoUtil.handleWeatherInfo(new ByteArrayInputStream
+                    WeatherEntity weatherInfo = Utils.handleWeatherInfo(new ByteArrayInputStream
                             (weatherInfoStr.getBytes()));
                     // 刷新数据
                     mCityMangeDao.update(new CityManage(null, weatherInfo.getmCity(), weatherInfo

@@ -28,14 +28,8 @@ public class Constant {
     //public static final Integer ID = 1;
     //默认城市
     public static final String DEFAULT_PREFERENCE = "preference_file";
-    //weatherinfo的标识
-    public static final String WEATHER_INFO = "weather_info";
-    //dateinfo的标识
-    public static final String DATE_INFO = "date_info";
-    //更新天气UI界面
-    public static final int UPDATE_WEATHER_UI = 1;
-    //更新日期UI界面
-    public static final int UPDATE_DATE_UI = 2;
+
+
     //日期的分割字符
     public static final String SPLIT_DATE_REGEX = "日";
     //温度的分割字符
@@ -50,4 +44,13 @@ public class Constant {
 
     public static final String CITY_INFO_DB = "city_info.db";
     public static final String CHOSEN_CITY = "chosen_city";
+
+    //MainFragment
+    public static final String MAIN_FRAGMENT_TAG = "MainFragmentTag";
+    public static final int MAIN_FRAGMENT_REQUEST_CODE = 0x1;
+    public static final int UPDATE_WEATHER_UI = 0x2; //更新天气UI界面
+    public static final int UPDATE_DATE_UI = 0x3; //更新日期UI界面
+    public static final String WEATHER_INFO = "WeatherInfo";//weatherinfo的标识
+    public static final String DATE_INFO = "DateInfo";//dateinfo的标识
+
 }

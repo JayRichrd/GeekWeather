@@ -19,7 +19,7 @@ import com.yulong.jiangyu.geekweather.R;
 import com.yulong.jiangyu.geekweather.bean.CityManage;
 import com.yulong.jiangyu.geekweather.constant.Constant;
 import com.yulong.jiangyu.geekweather.dao.CityMangeDao;
-import com.yulong.jiangyu.geekweather.util.WeatherInfoUtil;
+import com.yulong.jiangyu.geekweather.utils.Utils;
 
 import java.util.Calendar;
 import java.util.List;
@@ -138,11 +138,11 @@ public class CityManageAdapter extends ArrayAdapter<CityManage> {
                     int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
                     int weatherTypeId;
                     if (hour >= 0 && hour <= 6) { // 上午
-                        weatherTypeId = WeatherInfoUtil.getWeatherImageId(cityManage.getWeatherTypeDay(), false);
+                        weatherTypeId = Utils.getWeatherImageId(cityManage.getWeatherTypeDay(), false);
                     } else if (hour > 6 && hour <= 18) { // 白昼
-                        weatherTypeId = WeatherInfoUtil.getWeatherImageId(cityManage.getWeatherTypeDay(), true);
+                        weatherTypeId = Utils.getWeatherImageId(cityManage.getWeatherTypeDay(), true);
                     } else {// 黑夜
-                        weatherTypeId = WeatherInfoUtil.getWeatherImageId(cityManage.getWeatherTypeNight(), false);
+                        weatherTypeId = Utils.getWeatherImageId(cityManage.getWeatherTypeNight(), false);
                     }
                     viewHolder.ivWeatherType.setImageResource(weatherTypeId);
                     // 设置高温和低温

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              style="@style/common_both_w_and_h_wrap"
+              android:layout_marginLeft="@dimen/margin_16dp"
+              android:layout_marginTop="@dimen/margin_60dp"
+              android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/common_both_w_and_h_wrap"
+        android:orientation="horizontal">
+        <!--温度-->
+        <ImageView
+            android:id="@+id/iv_symbol"
+            style="@style/weather_info_degree"
+            android:src="@drawable/ic_minus"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/iv_number1"
+            style="@style/weather_info_degree"
+            android:src="@drawable/number_0"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/iv_number2"
+            style="@style/weather_info_degree"
+            android:src="@drawable/number_0"/>
+
+        <RelativeLayout
+            style="@style/common_w_wrap_and_h_match"
+            android:layout_marginLeft="@dimen/margin_4dp">
+
+            <ImageView
+                style="@style/weather_info_degree"
+                android:src="@drawable/degree"/>
+            <!--天气类型-->
+            <TextView
+                android:id="@+id/tv_weather_type"
+                style="@style/common_both_w_and_h_wrap"
+                android:layout_alignParentBottom="true"
+                android:text="@string/common_default_txt"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_x_large"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/common_both_w_and_h_wrap"
+        android:layout_marginTop="@dimen/margin_20dp"
+        android:orientation="horizontal">
+
+        <!--风力-->
+        <TextView
+            android:id="@+id/tv_wind"
+            style="@style/weather_info_text"
+            android:drawableLeft="@drawable/ic_wind"/>
+        <!--湿度-->
+        <TextView
+            android:id="@+id/tv_humidity"
+            style="@style/weather_info_text"
+            android:layout_marginLeft="@dimen/margin_16dp"
+            android:drawableLeft="@drawable/ic_humidity"/>
+        <!--空气质量-->
+        <TextView
+            android:id="@+id/tv_aqi"
+            style="@style/weather_info_text"
+            android:layout_marginLeft="@dimen/margin_16dp"
+            android:drawableLeft="@drawable/ic_quality_good"/>
+    </LinearLayout>
+
+</LinearLayout>

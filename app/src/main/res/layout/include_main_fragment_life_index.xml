@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              style="@style/common_w_match_and_h_wrap"
+              android:layout_marginTop="@dimen/margin_20dp"
+              android:orientation="vertical">
+    <!--标题-->
+    <LinearLayout
+        style="@style/common_w_match_and_h_wrap"
+        android:layout_marginLeft="@dimen/margin_16dp"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/indicate_text"
+            android:text="@string/main_fragment_tv_life_index_caption"/>
+
+        <View
+            style="@style/divider_line_horizontal"
+            android:layout_marginLeft="@dimen/margin_16dp"/>
+
+    </LinearLayout>
+    <!--具体的生活指数-->
+    <FrameLayout
+        style="@style/common_w_match_and_h_wrap"
+        android:layout_marginTop="@dimen/margin_16dp">
+
+        <View style="@style/divider_line_vertical"/>
+
+        <TableLayout
+            style="@style/common_w_match_and_h_wrap"
+            android:layout_marginLeft="@dimen/margin_16dp"
+            android:layout_marginRight="@dimen/margin_16dp">
+            <!--第一行-->
+            <TableRow>
+                <!--运动-->
+                <RelativeLayout
+                    android:id="@+id/rl_exercise"
+                    style="@style/rl_life_index_table_item"
+                    android:paddingRight="@dimen/margin_16dp">
+
+                    <ImageView
+                        style="@style/iv_life_index_table_item"
+                        android:src="@drawable/ic_exercise"/>
+
+                    <TextView
+                        style="@style/tv_life_index_table_item"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/main_fragment_tv_life_index_exercise"
+                        android:textSize="@dimen/font_size_large"/>
+
+                    <TextView
+                        android:id="@+id/tv_weather_life_index_exercise"
+                        style="@style/tv_life_index_table_item"
+                        android:layout_alignParentBottom="true"
+                        android:text="@string/common_default_txt"
+                        android:textSize="@dimen/font_size_medium"/>
+                </RelativeLayout>
+                <!--穿衣-->
+                <RelativeLayout
+                    android:id="@+id/rl_clothe"
+                    style="@style/rl_life_index_table_item"
+                    android:paddingLeft="@dimen/margin_16dp">
+
+                    <ImageView
+                        style="@style/iv_life_index_table_item"
+                        android:src="@drawable/ic_clothes"/>
+
+                    <TextView
+                        style="@style/tv_life_index_table_item"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/main_fragment_tv_life_index_clothes"
+                        android:textSize="@dimen/font_size_large"/>
+
+                    <TextView
+                        android:id="@+id/tv_weather_life_index_clothe"
+                        style="@style/tv_life_index_table_item"
+                        android:layout_alignParentBottom="true"
+                        android:text="@string/common_default_txt"
+                        android:textSize="@dimen/font_size_medium"/>
+                </RelativeLayout>
+            </TableRow>
+            <!--分割线-->
+            <View style="@style/divider_line_horizontal"/>
+            <!--第二行-->
+            <TableRow>
+                <!--舒适度-->
+                <RelativeLayout
+                    android:id="@+id/rl_comfort"
+                    style="@style/rl_life_index_table_item"
+                    android:paddingRight="@dimen/margin_16dp">
+
+                    <ImageView
+                        style="@style/iv_life_index_table_item"
+                        android:src="@drawable/ic_comfort"/>
+
+                    <TextView
+                        style="@style/tv_life_index_table_item"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/main_fragment_tv_life_index_comfort"
+                        android:textSize="@dimen/font_size_large"/>
+
+                    <TextView
+                        android:id="@+id/tv_weather_life_index_comfort"
+                        style="@style/tv_life_index_table_item"
+                        android:layout_alignParentBottom="true"
+                        android:text="@string/common_default_txt"
+                        android:textSize="@dimen/font_size_medium"/>
+                </RelativeLayout>
+                <!--感冒指数-->
+                <RelativeLayout
+                    android:id="@+id/rl_influenza"
+                    style="@style/rl_life_index_table_item"
+                    android:paddingLeft="@dimen/margin_16dp">
+
+                    <ImageView
+                        style="@style/iv_life_index_table_item"
+                        android:src="@drawable/ic_influenza"/>
+
+                    <TextView
+                        style="@style/tv_life_index_table_item"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/main_fragment_tv_life_index_influenza"
+                        android:textSize="@dimen/font_size_large"/>
+
+                    <TextView
+                        android:id="@+id/tv_weather_life_index_influenza"
+                        style="@style/tv_life_index_table_item"
+                        android:layout_alignParentBottom="true"
+                        android:text="@string/common_default_txt"
+                        android:textSize="@dimen/font_size_medium"/>
+                </RelativeLayout>
+            </TableRow>
+            <!--分割线-->
+            <View style="@style/divider_line_horizontal"/>
+            <!--第三行-->
+            <TableRow>
+                <!--洗车指数-->
+                <RelativeLayout
+                    android:id="@+id/rl_wash_car"
+                    style="@style/rl_life_index_table_item"
+                    android:paddingRight="@dimen/margin_16dp">
+
+                    <ImageView
+                        style="@style/iv_life_index_table_item"
+                        android:src="@drawable/wash_car"/>
+
+                    <TextView
+                        style="@style/tv_life_index_table_item"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/main_fragment_tv_life_index_wash_car"
+                        android:textSize="@dimen/font_size_large"/>
+
+                    <TextView
+                        android:id="@+id/tv_weather_life_index_wash_car"
+                        style="@style/tv_life_index_table_item"
+                        android:layout_alignParentBottom="true"
+                        android:text="@string/common_default_txt"
+                        android:textSize="@dimen/font_size_medium"/>
+                </RelativeLayout>
+                <!--紫外线指数-->
+                <RelativeLayout
+                    android:id="@+id/rl_ultraviolet"
+                    style="@style/rl_life_index_table_item"
+                    android:paddingLeft="@dimen/margin_16dp">
+
+                    <ImageView
+                        style="@style/iv_life_index_table_item"
+                        android:src="@drawable/ic_ultraviolet"/>
+
+                    <TextView
+                        style="@style/tv_life_index_table_item"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/main_fragment_tv_life_index_ultraviolet"
+                        android:textSize="@dimen/font_size_large"/>
+
+                    <TextView
+                        android:id="@+id/tv_weather_life_index_ultraviolet"
+                        style="@style/tv_life_index_table_item"
+                        android:layout_alignParentBottom="true"
+                        android:text="@string/common_default_txt"
+                        android:textSize="@dimen/font_size_medium"/>
+                </RelativeLayout>
+            </TableRow>
+        </TableLayout>
+    </FrameLayout>
+</LinearLayout>

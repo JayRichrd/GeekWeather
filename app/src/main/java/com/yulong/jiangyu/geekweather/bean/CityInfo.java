@@ -49,7 +49,8 @@ public class CityInfo implements Serializable {
     public CityInfo() {
     }
 
-    public CityInfo(String city, String weatherCode, String cityPinYin, String cityEn, int matchType) {
+    public CityInfo(String city, String weatherCode, String cityPinYin, String cityEn,
+                    int matchType) {
         this.city = city;
         this.weatherCode = weatherCode;
         this.cityPinYin = cityPinYin;
