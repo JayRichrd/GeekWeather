@@ -1,45 +1,7 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <!--date_title_layout-->
-    <dimen name="margin_left_date_title_root_layout">16dp</dimen>
-    <dimen name="margin_right_date_title_root_layout">16dp</dimen>
-    <dimen name="margin_top_date_title_root_layout">10dp</dimen>
-    <dimen name="font_size_update_title">9sp</dimen>
-
-    <!--weather_info_layout-->
-    <dimen name="margin_top_weather_info">60dp</dimen>
-    <dimen name="margin_left_weather_info_root_layout">16dp</dimen>
-    <dimen name="margin_right_weather_info">16dp</dimen>
-    <dimen name="margin_left_weather_info_temperature_text_view">16dp</dimen>
-    <dimen name="font_size_weather_info_temperature">120sp</dimen>
-    <dimen name="font_size_weather_info_temperature_degree">50sp</dimen>
-    <dimen name="font_size_weather_info_weather">25sp</dimen>
-
-    <!--weather_forecasts-->
-    <dimen name="margin_top_forecasts">20dp</dimen>
-    <dimen name="margin_left_forecasts">16dp</dimen>
-    <dimen name="margin_left_forecasts_index">16dp</dimen>
-
-    <!--life_index-->
-    <dimen name="margin_top_weather_life_index">20dp</dimen>
-    <dimen name="margin_left_weather_life_index">16dp</dimen>
-    <dimen name="margin_left_weather_life_image">16dp</dimen>
-    <dimen name="margin_right_weather_life_index">16dp</dimen>
-    <dimen name="margin_right_weather_life_text">10dp</dimen>
-
-
-    <dimen name="widget_vertical_margin">10dp</dimen>
-    <dimen name="padding">5dp</dimen>
-    <dimen name="font_size_city">20sp</dimen>
-
-    <dimen name="drawer_width">250dp</dimen>
-    <dimen name="cloud_date_height">72dp</dimen>
-
-    <dimen name="font_size_indexes">18sp</dimen>
-    <dimen name="font_size_title">20sp</dimen>
     <!--activity_city_manage-->
     <dimen name="margin_right">8dp</dimen>
-    <dimen name="margin_left">8dp</dimen>
 
     <!--字体-->
     <dimen name="font_size_xx_large">20sp</dimen>
@@ -49,22 +11,33 @@
     <dimen name="font_size_small">9sp</dimen>
 
     <!--margin-->
+    <dimen name="margin_3dp">3dp</dimen>
     <dimen name="margin_4dp">4dp</dimen>
+    <dimen name="margin_5dp">5dp</dimen>
+    <dimen name="margin_8dp">8dp</dimen>
+    <dimen name="margin_10dp">10dp</dimen>
     <dimen name="margin_12dp">12dp</dimen>
     <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="margin_19dp">19dp</dimen>
     <dimen name="margin_20dp">20dp</dimen>
     <dimen name="margin_60dp">60dp</dimen>
 
     <!--padding-->
+    <dimen name="padding_2dp">2dp</dimen>
     <dimen name="padding_5dp">5dp</dimen>
     <dimen name="padding_16dp">16dp</dimen>
 
     <!--width-->
-    <dimen name="width_0dp">0dp</dimen>
     <dimen name="width_150dp">150dp</dimen>
     <dimen name="width_250dp">250dp</dimen>
 
     <!--height-->
+    <dimen name="height_30dp">30dp</dimen>
+    <dimen name="height_40dp">40dp</dimen>
+    <dimen name="height_56dp">56dp</dimen>
     <dimen name="height_160dp">160dp</dimen>
+
+    <!--space-->
+    <dimen name="space_5dp">5dp</dimen>
 
 </resources>

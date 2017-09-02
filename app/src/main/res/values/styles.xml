@@ -60,7 +60,7 @@
 
     <!--多日天气预报文字-->
     <style name="tv_item_weather_forecast">
-        <item name="android:layout_width">@dimen/width_0dp</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
@@ -71,7 +71,7 @@
 
     <!--多日天气预报图片-->
     <style name="iv_item_weather_forecast">
-        <item name="android:layout_width">@dimen/width_0dp</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
@@ -80,7 +80,7 @@
 
     <!--生活指数table项-->
     <style name="rl_life_index_table_item">
-        <item name="android:layout_width">@dimen/width_0dp</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
         <item name="android:paddingTop">@dimen/padding_16dp</item>
@@ -95,6 +95,7 @@
         <item name="android:gravity">right</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
     <!--生活指数table项图片-->
     <style name="iv_life_index_table_item">
         <item name="android:layout_width">wrap_content</item>
@@ -117,73 +118,6 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/font_size_x_large</item>
-    </style>
-
-    <style name="wea_forecast_title">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:textColor">@color/white_trans90</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
-    <style name="wea_forecast_content_llyt">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center</item>
-        <item name="android:orientation">horizontal</item>
-        <item name="android:padding">5dp</item>
-    </style>
-
-    <style name="wea_forecast_content_iv">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:src">@drawable/ic_weather_no</item>
-    </style>
-
-    <style name="wea_forecast_content_degree_rlyt">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">40dp</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:layout_marginLeft">10dp</item>
-    </style>
-
-    <style name="wea_forecast_content_degree_rlyt_tv">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center</item>
-        <item name="android:layout_centerInParent">true</item>
-        <item name="android:textColor">@color/white_trans90</item>
-        <item name="android:text">N/A℃</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
-    <style name="action_llyt">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">54dp</item>
-    </style>
-
-    <style name="action_icon">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@drawable/bg_action_bar_button</item>
-        <item name="android:paddingLeft">8dp</item>
-        <item name="android:layout_marginTop">3dp</item>
-        <item name="android:layout_marginBottom">3dp</item>
-        <item name="android:paddingRight">8dp</item>
-        <item name="android:layout_gravity">center</item>
-    </style>
-
-    <style name="action_title">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingLeft">12dp</item>
-        <item name="android:paddingRight">12dp</item>
-        <item name="android:layout_centerInParent">true</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:alpha">0.9</item>
-        <item name="android:textSize">20sp</item>
     </style>
 
     <!--通用style-->

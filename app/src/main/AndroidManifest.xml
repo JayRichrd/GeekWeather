@@ -30,41 +30,38 @@
 
         <!-- 引入百度服务 -->
         <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="FSL9U9opMW6ZXR1XoDtYyHd4W8tnn8vK"/>
-
+            android:name="@string/config_baidu_map_meta_data_name"
+            android:value="@string/config_baidu_map_meta_data_value"/>
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote"/>
+
         <!-- 开始欢迎界面 -->
         <activity
-            android:name=".ui.WelcomeActivity"
+            android:name=".activity.WelcomeActivity"
             android:theme="@style/NoTitleFullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <!-- 主界面 -->
         <activity
             android:name=".activity.MainActivity"
             android:theme="@style/NoTitleFullscreen">
         </activity>
-        <activity android:name=".ui.CustomedViewActivity">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN"/> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
-            <!-- </intent-filter> -->
-        </activity>
+        <!-- 城市管理界面 -->
         <activity
-            android:name=".ui.CityManageActivity"
+            android:name=".activity.CityManageActivity"
             android:theme="@style/NoTitleFullscreen">
         </activity>
+
+        <!-- 添加城市界面 -->
         <activity
-            android:name=".ui.AddCityActivity"
+            android:name=".activity.AddCityActivity"
             android:theme="@style/NoTitleFullscreen">
         </activity>
     </application>

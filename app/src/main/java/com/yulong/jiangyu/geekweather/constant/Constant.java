@@ -26,31 +26,45 @@ public class Constant {
     public static final int TABLE_VERSION = 1;
     //查询的ID
     //public static final Integer ID = 1;
-    //默认城市
-    public static final String DEFAULT_PREFERENCE = "preference_file";
 
 
-    //日期的分割字符
-    public static final String SPLIT_DATE_REGEX = "日";
-    //温度的分割字符
-    public static final String SPLIT_TEMPERATURE_REGEX = "℃";
     // share preference
     public static final String WEATHER_SHARE_PREFERENCE = "share_preference_weather";
     // default city
-    public static final String DEFAULT_CITY = "default_city";
     // SQLite db
     public static final String CITY_MANAGE_DB = "city_manage.db";
     public static final String TABLE_NAME1 = "life_index.db";
 
     public static final String CITY_INFO_DB = "city_info.db";
-    public static final String CHOSEN_CITY = "chosen_city";
+
+
+    public static final String SHARED_PREFERENCE = "SharedPreference";
+    public static final String DEFAULT_CITY = "DefaultCity";
+
+    public static final String CHOSE_CITY = "ChoseCity";
+    // 白天到夜晚的时间分界点
+    public static final int DAY_2_NIGHT = 18;
 
     //MainFragment
     public static final String MAIN_FRAGMENT_TAG = "MainFragmentTag";
     public static final int MAIN_FRAGMENT_REQUEST_CODE = 0x1;
-    public static final int UPDATE_WEATHER_UI = 0x2; //更新天气UI界面
-    public static final int UPDATE_DATE_UI = 0x3; //更新日期UI界面
-    public static final String WEATHER_INFO = "WeatherInfo";//weatherinfo的标识
-    public static final String DATE_INFO = "DateInfo";//dateinfo的标识
+    public static final int MAIN_FRAGMENT_UPDATE_WEATHER_UI = 0x2;
+    public static final int MAIN_FRAGMENT_UPDATE_DATE_UI = 0x3;
+    public static final String MAIN_FRAGMENT_WEATHER_ENTITY = "WeatherEntity";
+    public static final String MAIN_FRAGMENT_DATE_ENTITY = "DateEntity";
+    public static final String MAIN_FRAGMENT_LIFT_INDEX_EXERCISE = "晨练指数";
+    public static final String MAIN_FRAGMENT_LIFT_INDEX_CLOTHE = "穿衣指数";
+    public static final String MAIN_FRAGMENT_LIFT_INDEX_COMFORT = "舒适度";
+    public static final String MAIN_FRAGMENT_LIFT_INDEX_INFLUENZA = "感冒指数";
+    public static final String MAIN_FRAGMENT_LIFT_INDEX_WASH_CAR = "洗车指数";
+    public static final String MAIN_FRAGMENT_LIFT_INDEX_ULTRAVIOLET = "紫外线强度";
+
+    //CityManageActivity
+    public static final int CITY_MANAGE_ACTIVITY_UPDATE_CITY_MANAGE = 0x4;
+    public static final int CITY_MANAGE_ACTIVITY_REQUEST_CODE = 0x5;
+    public static final int CITY_MANAGE_ACTIVITY_RESULT_CODE = 0x6;
+
+    // AddCityActivity
+    public static final int ADD_CITY_ACTIVITY_RESULT_CODE = 0x7;
 
 }

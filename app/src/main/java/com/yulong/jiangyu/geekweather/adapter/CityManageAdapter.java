@@ -16,9 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yulong.jiangyu.geekweather.R;
-import com.yulong.jiangyu.geekweather.bean.CityManage;
+import com.yulong.jiangyu.geekweather.entity.CityManageEntity;
 import com.yulong.jiangyu.geekweather.constant.Constant;
-import com.yulong.jiangyu.geekweather.dao.CityMangeDao;
+import com.yulong.jiangyu.geekweather.dao.CityMangeEntityDao;
 import com.yulong.jiangyu.geekweather.utils.Utils;
 
 import java.util.Calendar;
@@ -37,17 +37,17 @@ import butterknife.ButterKnife;
  * note
  **/
 
-public class CityManageAdapter extends ArrayAdapter<CityManage> {
+public class CityManageAdapter extends ArrayAdapter<CityManageEntity> {
     SharedPreferences mSharedPreferences;
     private Context mContext;
     // 城市列表
-    private List<CityManage> mCityList;
+    private List<CityManageEntity> mCityList;
     // 默认城市
     private String mDefaultCity;
     // 删除按钮的可见性
     private boolean mIsVisibleForDeleteBtn = false;
     // 数据库操作
-    private CityMangeDao mCityManageDao;
+    private CityMangeEntityDao mCityManageDao;
 
     /**
      * Constructor
@@ -57,11 +57,11 @@ public class CityManageAdapter extends ArrayAdapter<CityManage> {
      *                 instantiating views.
      * @param cityList The objects to represent in the ListView.
      */
-    public CityManageAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<CityManage> cityList) {
+    public CityManageAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<CityManageEntity> cityList) {
         super(context, resource, cityList);
         mContext = context;
         mCityList = cityList;
-        mCityManageDao = new CityMangeDao(mContext);
+        mCityManageDao = new CityMangeEntityDao(mContext);
 
         // 获取默认城市
         mSharedPreferences = mContext.getSharedPreferences(Constant.WEATHER_SHARE_PREFERENCE,
@@ -81,7 +81,7 @@ public class CityManageAdapter extends ArrayAdapter<CityManage> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        final CityManage cityManage = getItem(position);
+        final CityManageEntity cityManage = getItem(position);
         final String cityName = cityManage.getCityName();
         ViewHolder viewHolder;
 

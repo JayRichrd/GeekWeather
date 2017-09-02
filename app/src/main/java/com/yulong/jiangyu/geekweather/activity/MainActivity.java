@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.yulong.jiangyu.geekweather.R;
 import com.yulong.jiangyu.geekweather.constant.Constant;
-import com.yulong.jiangyu.geekweather.ui.MainFragment;
+import com.yulong.jiangyu.geekweather.fragment.MainFragment;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";

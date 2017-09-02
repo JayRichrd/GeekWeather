@@ -16,4 +16,10 @@
     <string name="main_fragment_drawer_version">v1.0</string>
     <string name="main_fragment_drawer_version_title">版本</string>
     <string name="main_fragment_drawer_version_app_version_prefix">当前版本:v</string>
+
+    <!--菜单选项界面-->
+    <string name="navigation_menu_item_author">我</string>
+    <string name="navigation_menu_item_about">关于</string>
+    <string name="navigation_menu_item_update">检查更新</string>
+    <string name="navigation_menu_item_share">分享给好友</string>
 </resources>

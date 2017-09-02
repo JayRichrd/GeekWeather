@@ -6,75 +6,22 @@
     <!--欢迎动画界面-->
     <string name="copyright">Copyright©2016 JiangYu</string>
 
-
-    <!--菜单选项界面-->
-    <string name="navigation_menu_item_author">我</string>
-    <string name="navigation_menu_item_about">关于</string>
-    <string name="navigation_menu_item_update">检查更新</string>
-    <string name="navigation_menu_item_share">分享给好友</string>
-
-
-    <!--主界面-->
-    <string name="default_city">深圳</string>
-    <!--天气预报-->
-    <string name="main_fragment_tv_weather_forecast_caption">多日天气预报</string>
-    <!--生活指数-->
-    <string name="main_fragment_tv_life_index_caption">生活指数</string>
-    <string name="main_fragment_tv_life_index_pm_25">PM2.5</string>
-    <string name="main_fragment_tv_life_index_exercise">晨练指数</string>
-    <string name="main_fragment_tv_life_index_clothes">穿衣指数</string>
-    <string name="main_fragment_tv_life_index_comfort">舒适度</string>
-    <string name="main_fragment_tv_life_index_influenza">感冒指数</string>
-    <string name="main_fragment_tv_life_index_wash_car">洗车指数</string>
-    <string name="main_fragment_tv_life_index_ultraviolet">紫外线强度</string>
-
-
     <!--请求天气url-->
     <string name="weather_city_base_url">http://wthrcdn.etouch.cn/WeatherApi?city=%1$s</string>
-    <string name="weather_city_key_base_url">http://wthrcdn.etouch.cn/WeatherApi?citykey=%1$s
-    </string>
-
-
-
-
-
-
-
-
-
-
-    <!--日历格式-->
-    <string name="mm_dd">%1$s/%2$s</string>
-
-    <!--昨天-->
-    <string name="yesterday">昨天</string>
-    <!--今天-->
-    <string name="today">今天</string>
-
-    <!--自动定位-->
-    <string name="auto_location">自动定位</string>
-
+    <string name="weather_city_key_base_url">http://wthrcdn.etouch.cn/WeatherApi?citykey=%1$s</string>
 
     <!--城市管理界面-->
-    <string name="city_manage">城市管理</string>
     <string name="set_default">设为默认</string>
     <string name="my_default">默认</string>
 
-    <!--添加城市界面-->
-    <string name="add_city">添加城市</string>
-    <string name="hint_search">请输入城市名称或拼音</string>
-    <string name="hot_city_label">热门城市</string>
-    <string name="no_matched_city">没有符合条件的城市</string>
-
-
     <!--log输出-->
-    <string name="error_get_data">获取日历数据失败！</string>
-    <string name="ok_location_gps">GPS定位成功</string>
-    <string name="ok_location_offline">离线定位成功</string>
-    <string name="ok_location_net">网络定位成功</string>
-    <string name="error_location">定位失败</string>
+    <string name="log_error_get_data">获取日历数据失败！</string>
+    <string name="log_ok_gps_location">GPS定位成功</string>
+    <string name="log_ok_offline_location">离线定位成功</string>
+    <string name="log_ok_net_location">网络定位成功</string>
+    <string name="log_error_location_failed">定位失败</string>
 
-    <!--默认文本-->
-    <string name="default_text">N/A</string>
-
+    <!--通用的一些字符-->
+    <string name="common_default_txt">N/A</string>
+    <string name="common_btn_confirm">知道了</string>
 </resources>

@@ -3,10 +3,9 @@ package com.yulong.jiangyu.geekweather.utils;
 import android.util.Xml;
 
 import com.yulong.jiangyu.geekweather.R;
-import com.yulong.jiangyu.geekweather.entity.WeatherForecastDaysEntity;
 import com.yulong.jiangyu.geekweather.entity.LifeIndexEntity;
-import com.yulong.jiangyu.geekweather.constant.Constant;
 import com.yulong.jiangyu.geekweather.entity.WeatherEntity;
+import com.yulong.jiangyu.geekweather.entity.WeatherForecastDaysEntity;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -381,7 +380,7 @@ public class Utils {
      * 获取温度
      *
      * @param tempStr 温度字符串 高温 23℃
-     * @return 温度值
+     * @return 返回温度值
      */
     public static int parseTemperature(String tempStr) {
         int temperature = 0;
@@ -390,7 +389,7 @@ public class Utils {
             String[] subStr = tempStr.split(" ");
             if (2 == subStr.length) {
                 //根据℃拆字符串
-                String[] subSubStr = subStr[1].split(Constant.SPLIT_TEMPERATURE_REGEX);
+                String[] subSubStr = subStr[1].split("℃");
                 if (subSubStr != null)
                     temperature = Integer.parseInt(subSubStr[0]);
             }
@@ -422,6 +421,18 @@ public class Utils {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatStr);
         currentDate = simpleDateFormat.format(System.currentTimeMillis());
         return currentDate;
+    }
+
+    /**
+     * 解析日期的字符串
+     *
+     * @param dateStr 字符串 18日星期六
+     * @return 返回日期和星期的数组
+     */
+    public static String[] parseDate(String dateStr) {
+        String[] result = dateStr.split("日");
+
+        return result;
     }
 
 //    public static void refreshWeatherData(final Context context, final String weatherRequest, final boolean

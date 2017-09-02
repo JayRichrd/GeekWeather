@@ -5,15 +5,15 @@
     android:background="@android:color/holo_green_dark"
     android:orientation="vertical">
     <!--标题栏-->
-    <include layout="@layout/include_title"/>
+    <include layout="@layout/include_common_title"/>
     <!--城市列表-->
     <GridView
         android:id="@+id/gv_city_manage"
         style="@style/common_both_w_and_h_match"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/margin_10dp"
         android:background="@android:color/holo_orange_dark"
         android:listSelector="@android:color/transparent"
         android:numColumns="3"
         android:scrollbars="none"
-        android:verticalSpacing="5dp"/>
+        android:verticalSpacing="@dimen/space_5dp"/>
 </LinearLayout>

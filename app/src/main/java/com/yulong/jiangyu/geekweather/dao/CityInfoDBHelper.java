@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.yulong.jiangyu.geekweather.bean.CityInfo;
+import com.yulong.jiangyu.geekweather.entity.CityEntity;
 import com.yulong.jiangyu.geekweather.constant.Constant;
 
 import java.sql.SQLException;
@@ -52,7 +52,7 @@ public class CityInfoDBHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
-            TableUtils.createTableIfNotExists(connectionSource, CityInfo.class);
+            TableUtils.createTableIfNotExists(connectionSource, CityEntity.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -69,7 +69,7 @@ public class CityInfoDBHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
-            TableUtils.dropTable(connectionSource, CityInfo.class, true);
+            TableUtils.dropTable(connectionSource, CityEntity.class, true);
         } catch (SQLException e) {
             e.printStackTrace();
         }
