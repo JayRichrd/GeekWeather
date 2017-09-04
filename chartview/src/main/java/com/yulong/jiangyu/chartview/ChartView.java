@@ -173,30 +173,34 @@ public class ChartView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (COUNT_NIGHT != 0 && COUNT_NIGHT == COUNT_DAY) {
-            if (0 == mHeight)
-                //计算X轴温度集合坐标与控件高度
-                setHeightAndXAxis(COUNT_DAY);
-            //计算Y轴温度集合坐标
-            computeYAxisValues(COUNT_DAY);
-            if (mYAxisDay != null && mYAxisNight != null && mXAxis != null) {
-                //画白天温度集合
-                drawChart(canvas, mDayLineColor, mTemperatureDay, mYAxisDay, COUNT_DAY, TYPE_DAY);
-                //画晚上温度集合
-                drawChart(canvas, mNightLineColor, mTemperatureNight, mYAxisNight, COUNT_NIGHT, TYPE_NIGHT);
+        // 这里必须加上鲁棒性检查mTemperatureDay和mTemperatureNight
+        // 否则在重启应用是会崩溃
+        if (mTemperatureDay != null && mTemperatureNight != null) {
+            if (COUNT_NIGHT != 0 && COUNT_NIGHT == COUNT_DAY) {
+                if (0 == mHeight)
+                    //计算X轴温度集合坐标与控件高度
+                    setHeightAndXAxis(COUNT_DAY);
+                //计算Y轴温度集合坐标
+                computeYAxisValues(COUNT_DAY);
+                if (mYAxisDay != null && mYAxisNight != null && mXAxis != null) {
+                    //画白天温度集合
+                    drawChart(canvas, mDayLineColor, mTemperatureDay, mYAxisDay, COUNT_DAY, TYPE_DAY);
+                    //画晚上温度集合
+                    drawChart(canvas, mNightLineColor, mTemperatureNight, mYAxisNight, COUNT_NIGHT, TYPE_NIGHT);
+                }
             }
         }
     }
 
     /**
-    *
-    * 画折线
-     * @param canvas 画布
-     * @param color 颜色
+     * 画折线
+     *
+     * @param canvas       画布
+     * @param color        颜色
      * @param temperatures 温度集合
-     * @param yAxis Y轴坐标集合
-     * @param count 数量
-     * @param type 线条类型 0 白天 1 晚上
+     * @param yAxis        Y轴坐标集合
+     * @param count        数量
+     * @param type         线条类型 0 白天 1 晚上
      */
     private void drawChart(Canvas canvas, int color, int[] temperatures, float[] yAxis, int count, int type) {
         //设置画笔颜色
@@ -252,14 +256,14 @@ public class ChartView extends View {
     }
 
     /**
+     * 画字
      *
-    * 画字
-     * @param canvas 画布
-     * @param paint 画笔
-     * @param index 索引
+     * @param canvas       画布
+     * @param paint        画笔
+     * @param index        索引
      * @param temperatures 温度集合
-     * @param yAxis Y轴坐标集合
-     * @param type 线条类型 0 白天 1 晚上
+     * @param yAxis        Y轴坐标集合
+     * @param type         线条类型 0 白天 1 晚上
      */
     private void drawText(Canvas canvas, Paint paint, int index, int[] temperatures, float[] yAxis, int type) {
         switch (type) {
@@ -274,7 +278,7 @@ public class ChartView extends View {
     }
 
     /**
-    * 计算Y轴集合数值
+     * 计算Y轴集合数值
      */
     private void computeYAxisValues(int count) {
         //白天最高温
@@ -316,9 +320,12 @@ public class ChartView extends View {
     }
 
     /**
-    * 求所给数组的最小值
+     * 求所给数组的最小值
      */
     private int getMin(int[] metric) {
+        // 鲁棒性检查
+        if (metric == null)
+            return 0;
         int min = metric[0];
         for (int temp : metric)
             if (temp < min)
@@ -328,9 +335,12 @@ public class ChartView extends View {
     }
 
     /**
-    * 求所给数组的最大值
+     * 求所给数组的最大值
      */
     private int getMax(int[] metric) {
+        // 鲁棒性检查
+        if (metric == null)
+            return 0;
         int max = metric[0];
         for (int temp : metric)
             if (temp > max)
@@ -339,7 +349,7 @@ public class ChartView extends View {
     }
 
     /**
-     *设置控件的高度和X轴的集合
+     * 设置控件的高度和X轴的集合
      */
     private void setHeightAndXAxis(int count) {
         mHeight = getHeight();
@@ -347,7 +357,7 @@ public class ChartView extends View {
         int width = getWidth();
         /**
          * 总共12等分
-        * X轴上6个坐标点
+         * X轴上6个坐标点
          */
         //每一份宽度
         float perWidth = width / (2 * count);
@@ -362,8 +372,8 @@ public class ChartView extends View {
     }
 
     /**
-    * 设置白天的温度
-    * 暴露给调用者使用的api
+     * 设置白天的温度
+     * 暴露给调用者使用的api
      */
     public void setTemperatureDay(int[] temperatures) {
         mTemperatureDay = temperatures;
@@ -372,7 +382,7 @@ public class ChartView extends View {
 
     /**
      * 设置晚上的温度
-    * 暴露给调用者使用的api
+     * 暴露给调用者使用的api
      */
     public void setTemperatureNight(int[] temperatures) {
         mTemperatureNight = temperatures;
