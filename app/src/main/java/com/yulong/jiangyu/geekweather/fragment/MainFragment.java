@@ -43,15 +43,14 @@ import com.yulong.jiangyu.geekweather.activity.CityManageActivity;
 import com.yulong.jiangyu.geekweather.constant.Constant;
 import com.yulong.jiangyu.geekweather.dao.LifeIndexDao;
 import com.yulong.jiangyu.geekweather.entity.CityManageEntity;
-import com.yulong.jiangyu.geekweather.entity.DateEntity;
+import com.yulong.jiangyu.geekweather.entity.JuHeDateEntity;
 import com.yulong.jiangyu.geekweather.entity.LifeIndexEntity;
-import com.yulong.jiangyu.geekweather.entity.WeatherEntity;
 import com.yulong.jiangyu.geekweather.entity.WeatherForecastDaysEntity;
-import com.yulong.jiangyu.geekweather.listener.HttpCallbackListener;
-import com.yulong.jiangyu.geekweather.net.RequestDataNet;
+import com.yulong.jiangyu.geekweather.entity.WthrcdnWeatherEntity;
+import com.yulong.jiangyu.geekweather.interfaces.IDataRequest;
+import com.yulong.jiangyu.geekweather.listener.IHttpCallbackListener;
 import com.yulong.jiangyu.geekweather.utils.Utils;
 
-import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -231,7 +230,8 @@ public class MainFragment extends Fragment {
     // 生活指数数据库操作
     private LifeIndexDao mLifeIndexDao;
     // 天气信息对象
-    private WeatherEntity mWeatherEntity;
+    private WthrcdnWeatherEntity mWeatherEntity;
+
 
     private Unbinder mUnbinder;
     private ActionBarDrawerToggle mActionBarDrawerToggle = null;
@@ -253,7 +253,7 @@ public class MainFragment extends Fragment {
             super.handleMessage(msg);
             switch (msg.what) {
                 case Constant.MAIN_FRAGMENT_UPDATE_WEATHER_UI://更新天气
-                    WeatherEntity weatherInfo = (WeatherEntity) msg.getData().getSerializable(Constant
+                    WthrcdnWeatherEntity weatherInfo = (WthrcdnWeatherEntity) msg.getData().getSerializable(Constant
                             .MAIN_FRAGMENT_WEATHER_ENTITY);
                     // 先停止刷新
                     if (ptrsvRoot.isRefreshing())
@@ -264,7 +264,7 @@ public class MainFragment extends Fragment {
                     updateWeatherUI(weatherInfo);
                     break;
                 case Constant.MAIN_FRAGMENT_UPDATE_DATE_UI://更新日历
-                    DateEntity dateInfo = (DateEntity) msg.getData().getSerializable(Constant
+                    JuHeDateEntity dateInfo = (JuHeDateEntity) msg.getData().getSerializable(Constant
                             .MAIN_FRAGMENT_DATE_ENTITY);
                     updateDateUI(dateInfo);
                     break;
@@ -279,10 +279,12 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "===onCreate()===");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d(TAG, "===onCreateView()===");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         mUnbinder = ButterKnife.bind(this, view);
@@ -294,6 +296,13 @@ public class MainFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d(TAG, "===onDestroyView()===");
+        mUnbinder.unbind();
+    }
+
     /**
      * Called when the fragment is no longer in use.  This is called
      * after {@link #onStop()} and before {@link #onDetach()}.
@@ -301,7 +310,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mUnbinder.unbind();
+        Log.d(TAG, "===onDestroy()===");
     }
 
     /**
@@ -449,16 +458,14 @@ public class MainFragment extends Fragment {
      * 刷新获取天气数据
      */
     private void refreshData() {
+        Log.d(TAG, "===" + getString(R.string.main_fragment_toast_update_start) + "===");
         Toast.makeText(getActivity(), getString(R.string.main_fragment_toast_update_start), Toast.LENGTH_SHORT).show();
         // 请求天气数据
-        RequestDataNet.requestWeatherData(getActivity(), mCity, false, new HttpCallbackListener() {
+        IDataRequest weatherRequest = Utils.createWeatherRequestNet(getContext());
+        weatherRequest.requestData(getActivity(), mCity, false, new IHttpCallbackListener() {
             @Override
             public void onFinished(Object response) {
-                String weatherEntityStr = (String) response;
-                // 解析天气数据
-                mWeatherEntity = Utils.handleWeatherInfo(new ByteArrayInputStream(weatherEntityStr.getBytes()));
-                // 将生活指数数据存库
-                mLifeIndexDao.insert(mWeatherEntity.getmWeatherLifeIndies());
+                mWeatherEntity = (WthrcdnWeatherEntity) response;
                 //发送Handler消息来更新UI界面
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constant.MAIN_FRAGMENT_WEATHER_ENTITY, mWeatherEntity);
@@ -466,7 +473,6 @@ public class MainFragment extends Fragment {
                 msg.setData(bundle);
                 msg.what = Constant.MAIN_FRAGMENT_UPDATE_WEATHER_UI;
                 mHandler.sendMessage(msg);
-
             }
 
             @Override
@@ -476,12 +482,13 @@ public class MainFragment extends Fragment {
 
         //请求日历数据
         String dateStr = Utils.getCurrentDate(getString(R.string.format_request_date));
-        RequestDataNet.requestDateData(dateStr, new HttpCallbackListener() {
+        IDataRequest dateRequest = Utils.createDateRequestNet(getContext());
+        dateRequest.requestData(getActivity(), dateStr, false, new IHttpCallbackListener() {
             @Override
             public void onFinished(Object response) {
                 //发送Handler消息来更新UI界面
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(Constant.MAIN_FRAGMENT_DATE_ENTITY, (DateEntity) response);
+                bundle.putSerializable(Constant.MAIN_FRAGMENT_DATE_ENTITY, (JuHeDateEntity) response);
                 Message msg = new Message();
                 msg.setData(bundle);
                 msg.what = Constant.MAIN_FRAGMENT_UPDATE_DATE_UI;
@@ -500,7 +507,7 @@ public class MainFragment extends Fragment {
      *
      * @param dateEntity 日期信息
      */
-    private void updateDateUI(DateEntity dateEntity) {
+    private void updateDateUI(JuHeDateEntity dateEntity) {
         String dateStr = Utils.getCurrentDate(getString(R.string.format_ui_date));
         String lunarStr = dateEntity.getResult().getData().getLunar();
         tvDate.setText(String.format(getString(R.string.format_date), dateStr, lunarStr));
@@ -511,7 +518,7 @@ public class MainFragment extends Fragment {
      *
      * @param weatherEntity 天气信息数据
      */
-    private void updateWeatherUI(WeatherEntity weatherEntity) {
+    private void updateWeatherUI(WthrcdnWeatherEntity weatherEntity) {
         // 设置城市
         tvCity.setText(weatherEntity.getmCity());
         // 更新头部时间
@@ -706,7 +713,7 @@ public class MainFragment extends Fragment {
      *
      * @param weatherEntity 天气信息
      */
-    private void setTemperature(WeatherEntity weatherEntity) {
+    private void setTemperature(WthrcdnWeatherEntity weatherEntity) {
         String temperature = weatherEntity.getmTemperature();
         if (temperature != null) {
             if (temperature.contains("-")) {//负数
@@ -781,7 +788,7 @@ public class MainFragment extends Fragment {
      *
      * @param weatherEntity 天气信息
      */
-    private void setAqi(WeatherEntity weatherEntity) {
+    private void setAqi(WthrcdnWeatherEntity weatherEntity) {
         String quality = weatherEntity.getmAQ();
         if (quality == null) {
             return;
@@ -887,12 +894,6 @@ public class MainFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mUnbinder.unbind();
-    }
-
     /**
      * 位置监听
      */
@@ -900,6 +901,7 @@ public class MainFragment extends Fragment {
 
         @Override
         public void onReceiveLocation(BDLocation bdLocation) {
+            Log.d(TAG, "===onReceiveLocation()===");
             //监听一次后注销
             mLocationClient.stop();
             mLocationClient.unRegisterLocationListener(mBaiDuLocationListener);

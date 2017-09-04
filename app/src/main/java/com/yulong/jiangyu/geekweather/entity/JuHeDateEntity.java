@@ -1,15 +1,15 @@
 package com.yulong.jiangyu.geekweather.entity;
 
 import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
+import com.yulong.jiangyu.geekweather.interfaces.IDataEntity;
 
 /**
  * Created by jiangyu on 2017/1/26.
  */
 
-public class DateEntity implements Serializable {
-    private static final long serialVersionUID = -642688239048492271L;
+public class JuHeDateEntity implements IDataEntity {
+
+    private static final long serialVersionUID = -7332948732509081937L;
     /**
      * reason : Success
      * result : {"data":{"avoid":"破土.动土.安葬.","animalsYear":"猴","weekday":"星期四","suit":"祭祀.解除.教牛马.会亲友.余事勿取.",

@@ -9,7 +9,7 @@ package com.yulong.jiangyu.geekweather.listener;
  * note Http访问返回回调的接口
  **/
 
-public interface HttpCallbackListener {
+public interface IHttpCallbackListener {
     /**
      * 加载完成
      *

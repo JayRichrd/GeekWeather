@@ -5,32 +5,12 @@ package com.yulong.jiangyu.geekweather.constant;
  */
 
 public class Constant {
-    //和风天气
-    //public static final String heWeatherKey = "92db8eb848534ae09f35951c6628a87a";
-    //public static final String heWeatherBaseUrl = "https://free-api.heweather.com/v5/";
-    //聚合数据天气预报
-    //public static final String juHeWeatherKey = "4ea58de8a7573377cec0046f5e2469d5";
-    //public static final String juHeWeatherBaseUrl = "http://op.juhe.cn/";
-    //中华万年历天气
-    //public static final String weatherUrl = "http://wthrcdn.etouch.cn/WeatherApi?city=";
-    //天气类型
-    //public static final int HEWEATHER = 1;
-    //public static final int JUHEWEATHER = 2;
-    //public static final int WEATHER = 3;
-    //聚合数据万年历
-    public static final String dateKey = "f8e4dc7c7920b3d9e8c163af1cc2fb3f";
-    public static final String dateBaseUrl = "http://v.juhe.cn/";
-    public static final String statusOK = "ok";
-    public static final int errorCode = 0;
+    public static final int errorCode = 0x0;
     //数据版本号
     public static final int TABLE_VERSION = 1;
-    //查询的ID
-    //public static final Integer ID = 1;
-
 
     // share preference
     public static final String WEATHER_SHARE_PREFERENCE = "share_preference_weather";
-    // default city
     // SQLite db
     public static final String CITY_MANAGE_DB = "city_manage.db";
     public static final String TABLE_NAME1 = "life_index.db";
@@ -42,6 +22,7 @@ public class Constant {
     public static final String DEFAULT_CITY = "DefaultCity";
 
     public static final String CHOSE_CITY = "ChoseCity";
+
     // 白天到夜晚的时间分界点
     public static final int DAY_2_NIGHT = 18;
 
@@ -66,5 +47,8 @@ public class Constant {
 
     // AddCityActivity
     public static final int ADD_CITY_ACTIVITY_RESULT_CODE = 0x7;
+
+    // WelcomeActivity
+    public static final int WELCOME_ACTIVITY_START_MAIN_ACTIVITY = 0X8;
 
 }

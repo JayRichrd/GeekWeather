@@ -13,6 +13,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
 import com.yulong.jiangyu.geekweather.R;
+import com.yulong.jiangyu.geekweather.constant.Constant;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,33 +27,27 @@ import butterknife.Unbinder;
 public class WelcomeActivity extends AppCompatActivity {
 
     private static final String TAG = "WelcomeActivity";
-    private static final int START_MAIN_ACTIVITY = 0x001;
 
     @BindView(R.id.tv_welcome)
     TextView tvWelcome;
     private Unbinder unbinder;
     //设置动画
     private AnimationSet animationSet;
-    //动画显示的时间
+    //动画显示的时间,单位ms
     private int animationTime = 2000;
     private Handler handler = new Handler() {
-        /**
-         * Subclasses must implement this to receive messages.
-         *
-         * @param msg
-         */
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case START_MAIN_ACTIVITY://进入主界面
+                case Constant.WELCOME_ACTIVITY_START_MAIN_ACTIVITY://进入主界面
                     Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
                     startActivity(intent);
-                    Log.i(TAG, "***handleMessage***:start main activity");
+                    Log.i(TAG, getString(R.string.log_start_main_activity));
                     finish();
                     break;
                 default:
-                    Log.d(TAG, "***handleMessage***:nothing to handled");
+                    Log.d(TAG, getString(R.string.log_nothing_to_do));
             }
         }
     };
@@ -93,19 +88,19 @@ public class WelcomeActivity extends AppCompatActivity {
         animationSet.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                Log.i(TAG, "***onAnimationStart***:Animation start");
+                Log.i(TAG, getString(R.string.log_animation_start));
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                Log.i(TAG, "***onAnimationEnd***:Animation end");
+                Log.i(TAG, getString(R.string.log_animation_end));
                 //1秒钟后发送handler消息
-                handler.sendEmptyMessageDelayed(START_MAIN_ACTIVITY, 1000);
+                handler.sendEmptyMessageDelayed(Constant.WELCOME_ACTIVITY_START_MAIN_ACTIVITY, 1000);
             }
 
             @Override
             public void onAnimationRepeat(Animation animation) {
-                Log.i(TAG, "***onAnimationRepeat***:Animation repeat");
+                Log.i(TAG, getString(R.string.log_animation_repeat));
             }
         });
     }

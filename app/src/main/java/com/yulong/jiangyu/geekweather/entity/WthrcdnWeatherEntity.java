@@ -1,6 +1,7 @@
 package com.yulong.jiangyu.geekweather.entity;
 
-import java.io.Serializable;
+import com.yulong.jiangyu.geekweather.interfaces.IDataEntity;
+
 import java.util.List;
 
 /**
@@ -12,8 +13,8 @@ import java.util.List;
  * note 天气实体
  **/
 
-public class WeatherEntity implements Serializable {
-    private static final long serialVersionUID = -1817778761471469646L;
+public class WthrcdnWeatherEntity implements IDataEntity {
+    private static final long serialVersionUID = 3708542697084778563L;
     //城市
     private String mCity;
     //更新时间

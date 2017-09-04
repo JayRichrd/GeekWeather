@@ -1,11 +1,13 @@
 package com.yulong.jiangyu.geekweather.utils;
 
+import android.content.Context;
 import android.util.Xml;
 
 import com.yulong.jiangyu.geekweather.R;
 import com.yulong.jiangyu.geekweather.entity.LifeIndexEntity;
-import com.yulong.jiangyu.geekweather.entity.WeatherEntity;
 import com.yulong.jiangyu.geekweather.entity.WeatherForecastDaysEntity;
+import com.yulong.jiangyu.geekweather.entity.WthrcdnWeatherEntity;
+import com.yulong.jiangyu.geekweather.interfaces.IDataRequest;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -26,15 +28,20 @@ import java.util.List;
  **/
 
 public class Utils {
-    private static final String LOG_TAG = "WeatherInfoUtil";
+    private static final String TAG = "Utils";
+    // 类的后缀
+    private static final String SUFFIX_WEATHER_REQUEST_NET = "WeatherRequestNet";
+    private static final String SUFFIX_DATE_REQUEST_NET = "DateRequestNet";
+    // 包名后缀
+    private static final String SUFFIX_PACKAGE_NAME = ".net";
 
     /**
      * @param inputStream 输入流
      * @return 解析好的天气信息
      */
-    public static WeatherEntity handleWeatherInfo(InputStream inputStream) {
+    public static WthrcdnWeatherEntity handleWthrcdnWeatherEntity(InputStream inputStream) {
         //初始化
-        WeatherEntity weatherInfo = new WeatherEntity();
+        WthrcdnWeatherEntity weatherInfo = new WthrcdnWeatherEntity();
         WeatherForecastDaysEntity weatherDaysForecast = null;
         List<WeatherForecastDaysEntity> weatherDaysForecasts = new ArrayList<>();
         LifeIndexEntity weatherLifeIndex = null;
@@ -222,10 +229,10 @@ public class Utils {
                 eventType = parser.next();
             }
         } catch (XmlPullParserException e) {
-            LogUtil.e(LOG_TAG, e.getMessage());
+            LogUtil.e(TAG, e.getMessage());
             e.printStackTrace();
         } catch (IOException e) {
-            LogUtil.e(LOG_TAG, e.getMessage());
+            LogUtil.e(TAG, e.getMessage());
             e.printStackTrace();
         }
         weatherInfo.setmWeatherDaysForecasts(weatherDaysForecasts);
@@ -445,11 +452,12 @@ public class Utils {
 //            address_weather = context.getString(R.string.weather_city_base_url, weatherRequest);
 //        }
 //
-//        WebUtil.requestWeatherData(address_weather, new HttpCallbackListener() {
+//        WebUtil.requestData(address_weather, new HttpCallbackListener() {
 //            @Override
 //            public void onFinished(Object response) {
 //                //获取天气数据
-//                WeatherInfo weatherInfo = WeatherInfoUtil.handleWeatherInfo(new ByteArrayInputStream(((String)
+//                WeatherInfo weatherInfo = WeatherInfoUtil.handleWthrcdnWeatherEntity(new ByteArrayInputStream((
+// (String)
 // response)
 //                        .getBytes()));
 //                refreshCallbackListener.onRefreshed(weatherInfo);
@@ -480,5 +488,61 @@ public class Utils {
 //            }
 //        });
 //    }
+
+    /**
+     * 利用反射生成对应的类
+     *
+     * @param context 上下文
+     * @return 返回生成的类
+     */
+    public static IDataRequest createWeatherRequestNet(Context context) {
+        // 包名
+        String pkName = context.getPackageName();
+        // 类名
+        String className = context.getString(R.string.config_weather) + SUFFIX_WEATHER_REQUEST_NET;
+        // 类的全限定名
+        String fullPath = pkName + SUFFIX_PACKAGE_NAME + "." + className;
+        // 下面将利用反射来生成类
+        IDataRequest weatherRequestNet = null;
+        try {
+            Class<?> clazz = Class.forName(fullPath);
+            weatherRequestNet = (IDataRequest) clazz.newInstance();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return weatherRequestNet;
+    }
+
+    /**
+     * 利用反射生成对应的类
+     *
+     * @param context 上下文
+     * @return 返回生成的类
+     */
+    public static IDataRequest createDateRequestNet(Context context) {
+        // 包名
+        String pkName = context.getPackageName();
+        // 类名
+        String className = context.getString(R.string.config_date) + SUFFIX_DATE_REQUEST_NET;
+        // 类的全限定名
+        String fullPath = pkName + SUFFIX_PACKAGE_NAME + "." + className;
+        // 下面将利用反射来生成类
+        IDataRequest dateRequestNet = null;
+        try {
+            Class<?> clazz = Class.forName(fullPath);
+            dateRequestNet = (IDataRequest) clazz.newInstance();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return dateRequestNet;
+    }
 
 }

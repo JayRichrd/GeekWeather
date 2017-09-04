@@ -18,4 +18,18 @@
     <string name="config_baidu_map_meta_data_name">com.baidu.lbsapi.API_KEY</string>
     <string name="config_baidu_map_meta_data_value">FSL9U9opMW6ZXR1XoDtYyHd4W8tnn8vK</string>
 
+    <!--请求天气url-->
+    <string name="config_wthrcdn_weather_request_base_url_city">http://wthrcdn.etouch.cn/WeatherApi?city=%1$s</string>
+    <string name="config_wthrcdn_weather_request_base_url_city_key">http://wthrcdn.etouch.cn/WeatherApi?citykey=%1$s</string>
+
+    <!--请求日历url-->
+    <string name="config_juhe_date_request_base_url">http://v.juhe.cn/</string>
+    <!--请求日历key-->
+    <string name="config_juhe_date_request_key">f8e4dc7c7920b3d9e8c163af1cc2fb3f</string>
+
+    <!--数据源配置信息-->
+    <string name="config_weather">Wthrcdn</string>
+    <string name="config_date">JuHe</string>
+
+
 </resources>

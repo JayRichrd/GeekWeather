@@ -17,12 +17,11 @@ import com.yulong.jiangyu.geekweather.constant.Constant;
 import com.yulong.jiangyu.geekweather.dao.CityMangeEntityDao;
 import com.yulong.jiangyu.geekweather.entity.CityEntity;
 import com.yulong.jiangyu.geekweather.entity.CityManageEntity;
-import com.yulong.jiangyu.geekweather.entity.WeatherEntity;
-import com.yulong.jiangyu.geekweather.listener.HttpCallbackListener;
-import com.yulong.jiangyu.geekweather.net.RequestDataNet;
+import com.yulong.jiangyu.geekweather.entity.WthrcdnWeatherEntity;
+import com.yulong.jiangyu.geekweather.interfaces.IDataRequest;
+import com.yulong.jiangyu.geekweather.listener.IHttpCallbackListener;
 import com.yulong.jiangyu.geekweather.utils.Utils;
 
-import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import butterknife.BindView;
@@ -95,13 +94,12 @@ public class CityManageActivity extends AppCompatActivity {
             // 禁止点击城市列表
             gvCityManage.setOnItemClickListener(null);
             // 请求天气数据
-            RequestDataNet.requestWeatherData(this, weatherCode, true, new HttpCallbackListener() {
+            IDataRequest weatherRequest = Utils.createWeatherRequestNet(getApplicationContext());
+            weatherRequest.requestData(this, weatherCode, true, new IHttpCallbackListener() {
                 @Override
                 public void onFinished(Object response) {
-                    String weatherEntityStr = (String) response;
                     // 解析处理获取的天气数据
-                    WeatherEntity weatherEntity = Utils.handleWeatherInfo(new ByteArrayInputStream(
-                            weatherEntityStr.getBytes()));
+                    WthrcdnWeatherEntity weatherEntity = (WthrcdnWeatherEntity) response;
                     // 插入数据库
                     boolean result = mCityMangeDao.insert(new CityManageEntity(null, weatherEntity.getmCity(),
                             weatherEntity.getmWeatherDaysForecasts().get(1).getmHighTemperature(),
@@ -206,13 +204,14 @@ public class CityManageActivity extends AppCompatActivity {
      */
     private void refresh() {
         for (final CityManageEntity cityManage : mCityManageEntityList) {
-            RequestDataNet.requestWeatherData(this, cityManage.getWeatherCode(), true, new HttpCallbackListener() {
+            // 请求天气数据
+            IDataRequest weatherRequest = Utils.createWeatherRequestNet(getApplicationContext());
+
+            weatherRequest.requestData(this, cityManage.getWeatherCode(), true, new IHttpCallbackListener() {
                 @Override
                 public void onFinished(Object response) {
-                    String weatherEntityStr = (String) response;
                     // 解析处理获取的天气数据
-                    WeatherEntity weatherEntity = Utils.handleWeatherInfo(new ByteArrayInputStream
-                            (weatherEntityStr.getBytes()));
+                    WthrcdnWeatherEntity weatherEntity = (WthrcdnWeatherEntity) response;
                     // 刷新数据
                     mCityMangeDao.update(new CityManageEntity(null, weatherEntity.getmCity(),
                             weatherEntity.getmWeatherDaysForecasts().get(1).getmHighTemperature(),
@@ -227,6 +226,7 @@ public class CityManageActivity extends AppCompatActivity {
 
                 }
             });
+
         }
         updateUI();
     }
