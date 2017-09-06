@@ -29,11 +29,14 @@
                 android:textSize="@dimen/font_size_xx_large"
                 android:textStyle="bold"/>
             <!--添加城市图标-->
+            <!--android:layout_gravity="right"-->
             <ImageView
                 android:id="@+id/iv_add_city"
                 style="@style/common_both_w_and_h_wrap"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/margin_12dp"
                 android:layout_marginRight="@dimen/margin_12dp"
+                android:contentDescription="@string/main_fragment_iv_add_city_content_desc"
                 android:src="@drawable/ic_home"/>
         </android.support.v7.widget.Toolbar>
 

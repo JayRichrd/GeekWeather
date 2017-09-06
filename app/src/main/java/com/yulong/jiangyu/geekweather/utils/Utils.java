@@ -425,7 +425,7 @@ public class Utils {
      */
     public static String getCurrentDate(String formatStr) {
         String currentDate;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatStr);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatStr, java.util.Locale.getDefault());
         currentDate = simpleDateFormat.format(System.currentTimeMillis());
         return currentDate;
     }

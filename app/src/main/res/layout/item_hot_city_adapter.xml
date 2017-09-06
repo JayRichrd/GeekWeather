@@ -8,8 +8,8 @@
         android:id="@+id/tv_hot_city"
         style="@style/common_w_match_and_h_wrap"
         android:gravity="center"
-        android:paddingBottom="9dp"
-        android:paddingTop="9dp"
-        android:text="N/A"
-        android:textSize="16sp"/>
+        android:paddingBottom="@dimen/padding_9dp"
+        android:paddingTop="@dimen/padding_9dp"
+        android:text="@string/common_default_txt"
+        android:textSize="@dimen/font_size_large"/>
 </LinearLayout>

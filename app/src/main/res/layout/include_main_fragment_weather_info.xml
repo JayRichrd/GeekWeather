@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               style="@style/common_both_w_and_h_wrap"
               android:layout_marginLeft="@dimen/margin_16dp"
+              android:layout_marginStart="@dimen/margin_16dp"
               android:layout_marginTop="@dimen/margin_60dp"
               android:orientation="vertical">
 
@@ -12,26 +13,31 @@
         <ImageView
             android:id="@+id/iv_symbol"
             style="@style/weather_info_degree"
+            android:contentDescription="@string/common_iv_temperature_content_desc"
             android:src="@drawable/ic_minus"
             android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/iv_number1"
             style="@style/weather_info_degree"
+            android:contentDescription="@string/common_iv_temperature_content_desc"
             android:src="@drawable/ic_number_0"
             android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/iv_number2"
             style="@style/weather_info_degree"
+            android:contentDescription="@string/common_iv_temperature_content_desc"
             android:src="@drawable/ic_number_0"/>
 
         <RelativeLayout
             style="@style/common_w_wrap_and_h_match"
-            android:layout_marginLeft="@dimen/margin_4dp">
+            android:layout_marginLeft="@dimen/margin_4dp"
+            android:layout_marginRight="@dimen/margin_4dp">
 
             <ImageView
                 style="@style/weather_info_degree"
+                android:contentDescription="@string/common_iv_temperature_content_desc"
                 android:src="@drawable/degree"/>
             <!--天气类型-->
             <TextView
@@ -53,19 +59,24 @@
         <TextView
             android:id="@+id/tv_wind"
             style="@style/weather_info_text"
-            android:drawableLeft="@drawable/ic_wind"/>
+            android:drawableLeft="@drawable/ic_wind"
+            android:drawableStart="@drawable/ic_wind"/>
         <!--湿度-->
         <TextView
             android:id="@+id/tv_humidity"
             style="@style/weather_info_text"
             android:layout_marginLeft="@dimen/margin_16dp"
-            android:drawableLeft="@drawable/ic_humidity"/>
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:drawableLeft="@drawable/ic_humidity"
+            android:drawableStart="@drawable/ic_humidity"/>
         <!--空气质量-->
         <TextView
             android:id="@+id/tv_aqi"
             style="@style/weather_info_text"
             android:layout_marginLeft="@dimen/margin_16dp"
-            android:drawableLeft="@drawable/ic_quality_good"/>
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:drawableLeft="@drawable/ic_quality_good"
+            android:drawableStart="@drawable/ic_quality_good"/>
     </LinearLayout>
 
 </LinearLayout>

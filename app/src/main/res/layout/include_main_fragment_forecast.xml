@@ -3,6 +3,7 @@
               xmlns:wcv="http://schemas.android.com/apk/res-auto"
               style="@style/common_w_match_and_h_wrap"
               android:layout_marginLeft="@dimen/margin_16dp"
+              android:layout_marginStart="@dimen/margin_16dp"
               android:layout_marginTop="@dimen/margin_20dp"
               android:orientation="vertical">
     <!--标题-->
@@ -17,7 +18,8 @@
         <View
             style="@style/divider_line_horizontal"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/margin_16dp"/>
+            android:layout_marginLeft="@dimen/margin_16dp"
+            android:layout_marginStart="@dimen/margin_16dp"/>
 
     </LinearLayout>
     <!--具体的天气预报-->
@@ -90,27 +92,33 @@
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_day1"
-                style="@style/iv_item_weather_forecast"/>
+                style="@style/iv_item_weather_forecast"
+                android:contentDescription="@string/common_iv_weather_type_content_desc"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_day2"
-                style="@style/iv_item_weather_forecast"/>
+                style="@style/iv_item_weather_forecast"
+                android:contentDescription="@string/common_iv_weather_type_content_desc"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_day3"
-                style="@style/iv_item_weather_forecast"/>
+                style="@style/iv_item_weather_forecast"
+                android:contentDescription="@string/common_iv_weather_type_content_desc"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_day4"
-                style="@style/iv_item_weather_forecast"/>
+                style="@style/iv_item_weather_forecast"
+                android:contentDescription="@string/common_iv_weather_type_content_desc"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_day5"
-                style="@style/iv_item_weather_forecast"/>
+                style="@style/iv_item_weather_forecast"
+                android:contentDescription="@string/common_iv_weather_type_content_desc"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_day6"
-                style="@style/iv_item_weather_forecast"/>
+                style="@style/iv_item_weather_forecast"
+                android:contentDescription="@string/common_iv_weather_type_content_desc"/>
         </LinearLayout>
         <!--白天天气类型-->
         <LinearLayout
@@ -186,27 +194,33 @@
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_night1"
-                style="@style/iv_item_weather_forecast"/>
+                style="@style/iv_item_weather_forecast"
+                android:contentDescription="@string/common_iv_weather_type_content_desc"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_night2"
-                style="@style/iv_item_weather_forecast"/>
+                style="@style/iv_item_weather_forecast"
+                android:contentDescription="@string/common_iv_weather_type_content_desc"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_night3"
-                style="@style/iv_item_weather_forecast"/>
+                style="@style/iv_item_weather_forecast"
+                android:contentDescription="@string/common_iv_weather_type_content_desc"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_night4"
-                style="@style/iv_item_weather_forecast"/>
+                style="@style/iv_item_weather_forecast"
+                android:contentDescription="@string/common_iv_weather_type_content_desc"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_night5"
-                style="@style/iv_item_weather_forecast"/>
+                style="@style/iv_item_weather_forecast"
+                android:contentDescription="@string/common_iv_weather_type_content_desc"/>
 
             <ImageView
                 android:id="@+id/iv_weather_forecast_night6"
-                style="@style/iv_item_weather_forecast"/>
+                style="@style/iv_item_weather_forecast"
+                android:contentDescription="@string/common_iv_weather_type_content_desc"/>
         </LinearLayout>
         <!--风向-->
         <LinearLayout

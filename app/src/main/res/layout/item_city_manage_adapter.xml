@@ -33,8 +33,11 @@
                 android:id="@+id/iv_weather_type"
                 style="@style/common_both_w_and_h_wrap"
                 android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_10dp"
                 android:layout_marginRight="@dimen/margin_10dp"
+                android:contentDescription="@string/common_iv_weather_type_content_desc"
                 android:src="@drawable/ic_weather_no"/>
 
             <!--wrap_content时，由子布局来决定父布局-->
@@ -43,6 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/height_40dp"
                 android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/iv_weather_type"
                 android:layout_toRightOf="@id/iv_weather_type">
                 <!--高温-->
                 <TextView
@@ -86,6 +90,7 @@
         android:id="@+id/iv_add_city"
         style="@style/common_both_w_and_h_wrap"
         android:layout_gravity="center"
+        android:contentDescription="@string/city_manage_iv_add_city_content_desc"
         android:src="@drawable/ic_action_new"
         android:visibility="invisible"/>
 
@@ -94,7 +99,9 @@
         android:id="@+id/iv_delete_city"
         style="@style/common_both_w_and_h_wrap"
         android:layout_marginBottom="@dimen/margin_20dp"
+        android:layout_marginEnd="@dimen/margin_20dp"
         android:layout_marginRight="@dimen/margin_20dp"
+        android:contentDescription="@string/city_manage_iv_delete_city_content_desc"
         android:src="@drawable/ic_delete_btn"
         android:visibility="visible"/>
 </FrameLayout>

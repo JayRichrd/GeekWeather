@@ -9,6 +9,8 @@
         style="@style/common_both_w_and_h_wrap"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/margin_8dp"
+        android:layout_marginStart="@dimen/margin_8dp"
+        android:contentDescription="@string/common_iv_back_content_desc"
         android:src="@drawable/ic_action_back"/>
 
     <TextView
@@ -21,9 +23,12 @@
     <ImageView
         android:id="@+id/iv_refresh"
         style="@style/common_both_w_and_h_wrap"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/margin_right"
+        android:layout_marginEnd="@dimen/margin_8dp"
+        android:layout_marginRight="@dimen/margin_8dp"
+        android:contentDescription="@string/common_iv_refresh_content_desc"
         android:src="@drawable/ic_action_refresh"
         android:visibility="gone"/>
 
@@ -31,9 +36,12 @@
         android:id="@+id/iv_edit"
         style="@style/common_both_w_and_h_wrap"
         android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/margin_8dp"
         android:layout_marginRight="@dimen/margin_8dp"
         android:layout_toLeftOf="@id/iv_refresh"
+        android:layout_toStartOf="@id/iv_refresh"
         android:background="@drawable/bg_edit_city_manage"
+        android:contentDescription="@string/common_iv_edit_content_desc"
         android:src="@drawable/ic_action_edit"
         android:visibility="gone"/>
 
@@ -41,8 +49,11 @@
         android:id="@+id/iv_ok"
         style="@style/common_both_w_and_h_wrap"
         android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/margin_8dp"
         android:layout_marginRight="@dimen/margin_8dp"
         android:layout_toLeftOf="@id/iv_refresh"
+        android:layout_toStartOf="@id/iv_refresh"
+        android:contentDescription="@string/common_iv_ok_content_desc"
         android:src="@drawable/ic_action_ok"
         android:visibility="gone"/>
 </RelativeLayout>

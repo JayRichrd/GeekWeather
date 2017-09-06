@@ -4,7 +4,8 @@
     <string name="MainFragment">MainFragment</string>
 
     <!--欢迎动画界面-->
-    <string name="copyright">Copyright©2016 JiangYu</string>
+    <string name="welcome_activity_tv_copyright">Copyright©2016 JiangYu</string>
+    <string name="welcome_activity_tv_welcome">GeekWeather</string>
 
     <!--城市管理界面-->
     <string name="set_default">设为默认</string>
@@ -25,4 +26,13 @@
     <!--通用的一些字符-->
     <string name="common_default_txt">N/A</string>
     <string name="common_btn_confirm">知道了</string>
+
+    <string name="common_iv_back_content_desc">返回</string>
+    <string name="common_iv_refresh_content_desc">刷新</string>
+    <string name="common_iv_edit_content_desc">编辑</string>
+    <string name="common_iv_ok_content_desc">完成</string>
+    <string name="common_iv_weather_type_content_desc">天气类型</string>
+    <string name="common_iv_life_index_content_desc">生活指数</string>
+    <string name="common_iv_temperature_content_desc">温度</string>
+
 </resources>

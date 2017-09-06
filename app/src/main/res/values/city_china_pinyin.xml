@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="city_china_pinyin">
         <item>beijing-beijing</item>
         <item>haidian-beijing</item>
@@ -2327,7 +2327,7 @@
         <item>heqing-yunnan</item>
         <item>nanjian-yunnan</item>
         <item>honghe-yunnan</item>
-        <item>shiping-yunnan</item>
+        <item tools:ignore="Typos">shiping-yunnan</item>
         <item>jianshui-yunnan</item>
         <item>mile-yunnan</item>
         <item>yuanyang-yunnan</item>

@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/common_both_w_and_h_match"
     android:background="@color/colorPrimary">
 
     <TextView
         android:id="@+id/tv_welcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/common_both_w_and_h_wrap"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:text="GeekWeather"
+        android:text="@string/welcome_activity_tv_welcome"
         android:textColor="@color/white"
-        android:textSize="38sp"/>
+        android:textSize="@dimen/font_size_xxx_large"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/common_w_match_and_h_wrap"
         android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:text="@string/copyright"
+        android:text="@string/welcome_activity_tv_copyright"
         android:textColor="@color/white"/>
 </RelativeLayout>

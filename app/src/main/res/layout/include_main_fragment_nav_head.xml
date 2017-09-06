@@ -6,11 +6,13 @@
               android:gravity="bottom"
               android:orientation="vertical"
               android:paddingBottom="@dimen/padding_16dp"
-              android:paddingLeft="@dimen/padding_16dp">
+              android:paddingLeft="@dimen/padding_16dp"
+              android:paddingStart="@dimen/padding_16dp">
     <!--头像-->
     <ImageView
         android:id="@+id/iv_head"
         style="@style/common_both_w_and_h_wrap"
+        android:contentDescription="@string/main_fragment_iv_head_content_desc"
         android:src="@drawable/ic_head"/>
 
     <TextView
