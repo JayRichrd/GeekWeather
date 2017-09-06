@@ -42,8 +42,8 @@ public class JuHeDateRequestNet implements IDataRequest {
         //聚合数据万年历网络请求
         Retrofit dateRetrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl
                 (context.getString(R.string.config_juhe_date_request_base_url)).build();
-        JuHeDateImpl dateImpl = dateRetrofit.create(JuHeDateImpl.class);
-        dateImpl.getDate(dateStr, context.getString(R.string.config_juhe_date_request_key)).enqueue(new Callback<JuHeDateEntity>() {
+        JuHeDateImpl juHeDateImpl = dateRetrofit.create(JuHeDateImpl.class);
+        juHeDateImpl.getDate(dateStr, context.getString(R.string.config_juhe_date_request_key)).enqueue(new Callback<JuHeDateEntity>() {
             @Override
             public void onResponse(Call<JuHeDateEntity> call, retrofit2.Response<JuHeDateEntity> response) {
                 JuHeDateEntity juHeDateEntity = response.body();
