@@ -9,8 +9,6 @@ public class Constant {
     //数据版本号
     public static final int TABLE_VERSION = 1;
 
-    // share preference
-    public static final String WEATHER_SHARE_PREFERENCE = "share_preference_weather";
     // SQLite db
     public static final String CITY_MANAGE_DB = "city_manage.db";
     public static final String TABLE_NAME1 = "life_index.db";
@@ -24,7 +22,7 @@ public class Constant {
     public static final String CHOSE_CITY = "ChoseCity";
 
     // 白天到夜晚的时间分界点
-    public static final int DAY_2_NIGHT = 18;
+    public static final int DAY_TO_NIGHT = 18;
 
     //MainFragment
     public static final String MAIN_FRAGMENT_TAG = "MainFragmentTag";

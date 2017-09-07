@@ -18,13 +18,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class LifeIndexDao {
-    WeatherLifeIndexDBHelper helper;
-    Dao<LifeIndexEntity, Integer> mDao;
-    private Context mContext;
+    //    private final WeatherLifeIndexDBHelper helper;
+    private Dao<LifeIndexEntity, Integer> mDao;
 
     public LifeIndexDao(Context context) {
-        this.mContext = context;
-        helper = WeatherLifeIndexDBHelper.getInstance(context);
+        WeatherLifeIndexDBHelper helper = WeatherLifeIndexDBHelper.getInstance(context);
         try {
             mDao = helper.getDao(LifeIndexEntity.class);
         } catch (SQLException e) {

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--android:background="@android:color/holo_blue_bright"-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rl_common_title"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_56dp"
-                android:background="@android:color/holo_blue_bright">
+                android:background="#00000000">
 
     <ImageView
         android:id="@+id/iv_back"
@@ -18,6 +20,7 @@
         style="@style/common_both_w_and_h_wrap"
         android:layout_centerInParent="true"
         android:text="@string/common_default_txt"
+        android:textColor="@color/white"
         android:textSize="@dimen/font_size_xx_large"/>
 
     <ImageView

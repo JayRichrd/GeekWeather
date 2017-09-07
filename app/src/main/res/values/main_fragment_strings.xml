@@ -21,7 +21,7 @@
 
     <!--生活指数-->
     <string name="main_fragment_tv_life_index_caption">生活指数</string>
-    <string name="main_fragment_tv_life_index_pm_25">PM2.5</string>
+    <!--<string name="main_fragment_tv_life_index_pm_25">PM2.5</string>-->
     <string name="main_fragment_tv_life_index_exercise">晨练指数</string>
     <string name="main_fragment_tv_life_index_clothes">穿衣指数</string>
     <string name="main_fragment_tv_life_index_comfort">舒适度</string>

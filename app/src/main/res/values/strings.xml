@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">GeekWeather</string>
     <!--Fragment Tag-->
-    <string name="MainFragment">MainFragment</string>
+    <!--<string name="MainFragment">MainFragment</string>-->
 
     <!--欢迎动画界面-->
     <string name="welcome_activity_tv_copyright">Copyright©2016 JiangYu</string>
@@ -12,7 +12,7 @@
     <string name="my_default">默认</string>
 
     <!--log输出-->
-    <string name="log_error_get_data">获取日历数据失败！</string>
+    <!--<string name="log_error_get_data">获取日历数据失败！</string>-->
     <string name="log_ok_gps_location">GPS定位成功</string>
     <string name="log_ok_offline_location">离线定位成功</string>
     <string name="log_ok_net_location">网络定位成功</string>

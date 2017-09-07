@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 
 public class HotCityAdapter extends ArrayAdapter<String> {
 
-    private Context mContext;
+    private final Context mContext;
 
     /**
      * 构造函数
@@ -47,7 +47,7 @@ public class HotCityAdapter extends ArrayAdapter<String> {
         ViewHolder viewHolder;
 
         if (null == convertView) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_hot_city_adapter, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_gv_hot_city, parent, false);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
@@ -55,7 +55,7 @@ public class HotCityAdapter extends ArrayAdapter<String> {
         }
 
         // 设置边框
-        if (hotCity.equals("定位")) {
+        if (hotCity != null && hotCity.equals("定位")) {
 
         } else {
             viewHolder.tvHotCity.setCompoundDrawables(null, null, null, null);

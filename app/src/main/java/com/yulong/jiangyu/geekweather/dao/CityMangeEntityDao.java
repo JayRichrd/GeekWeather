@@ -20,13 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CityMangeEntityDao {
-    Context mContext;
-    CityManageDBHelper helper;
-    Dao<CityManageEntity, Integer> mDao;
+    //    private CityManageDBHelper helper;
+    private Dao<CityManageEntity, Integer> mDao;
 
     public CityMangeEntityDao(Context mContext) {
-        this.mContext = mContext;
-        helper = CityManageDBHelper.getInstance(mContext);
+        CityManageDBHelper helper = CityManageDBHelper.getInstance(mContext);
         try {
             mDao = helper.getDao(CityManageEntity.class);
         } catch (SQLException e) {

@@ -54,14 +54,14 @@ public class AddCityActivity extends AppCompatActivity {
     EditText etSearchCity;
     @BindView(R.id.iv_clear)
     ImageView ivClear;
+
     private Unbinder mUnbinder;
 
     // 查询城市列表
-    List<CityEntity> mSearchedCityEntityList;
+    private List<CityEntity> mSearchedCityEntityList;
     // 热门城市适配器
     private HotCityAdapter mHotCityAdapter;
-    // 添加城市列表
-    private List<String> mHotCityList;
+
     // 搜索出的城市列表
     private List<SpannableString> mSearchList;
     // 搜索城市适配器
@@ -83,7 +83,6 @@ public class AddCityActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
-//        mCityEntityDao.close();
     }
 
     @OnClick({R.id.iv_back, R.id.iv_clear})
@@ -130,13 +129,13 @@ public class AddCityActivity extends AppCompatActivity {
         lvSearchCity.setOnItemClickListener(new SearchCityOnItemClickListener());
 
         // 设置热门城市
-        mHotCityList = new ArrayList<>();
-        if (!mHotCityList.isEmpty())
-            mHotCityList.clear();
-        // 从资源文件中获取热门城市并转存到集合mHotCityList中
-        String[] hotCity = getResources().getStringArray(R.array.hot_city);
-        Collections.addAll(mHotCityList, hotCity);
-        mHotCityAdapter = new HotCityAdapter(this, mHotCityList);
+        List<String> hotCityList = new ArrayList<>();
+        if (!hotCityList.isEmpty())
+            hotCityList.clear();
+        // 从资源文件中获取热门城市并转存到集合hotCityList中
+        String[] hotCities = getResources().getStringArray(R.array.hot_city);
+        Collections.addAll(hotCityList, hotCities);
+        mHotCityAdapter = new HotCityAdapter(this, hotCityList);
         gvHotCity.setAdapter(mHotCityAdapter);
         gvHotCity.setOnItemClickListener(new HotCityOnItemClickListener());
 
@@ -260,7 +259,8 @@ public class AddCityActivity extends AppCompatActivity {
             String cityName = mHotCityAdapter.getItem(position);
             if (!mCityMangeEntityDao.query(cityName)) { // 检查是否已经添加过
                 // 根据城市名精确查找城市记录
-                List<CityEntity> cityEntityList = mCityEntityDao.queryCity(cityName.toLowerCase(), false);
+                List<CityEntity> cityEntityList = mCityEntityDao.queryCity(cityName != null ? cityName.toLowerCase()
+                        : null, false);
                 if (cityEntityList.size() == 1) { // 正常情况下精确查找的结果只有1项
                     onFinish(cityEntityList.get(0));
                 }

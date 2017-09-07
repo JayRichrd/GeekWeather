@@ -6,7 +6,6 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.yulong.jiangyu.geekweather.R;
-import com.yulong.jiangyu.geekweather.dao.LifeIndexDao;
 import com.yulong.jiangyu.geekweather.entity.WthrcdnWeatherEntity;
 import com.yulong.jiangyu.geekweather.interfaces.IDataEntity;
 import com.yulong.jiangyu.geekweather.interfaces.IDataRequest;
@@ -67,26 +66,21 @@ public class WthrcdnWeatherRequestNet implements IDataRequest {
 
                 try {
                     Response response = okHttpClient.newCall(request).execute();
-                    String result = response.body().string();
+                    if (response.body() == null)
+                        throw new IOException("data is null!");
 
+                    String result = response.body().string();
                     // 天气实体
                     WthrcdnWeatherEntity wthrcdnWeatherEntity;
-                    IDataEntity baseWeatherEntity = null;
+                    IDataEntity baseWeatherEntity;
 
-                    LifeIndexDao lifeIndexDao;
                     // 处理获取的xml数据得到天气实体类
-                    if (result != null) {
-                        wthrcdnWeatherEntity = Utils.handleWthrcdnWeatherEntity(new ByteArrayInputStream(
-                                result.getBytes()));
-                        // 根据天气数据将生活指数数据存库
-                        lifeIndexDao = new LifeIndexDao(context);
-                        lifeIndexDao.insert(wthrcdnWeatherEntity.getmWeatherLifeIndies());
-                        // 将各种天气数据转换成基础的天气数据
-                        baseWeatherEntity = trans2Base(wthrcdnWeatherEntity);
-                    }
+                    wthrcdnWeatherEntity = Utils.handleWthrcdnWeatherEntity(new ByteArrayInputStream(
+                            result.getBytes()));
+                    // 将各种天气数据转换成基础的天气数据
+                    baseWeatherEntity = trans2Base(wthrcdnWeatherEntity);
 
-                    if (httpCallbackListener != null)
-                        // 返回基础的天气数据
+                    if (httpCallbackListener != null && baseWeatherEntity != null)// 返回基础的天气数据
                         httpCallbackListener.onFinished(baseWeatherEntity);
                 } catch (IOException e) {
                     e.printStackTrace();

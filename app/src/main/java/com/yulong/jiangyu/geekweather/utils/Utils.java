@@ -228,10 +228,7 @@ public class Utils {
                 }
                 eventType = parser.next();
             }
-        } catch (XmlPullParserException e) {
-            LogUtil.e(TAG, e.getMessage());
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (XmlPullParserException | IOException e) {
             LogUtil.e(TAG, e.getMessage());
             e.printStackTrace();
         }
@@ -437,9 +434,7 @@ public class Utils {
      * @return 返回日期和星期的数组
      */
     public static String[] parseDate(String dateStr) {
-        String[] result = dateStr.split("日");
-
-        return result;
+        return dateStr.split("日");
     }
 
 //    public static void refreshWeatherData(final Context context, final String weatherRequest, final boolean
@@ -507,11 +502,7 @@ public class Utils {
         try {
             Class<?> clazz = Class.forName(fullPath);
             weatherRequestNet = (IDataRequest) clazz.newInstance();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return weatherRequestNet;
@@ -535,14 +526,11 @@ public class Utils {
         try {
             Class<?> clazz = Class.forName(fullPath);
             dateRequestNet = (IDataRequest) clazz.newInstance();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return dateRequestNet;
     }
+
 
 }

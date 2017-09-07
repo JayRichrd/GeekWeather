@@ -3,5 +3,7 @@
     <string name="city_manage_activity_tv_title">城市管理</string>
     <string name="city_manage_iv_add_city_content_desc">添加城市</string>
     <string name="city_manage_iv_delete_city_content_desc">删除城市</string>
+    <string name="city_manage_toast_delete_default_city">暂时无法删除默认城市</string>
+    <string name="city_manage_toast_already_default_city">已经设置为默认城市，无需重复设置</string>
 
 </resources>

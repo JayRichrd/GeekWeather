@@ -6,8 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.yulong.jiangyu.geekweather.entity.CityManageEntity;
 import com.yulong.jiangyu.geekweather.constant.Constant;
+import com.yulong.jiangyu.geekweather.entity.CityManageEntity;
 
 import java.sql.SQLException;
 
@@ -96,8 +96,8 @@ public class CityManageDBHelper extends OrmLiteSqliteOpenHelper {
     /**
      * Close any open connections.
      */
-    @Override
-    public void close() {
-        super.close();
-    }
+//    @Override
+//    public void close() {
+//        super.close();
+//    }
 }

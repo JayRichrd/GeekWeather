@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/ll_root_content"
         style="@style/common_both_w_and_h_match"
-        android:background="@drawable/wallpaper"
+        android:background="@drawable/background"
         android:orientation="vertical">
 
         <!--toolbar标题栏-->

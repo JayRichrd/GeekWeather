@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.yulong.jiangyu.geekweather.R;
 import com.yulong.jiangyu.geekweather.constant.Constant;
 
+import java.lang.ref.WeakReference;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -28,29 +30,12 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private static final String TAG = "WelcomeActivity";
 
+    //动画显示的时间,单位ms
+    private static final int ANIMATION_DURATION_TIME = 2000;
+    private final Handler mHandler = new MyHandler(WelcomeActivity.this);
     @BindView(R.id.tv_welcome)
     TextView tvWelcome;
     private Unbinder unbinder;
-    //设置动画
-    private AnimationSet animationSet;
-    //动画显示的时间,单位ms
-    private int animationTime = 2000;
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case Constant.WELCOME_ACTIVITY_START_MAIN_ACTIVITY://进入主界面
-                    Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    Log.i(TAG, getString(R.string.log_start_main_activity));
-                    finish();
-                    break;
-                default:
-                    Log.d(TAG, getString(R.string.log_nothing_to_do));
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,20 +50,21 @@ public class WelcomeActivity extends AppCompatActivity {
      */
     private void init() {
         //共用一个动画部件
-        animationSet = new AnimationSet(true);
-        animationSet.setDuration(animationTime);
+        //设置动画
+        AnimationSet animationSet = new AnimationSet(true);
+        animationSet.setDuration(ANIMATION_DURATION_TIME);
         //动画结束后保持状态
         animationSet.setFillAfter(true);
 
         //缩放动画
         //水平方向和垂直方向都放大1倍
         ScaleAnimation scaleAnimation = new ScaleAnimation(0, 1, 0, 1);
-        scaleAnimation.setDuration(animationTime);
+        scaleAnimation.setDuration(ANIMATION_DURATION_TIME);
         animationSet.addAnimation(scaleAnimation);
 
         //平移动画
         TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 200, 0);
-        translateAnimation.setDuration(animationTime);
+        translateAnimation.setDuration(ANIMATION_DURATION_TIME);
         animationSet.addAnimation(translateAnimation);
 
         //字体上执行动画
@@ -95,7 +81,7 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
                 Log.i(TAG, getString(R.string.log_animation_end));
                 //1秒钟后发送handler消息
-                handler.sendEmptyMessageDelayed(Constant.WELCOME_ACTIVITY_START_MAIN_ACTIVITY, 1000);
+                mHandler.sendEmptyMessageDelayed(Constant.WELCOME_ACTIVITY_START_MAIN_ACTIVITY, 1000);
             }
 
             @Override
@@ -109,5 +95,35 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    /**
+     * 自定义更新UI的Handler
+     * 需要定义成静态的内部类，是避免内存泄漏
+     */
+    private static class MyHandler extends Handler {
+        private final WeakReference<WelcomeActivity> mActivity;
+
+        public MyHandler(WelcomeActivity activity) {
+            mActivity = new WeakReference<WelcomeActivity>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            WelcomeActivity activity = mActivity.get();
+            if (activity == null)
+                return;
+            switch (msg.what) {
+                case Constant.WELCOME_ACTIVITY_START_MAIN_ACTIVITY://进入主界面
+                    Intent intent = new Intent(activity, MainActivity.class);
+                    activity.startActivity(intent);
+                    Log.i(TAG, activity.getString(R.string.log_start_main_activity));
+                    activity.finish();
+                    break;
+                default:
+                    Log.d(TAG, activity.getString(R.string.log_nothing_to_do));
+            }
+        }
     }
 }

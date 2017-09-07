@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--android:background="@android:color/holo_green_dark"-->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/common_both_w_and_h_match"
-    android:background="@android:color/holo_green_dark"
+    android:background="@drawable/citymanage"
     android:orientation="vertical">
     <!--标题栏-->
     <include layout="@layout/include_common_title"/>
@@ -11,7 +12,6 @@
         android:id="@+id/gv_city_manage"
         style="@style/common_both_w_and_h_match"
         android:layout_margin="@dimen/margin_10dp"
-        android:background="@android:color/holo_orange_dark"
         android:listSelector="@android:color/transparent"
         android:numColumns="3"
         android:scrollbars="none"

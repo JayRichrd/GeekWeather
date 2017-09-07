@@ -44,13 +44,12 @@ public class CityEntity implements Serializable {
      * 2 尾部匹配
      */
     @DatabaseField
-    private int matchType = 0; // 查询搜索时被匹配的类型
+    private int matchType; // 查询搜索时被匹配的类型
 
     public CityEntity() {
     }
 
-    public CityEntity(String city, String weatherCode, String cityPinYin, String cityEn,
-                      int matchType) {
+    public CityEntity(String city, String weatherCode, String cityPinYin, String cityEn, int matchType) {
         this.city = city;
         this.weatherCode = weatherCode;
         this.cityPinYin = cityPinYin;

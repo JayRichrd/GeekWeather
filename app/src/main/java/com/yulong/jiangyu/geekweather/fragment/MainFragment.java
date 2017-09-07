@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -51,6 +52,7 @@ import com.yulong.jiangyu.geekweather.interfaces.IDataRequest;
 import com.yulong.jiangyu.geekweather.listener.IHttpCallbackListener;
 import com.yulong.jiangyu.geekweather.utils.Utils;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -63,7 +65,7 @@ import butterknife.Unbinder;
 public class MainFragment extends Fragment {
     //日志TAG
     private static final String TAG = "MainFragment";
-
+    private final Handler mHandler = new MyHandler(MainFragment.this);
     //toolbar
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -231,10 +233,7 @@ public class MainFragment extends Fragment {
     private LifeIndexDao mLifeIndexDao;
     // 天气信息对象
     private WthrcdnWeatherEntity mWeatherEntity;
-
-
     private Unbinder mUnbinder;
-    private ActionBarDrawerToggle mActionBarDrawerToggle = null;
     //百度定位服务
     private LocationClient mLocationClient = null;
     private BaiDuLocationListener mBaiDuLocationListener = null;
@@ -246,31 +245,7 @@ public class MainFragment extends Fragment {
     private int drawerWidth = 0;
     //抽屉被拉出部分的宽度
     private float scrollWidth = 0f;
-    //更新UI的Handler
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case Constant.MAIN_FRAGMENT_UPDATE_WEATHER_UI://更新天气
-                    WthrcdnWeatherEntity weatherInfo = (WthrcdnWeatherEntity) msg.getData().getSerializable(Constant
-                            .MAIN_FRAGMENT_WEATHER_ENTITY);
-                    // 先停止刷新
-                    if (ptrsvRoot.isRefreshing())
-                        stopRefresh();
-                    Toast.makeText(getActivity(), getString(R.string.main_fragment_toast_update_finished), Toast
-                            .LENGTH_SHORT).show();
-                    // 再刷新天气
-                    updateWeatherUI(weatherInfo);
-                    break;
-                case Constant.MAIN_FRAGMENT_UPDATE_DATE_UI://更新日历
-                    JuHeDateEntity dateInfo = (JuHeDateEntity) msg.getData().getSerializable(Constant
-                            .MAIN_FRAGMENT_DATE_ENTITY);
-                    updateDateUI(dateInfo);
-                    break;
-            }
-        }
-    };
+    private SharedPreferences mSharedPreferences;
 
     public MainFragment() {
 
@@ -288,11 +263,19 @@ public class MainFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+
         mLifeIndexDao = new LifeIndexDao(getActivity());
+        mSharedPreferences = getContext().getSharedPreferences(Constant.SHARED_PREFERENCE,
+                Context.MODE_PRIVATE);
         //初始化控件
         initView();
-        //开始位置服务
-        startLocation();
+
+        mCity = mSharedPreferences.getString(Constant.DEFAULT_CITY, null);
+        if (mCity != null)
+            refreshData();
+        else
+            startLocation();
+
         return view;
     }
 
@@ -322,7 +305,7 @@ public class MainFragment extends Fragment {
         toolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         //设置DrawerLayout的滑入滑出
-        mActionBarDrawerToggle = new ActionBarDrawerToggle(getActivity(), dlMain, toolbar, R.string
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(getActivity(), dlMain, toolbar, R.string
                 .main_fragment_dl_drawer_open, R.string.main_fragment_dl_drawer_close) {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -334,13 +317,13 @@ public class MainFragment extends Fragment {
                 llRootContent.setScrollX((int) (-1 * scrollWidth));
             }
         };
-        mActionBarDrawerToggle.syncState();
-        dlMain.addDrawerListener(mActionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+        dlMain.addDrawerListener(actionBarDrawerToggle);
         //设置菜单menu项点击事件
         navView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public boolean onNavigationItemSelected(MenuItem item) {
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.item_about:
                                 showDialog(getString(R.string.main_fragment_drawer_about_title),
@@ -376,13 +359,6 @@ public class MainFragment extends Fragment {
                     }
                 });
 
-        //初始化定位进度对话框
-        mProgressDialog = new ProgressDialog(getActivity());
-        mProgressDialog.setMessage(getString(R.string.main_fragment_progress_dlg_locating));
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        //是否可以使用返回键取消
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.show();
 
         // 设置下拉刷新控件
         ptrsvRoot.getLoadingLayoutProxy().setPullLabel(getString(R.string.main_fragment_ptrsv_pull_to_refresh));
@@ -433,6 +409,14 @@ public class MainFragment extends Fragment {
         mLocationClient.registerLocationListener(mBaiDuLocationListener);
         mLocationClient.start();
         Log.i(TAG, getString(R.string.main_fragment_log_start_locate));
+
+        //初始化定位进度对话框
+        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog.setMessage(getString(R.string.main_fragment_progress_dlg_locating));
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        //是否可以使用返回键取消
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.show();
     }
 
     /**
@@ -453,7 +437,6 @@ public class MainFragment extends Fragment {
         builder.show();
     }
 
-
     /**
      * 刷新获取天气数据
      */
@@ -466,6 +449,8 @@ public class MainFragment extends Fragment {
             @Override
             public void onFinished(Object response) {
                 mWeatherEntity = (WthrcdnWeatherEntity) response;
+                // 根据天气数据将生活指数数据存库
+                mLifeIndexDao.insert(mWeatherEntity.getmWeatherLifeIndies());
                 //发送Handler消息来更新UI界面
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constant.MAIN_FRAGMENT_WEATHER_ENTITY, mWeatherEntity);
@@ -661,7 +646,7 @@ public class MainFragment extends Fragment {
         ivWeatherForecastNight5.setImageResource(Utils.getWeatherImageId(weatherTypeNightList.get(4), false));
         ivWeatherForecastNight6.setImageResource(Utils.getWeatherImageId(weatherTypeNightList.get(5), false));
         //设置风向、风力
-        if (hour < Constant.DAY_2_NIGHT) {//白天
+        if (hour < Constant.DAY_TO_NIGHT) {//白天
             tvWeatherForecastWindDirection1.setText(weatherForecastDaysList.get(0).getmWindDirectionDay());
             tvWeatherForecastWindDirection2.setText(weatherForecastDaysList.get(1).getmWindDirectionDay());
             tvWeatherForecastWindDirection3.setText(weatherForecastDaysList.get(2).getmWindDirectionDay());
@@ -699,7 +684,7 @@ public class MainFragment extends Fragment {
      * @param weatherForecastDaysEntity 天气信息
      */
     private void setWeatherType(int hour, WeatherForecastDaysEntity weatherForecastDaysEntity) {
-        if (hour < Constant.DAY_2_NIGHT) {
+        if (hour < Constant.DAY_TO_NIGHT) {
             //白天
             tvWeatherType.setText(weatherForecastDaysEntity.getmTypeDay());
         } else {
@@ -895,6 +880,46 @@ public class MainFragment extends Fragment {
     }
 
     /**
+     * 自定义更新UI的Handler
+     * 需要定义成静态的内部类，是避免内存泄漏
+     */
+    private static class MyHandler extends Handler {
+        private final WeakReference<MainFragment> mFragment;
+
+        public MyHandler(MainFragment fragment) {
+            mFragment = new WeakReference<MainFragment>(fragment);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            MainFragment fragment = mFragment.get();
+            if (fragment == null)
+                return;
+            switch (msg.what) {
+                case Constant.MAIN_FRAGMENT_UPDATE_WEATHER_UI://更新天气
+                    WthrcdnWeatherEntity weatherInfo = (WthrcdnWeatherEntity) msg.getData().getSerializable(Constant
+                            .MAIN_FRAGMENT_WEATHER_ENTITY);
+                    // 先停止刷新
+                    if (fragment.ptrsvRoot.isRefreshing())
+                        fragment.stopRefresh();
+                    Toast.makeText(fragment.getActivity(), fragment.getString(R.string
+                            .main_fragment_toast_update_finished), Toast
+                            .LENGTH_SHORT).show();
+                    // 再刷新天气
+                    fragment.updateWeatherUI(weatherInfo);
+                    break;
+                case Constant.MAIN_FRAGMENT_UPDATE_DATE_UI://更新日历
+                    JuHeDateEntity dateInfo = (JuHeDateEntity) msg.getData().getSerializable(Constant
+                            .MAIN_FRAGMENT_DATE_ENTITY);
+                    fragment.updateDateUI(dateInfo);
+                    break;
+            }
+
+        }
+    }
+
+    /**
      * 位置监听
      */
     private class BaiDuLocationListener implements BDLocationListener {
@@ -927,11 +952,11 @@ public class MainFragment extends Fragment {
             //截掉返回城市的行政单位：“市”、"县"、“镇”等
             mCity = mCity.substring(0, mCity.length() - 1);
             //使用SharedPreferences保存默认城市
-            SharedPreferences sharedPreferences = getActivity().getApplication().getSharedPreferences(
-                    Constant.SHARED_PREFERENCE, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString(Constant.DEFAULT_CITY, mCity);
-            editor.apply();
+//            SharedPreferences sharedPreferences = getActivity().getApplication().getSharedPreferences(
+//                    Constant.SHARED_PREFERENCE, Context.MODE_PRIVATE);
+//            SharedPreferences.Editor editor = sharedPreferences.edit();
+//            editor.putString(Constant.DEFAULT_CITY, mCity);
+//            editor.apply();
             // 刷新数据
             refreshData();
         }

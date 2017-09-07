@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--android:background="@android:color/holo_purple"-->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/common_both_w_and_h_match"
-    android:background="@android:color/holo_purple"
+    android:background="@drawable/addcity"
     android:orientation="vertical">
     <!--标题栏-->
     <include layout="@layout/include_common_title"/>
@@ -29,6 +30,8 @@
             android:drawableStart="@drawable/ic_search"
             android:hint="@string/add_city_activity_et_search_city_hint"
             android:maxLines="1"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:textCursorDrawable="@drawable/cursor_search_city"
             android:textSize="@dimen/font_size_large"/>
 
@@ -58,6 +61,7 @@
                 android:layout_marginLeft="@dimen/margin_19dp"
                 android:layout_marginStart="@dimen/margin_19dp"
                 android:text="@string/add_city_activity_tv_hot_city"
+                android:textColor="@color/white"
                 android:textSize="@dimen/font_size_x_large"/>
 
             <View
@@ -79,6 +83,7 @@
             android:layout_marginLeft="@dimen/margin_19dp"
             android:layout_marginStart="@dimen/margin_19dp"
             android:text="@string/add_city_activity_tv_no_matched_city"
+            android:textColor="@color/white"
             android:textSize="@dimen/font_size_large"
             android:visibility="gone"/>
 

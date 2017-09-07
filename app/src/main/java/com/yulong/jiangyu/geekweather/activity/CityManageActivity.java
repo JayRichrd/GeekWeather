@@ -22,6 +22,7 @@ import com.yulong.jiangyu.geekweather.interfaces.IDataRequest;
 import com.yulong.jiangyu.geekweather.listener.IHttpCallbackListener;
 import com.yulong.jiangyu.geekweather.utils.Utils;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,6 +33,7 @@ import butterknife.Unbinder;
 
 public class CityManageActivity extends AppCompatActivity {
 
+    private final MyHandler mHandler = new MyHandler(this);
     @BindView(R.id.iv_back)
     ImageView ivBack;
     @BindView(R.id.iv_refresh)
@@ -44,36 +46,22 @@ public class CityManageActivity extends AppCompatActivity {
     ImageView ivOk;
     @BindView(R.id.tv_title)
     TextView tvTitle;
-
-    private Unbinder unbinder;
-
+    private Unbinder mUnbinder;
+    private IDataRequest mWeatherRequest;
     // 城市列表
     private List<CityManageEntity> mCityManageEntityList;
     // 操作数据库的实例
     private CityMangeEntityDao mCityMangeDao;
     // 城市管理列表适配器
     private CityManageAdapter mCityManageAdapter;
-    //更新UI的Handler
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case Constant.CITY_MANAGE_ACTIVITY_UPDATE_CITY_MANAGE:
-                    updateUI();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_manage);
-        unbinder = ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
         mCityMangeDao = new CityMangeEntityDao(this);
+        mWeatherRequest = Utils.createWeatherRequestNet(getApplicationContext());
         initAdapter();
         initView();
     }
@@ -81,7 +69,7 @@ public class CityManageActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbinder.unbind();
+        mUnbinder.unbind();
     }
 
     @Override
@@ -94,27 +82,26 @@ public class CityManageActivity extends AppCompatActivity {
             // 禁止点击城市列表
             gvCityManage.setOnItemClickListener(null);
             // 请求天气数据
-            IDataRequest weatherRequest = Utils.createWeatherRequestNet(getApplicationContext());
-            weatherRequest.requestData(this, weatherCode, true, new IHttpCallbackListener() {
+//            IDataRequest weatherRequest = Utils.createWeatherRequestNet(getApplicationContext());
+            mWeatherRequest.requestData(this, weatherCode, true, new IHttpCallbackListener() {
                 @Override
                 public void onFinished(Object response) {
                     // 解析处理获取的天气数据
                     WthrcdnWeatherEntity weatherEntity = (WthrcdnWeatherEntity) response;
+
                     // 插入数据库
-                    boolean result = mCityMangeDao.insert(new CityManageEntity(null, weatherEntity.getmCity(),
+                    mCityMangeDao.insert(new CityManageEntity(null, weatherEntity.getmCity(),
                             weatherEntity.getmWeatherDaysForecasts().get(1).getmHighTemperature(),
                             weatherEntity.getmWeatherDaysForecasts().get(1).getmLowTemperature(),
                             weatherEntity.getmWeatherDaysForecasts().get(1).getmTypeDay(),
                             weatherEntity.getmWeatherDaysForecasts().get(1).getmTypeNight(), weatherCode));
-                    if (result) { // 天气数据刷新成功，通知更新UI
-                        /**
-                         * 使用Handler更新UI界面
-                         * 此时还在非UI线程，不能直接更新界面
-                         */
-                        Message msg = new Message();
-                        msg.what = Constant.CITY_MANAGE_ACTIVITY_UPDATE_CITY_MANAGE;
-                        mHandler.sendMessage(msg);
-                    }
+                    /**
+                     * 使用Handler更新UI界面
+                     * 此时还在非UI线程，不能直接更新界面
+                     */
+                    Message msg = new Message();
+                    msg.what = Constant.CITY_MANAGE_ACTIVITY_UPDATE_CITY_MANAGE;
+                    mHandler.sendMessage(msg);
                 }
 
                 @Override
@@ -133,14 +120,14 @@ public class CityManageActivity extends AppCompatActivity {
         // 最后一个添加城市的item
         mCityManageEntityList.add(new CityManageEntity());
         // TODO don't forget to delete test data
-        CityManageEntity cityManageDemo1 = new CityManageEntity();
-        cityManageDemo1.setLocationCity("自动定位");
-        cityManageDemo1.setCityName("深圳");
-        cityManageDemo1.setTempLow("23");
-        cityManageDemo1.setTempTop("28");
-        cityManageDemo1.setWeatherTypeDay("阵雨");
-        cityManageDemo1.setWeatherTypeNight("阵雨");
-        cityManageDemo1.setWeatherCode("101280601");
+//        CityManageEntity cityManageDemo1 = new CityManageEntity();
+//        cityManageDemo1.setLocationCity("自动定位");
+//        cityManageDemo1.setCityName("深圳");
+//        cityManageDemo1.setTempLow("23");
+//        cityManageDemo1.setTempTop("28");
+//        cityManageDemo1.setWeatherTypeDay("阵雨");
+//        cityManageDemo1.setWeatherTypeNight("阵雨");
+//        cityManageDemo1.setWeatherCode("101280601");
 //        mCityManageEntityList.add(cityManageDemo1);
         mCityManageAdapter = new CityManageAdapter(this, 0, mCityManageEntityList);
 
@@ -203,22 +190,39 @@ public class CityManageActivity extends AppCompatActivity {
      * 刷新数据
      */
     private void refresh() {
-        for (final CityManageEntity cityManage : mCityManageEntityList) {
-            // 请求天气数据
-            IDataRequest weatherRequest = Utils.createWeatherRequestNet(getApplicationContext());
+        // 统计更新了几个城市了
+        int count = 0;
 
-            weatherRequest.requestData(this, cityManage.getWeatherCode(), true, new IHttpCallbackListener() {
+        int size = mCityManageEntityList.size();
+        for (final CityManageEntity cityManageEntity : mCityManageEntityList) {
+            // 注意这里城市列表的最后一项是添加城市项，是没有数据的
+            // 更新时不需要跟新它
+            count++;
+            if (size == 1 || count == size)
+                break;
+
+            // 请求天气数据
+            mWeatherRequest.requestData(this, cityManageEntity.getWeatherCode(), true, new IHttpCallbackListener() {
                 @Override
                 public void onFinished(Object response) {
                     // 解析处理获取的天气数据
                     WthrcdnWeatherEntity weatherEntity = (WthrcdnWeatherEntity) response;
                     // 刷新数据
-                    mCityMangeDao.update(new CityManageEntity(null, weatherEntity.getmCity(),
+                    boolean result = mCityMangeDao.update(new CityManageEntity(null, weatherEntity.getmCity(),
                             weatherEntity.getmWeatherDaysForecasts().get(1).getmHighTemperature(),
                             weatherEntity.getmWeatherDaysForecasts().get(1).getmLowTemperature(),
                             weatherEntity.getmWeatherDaysForecasts().get(1).getmTypeDay(),
                             weatherEntity.getmWeatherDaysForecasts().get(1).getmTypeNight(),
-                            cityManage.getWeatherCode()));
+                            cityManageEntity.getWeatherCode()));
+                    if (result) {
+                        /**
+                         * 使用Handler更新UI界面
+                         * 此时还在非UI线程，不能直接更新界面
+                         */
+                        Message msg = new Message();
+                        msg.what = Constant.CITY_MANAGE_ACTIVITY_UPDATE_CITY_MANAGE;
+                        mHandler.sendMessage(msg);
+                    }
                 }
 
                 @Override
@@ -231,7 +235,34 @@ public class CityManageActivity extends AppCompatActivity {
         updateUI();
     }
 
-    class OnItemClickListenerImpl implements AdapterView.OnItemClickListener {
+    /**
+     * 自定义更新UI的Handler
+     * 需要定义成静态的内部类，是避免内存泄漏
+     */
+    private static class MyHandler extends Handler {
+        private final WeakReference<CityManageActivity> mActivity;
+
+        public MyHandler(CityManageActivity activity) {
+            mActivity = new WeakReference<CityManageActivity>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            CityManageActivity activity = mActivity.get();
+            if (activity == null)
+                return;
+            switch (msg.what) {
+                case Constant.CITY_MANAGE_ACTIVITY_UPDATE_CITY_MANAGE:
+                    activity.updateUI();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private class OnItemClickListenerImpl implements AdapterView.OnItemClickListener {
 
         /**
          * Callback method to be invoked when an item in this AdapterView has

@@ -20,9 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CityEntityDao {
-    private Context mContext;
+    private final Context mContext;
+    private final CityInfoDBHelper helper;
     private Dao<CityEntity, Integer> cityInfoDao;
-    private CityInfoDBHelper helper;
 
     /**
      * 有参构造函数
@@ -93,42 +93,41 @@ public class CityEntityDao {
 
     public List<CityEntity> queryCity(String search, boolean fuzzy) {
 
-        ArrayList<CityEntity> cityInfoList = null;
-        ArrayList<CityEntity> CityInfoList1;
+        ArrayList<CityEntity> cityEntityList = null;
+        ArrayList<CityEntity> cityEntityList1;
         QueryBuilder queryBuilder = cityInfoDao.queryBuilder();
         // 打开数据库
 //        helper.getReadableDatabase();
 
         try {
-            String beginSqlStr = new StringBuilder(search).append("%").toString();
+            String beginSqlStr = search + "%";
             queryBuilder.where().like("city", beginSqlStr).or().like("cityPinYin", beginSqlStr).or().like("cityEn",
                     beginSqlStr);
-            cityInfoList = (ArrayList<CityEntity>) queryBuilder.query();
-            if (cityInfoList != null) {// 头部匹配
-                for (CityEntity cityInfo : cityInfoList) {
+            cityEntityList = (ArrayList<CityEntity>) queryBuilder.query();
+            if (cityEntityList != null) {// 头部匹配
+                for (CityEntity cityInfo : cityEntityList) {
                     cityInfo.setMatchType(1);
                 }
             }
 
             if (fuzzy) {
-                String endSqlStr = new StringBuilder("%").append(search).toString();
+                String endSqlStr = "%" + search;
                 queryBuilder.where().like("city", endSqlStr).or().like("cityPinYin", endSqlStr).or().like("cityEn",
                         endSqlStr);
-                CityInfoList1 = (ArrayList<CityEntity>) queryBuilder.query();
-                if (CityInfoList1 != null) { // 尾部匹配
-                    for (CityEntity cityInfo : CityInfoList1) {
+                cityEntityList1 = (ArrayList<CityEntity>) queryBuilder.query();
+                if (cityEntityList1 != null) { // 尾部匹配
+                    for (CityEntity cityInfo : cityEntityList1) {
                         cityInfo.setMatchType(2);
                     }
                 }
                 // 将两部分的查找结果组合
-                cityInfoList.addAll(CityInfoList1);
+                cityEntityList.addAll(cityEntityList1 != null ? cityEntityList1 : null);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-//        helper.close();
-        return cityInfoList;
+        return cityEntityList;
     }
 
 

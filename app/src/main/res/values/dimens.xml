@@ -1,7 +1,5 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <!--activity_city_manage-->
-    <dimen name="margin_right">8dp</dimen>
 
     <!--字体-->
     <dimen name="font_size_xxx_large">38sp</dimen>

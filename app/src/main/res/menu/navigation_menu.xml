@@ -3,7 +3,6 @@
     <!--<group android:checkableBehavior="single">-->
     <group>
         <item
-            android:id="@+id/item_author"
             android:icon="@drawable/ic_author"
             android:title="@string/navigation_menu_item_author"/>
         <item
@@ -11,11 +10,9 @@
             android:icon="@drawable/ic_about"
             android:title="@string/navigation_menu_item_about"/>
         <item
-            android:id="@+id/item_update"
             android:icon="@drawable/ic_update"
             android:title="@string/navigation_menu_item_update"/>
         <item
-            android:id="@+id/item_share"
             android:icon="@drawable/ic_share"
             android:title="@string/navigation_menu_item_share"/>
         <item
