@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--android:bg_main="@android:color/holo_purple"-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/common_both_w_and_h_match"
+    android:background="@drawable/bg_add_city_activity"
+    android:orientation="vertical">
+    <!--标题栏-->
+    <include layout="@layout/include_common_title"/>
+
+    <LinearLayout
+        style="@style/common_w_match_and_h_wrap"
+        android:layout_margin="@dimen/margin_10dp"
+        android:background="@drawable/bg_search_city_edit_text"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_search_city"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/margin_3dp"
+            android:layout_marginLeft="@dimen/margin_5dp"
+            android:layout_marginRight="@dimen/margin_5dp"
+            android:layout_marginTop="@dimen/margin_3dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableLeft="@drawable/ic_search"
+            android:drawablePadding="@dimen/padding_2dp"
+            android:drawableStart="@drawable/ic_search"
+            android:hint="@string/add_city_activity_et_search_city_hint"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textCursorDrawable="@drawable/cursor_search_city"
+            android:textSize="@dimen/font_size_large"/>
+
+        <ImageView
+            android:id="@+id/iv_clear"
+            style="@style/common_both_w_and_h_wrap"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/margin_5dp"
+            android:layout_marginRight="@dimen/margin_5dp"
+            android:contentDescription="@string/add_city_activity_iv_clear_content_desc"
+            android:src="@drawable/ic_clear"
+            android:visibility="invisible"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/ll_hot_city"
+            style="@style/common_both_w_and_h_match"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/common_both_w_and_h_wrap"
+                android:layout_marginLeft="@dimen/margin_19dp"
+                android:layout_marginStart="@dimen/margin_19dp"
+                android:text="@string/add_city_activity_tv_hot_city"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_x_large"/>
+
+            <View
+                style="@style/divider_line_horizontal"
+                android:layout_marginLeft="@dimen/margin_19dp"
+                android:layout_marginRight="@dimen/margin_19dp"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:background="#33ffffff"/>
+
+            <GridView
+                android:id="@+id/gv_hot_city"
+                style="@style/common_both_w_and_h_match"
+                android:numColumns="4"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_no_matched_city"
+            style="@style/common_both_w_and_h_wrap"
+            android:layout_marginLeft="@dimen/margin_19dp"
+            android:layout_marginStart="@dimen/margin_19dp"
+            android:text="@string/add_city_activity_tv_no_matched_city"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_large"
+            android:visibility="gone"/>
+
+        <ListView
+            android:id="@+id/lv_search_city"
+            style="@style/common_both_w_and_h_match"
+            android:layout_marginLeft="@dimen/margin_19dp"
+            android:layout_marginRight="@dimen/margin_19dp"
+            android:dividerHeight="0.5dp"
+            android:visibility="gone"/>
+    </FrameLayout>
+
+</LinearLayout>

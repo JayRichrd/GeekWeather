@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--android:bg_main="@android:color/holo_orange_dark"-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              style="@style/common_both_w_and_h_match"
+              android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_hot_city"
+        style="@style/common_w_match_and_h_wrap"
+        android:gravity="center"
+        android:paddingBottom="@dimen/padding_9dp"
+        android:paddingTop="@dimen/padding_9dp"
+        android:text="@string/common_default_txt"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_size_large"/>
+</LinearLayout>

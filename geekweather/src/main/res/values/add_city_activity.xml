@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_city_activity_et_search_city_hint">请输入城市名称或拼音</string>
+    <string name="add_city_activity_tv_hot_city">热门城市</string>
+    <string name="add_city_activity_tv_no_matched_city">没有符合条件的城市</string>
+    <string name="add_city_activity_tv_title">添加城市</string>
+    <string name="add_city_activity_toast_re_add_city">已经添加过，请不要重复添加！</string>
+    <string name="add_city_activity_iv_clear_content_desc">清除</string>
+
+</resources>

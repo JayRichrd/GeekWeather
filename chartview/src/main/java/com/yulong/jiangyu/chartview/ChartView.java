@@ -7,6 +7,7 @@ import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -15,7 +16,7 @@ import android.view.View;
  * created 2017/3/2 16:51
  * version v1.0
  * modified 2017/3/2
- * note xxx
+ * note 自定义折线图
  **/
 // The plan
 //*-----------------------------------------*
@@ -45,13 +46,14 @@ import android.view.View;
 //*-----------------------------------------*
 
 public class ChartView extends View {
+    private static final String TAG = "ChartView";
     //白天
-    static private final int TYPE_DAY = 0;
+    private static final int TYPE_DAY = 0x0;
     //晚上
-    static private final int TYPE_NIGHT = 1;
+    private static final int TYPE_NIGHT = 0x1;
     //X、Y轴的集合数
-    public static int COUNT_NIGHT = 0;
-    public static int COUNT_DAY = 0;
+    public static int COUNT_NIGHT = 0x2;
+    public static int COUNT_DAY = 0x3;
     //字体大小
     private int mTextSize;
     //线条颜色
@@ -118,8 +120,11 @@ public class ChartView extends View {
         init(context, attrs);
     }
 
-    /*
-    * 初始化
+    /**
+     * 初始化
+     *
+     * @param context
+     * @param attrs
      */
     @SuppressWarnings("deprecation")
     private void init(Context context, AttributeSet attrs) {
@@ -134,10 +139,10 @@ public class ChartView extends View {
         mNightLineColor = typedArray.getColor(R.styleable.ChartView_nightLineColor, getResources().getColor(R.color
                 .colorPrimary));
         mTextColor = typedArray.getColor(R.styleable.ChartView_textColor, getResources().getColor(R.color.colorYellow));
-        /*
-        * 回收TypedArray，以便后面重用
-        * 必须调用
-        */
+        /**
+         * 回收TypedArray，以便后面重用
+         * 必须调用
+         */
         typedArray.recycle();
 
         //初始化距离、空间值
@@ -174,7 +179,7 @@ public class ChartView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         // 这里必须加上鲁棒性检查mTemperatureDay和mTemperatureNight
-        // 否则在重启应用是会崩溃
+        // 否则在重启应用时会崩溃
         if (mTemperatureDay != null && mTemperatureNight != null) {
             if (COUNT_NIGHT != 0 && COUNT_NIGHT == COUNT_DAY) {
                 if (0 == mHeight)
@@ -189,7 +194,8 @@ public class ChartView extends View {
                     drawChart(canvas, mNightLineColor, mTemperatureNight, mYAxisNight, COUNT_NIGHT, TYPE_NIGHT);
                 }
             }
-        }
+        } else
+            Log.e(TAG, "data should not be null!");
     }
 
     /**

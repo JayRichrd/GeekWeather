@@ -1,2 +1,2 @@
-include ':app', ':chartview'
+include ':geekweather', ':chartview'
 include ':library'
