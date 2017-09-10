@@ -7,7 +7,7 @@ import com.yulong.jiangyu.geekweather.R;
 import com.yulong.jiangyu.geekweather.constant.Constant;
 import com.yulong.jiangyu.geekweather.entity.JuHeDateEntity;
 import com.yulong.jiangyu.geekweather.interfaces.IDataEntity;
-import com.yulong.jiangyu.geekweather.interfaces.IDataRequest;
+import com.yulong.jiangyu.geekweather.module.IDataRequest;
 import com.yulong.jiangyu.geekweather.interfaces.JuHeDateImpl;
 import com.yulong.jiangyu.geekweather.listener.IHttpCallbackListener;
 
@@ -37,7 +37,8 @@ public class JuHeDateRequestNet implements IDataRequest {
     }
 
     @Override
-    public void requestData(final Context context, String dateStr, boolean isCityCode, final IHttpCallbackListener
+    public void requestData(final Context context, String dateStr, boolean isCityCode, boolean isRefresh, final
+    IHttpCallbackListener
             httpCallbackListener) {
         //聚合数据万年历网络请求
         Retrofit dateRetrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl
@@ -64,17 +65,6 @@ public class JuHeDateRequestNet implements IDataRequest {
         });
     }
 
-    /**
-     * 请求数据的接口
-     *
-     * @param context              上下文
-     * @param RequestCode          请求码
-     * @param httpCallbackListener http回调接口
-     */
-//    @Override
-//    public void requestData(Context context, String RequestCode, IHttpCallbackListener httpCallbackListener) {
-//
-//    }
     @Override
     public IDataEntity trans2Base(IDataEntity dataEntity) {
         return dataEntity;

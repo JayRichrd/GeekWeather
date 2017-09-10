@@ -4,11 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.yulong.jiangyu.geekweather.entity.JuHeDateEntity;
-import com.yulong.jiangyu.geekweather.interfaces.IDataRequest;
-import com.yulong.jiangyu.geekweather.interfaces.IDatePresenter;
-import com.yulong.jiangyu.geekweather.interfaces.IView;
 import com.yulong.jiangyu.geekweather.listener.IHttpCallbackListener;
 import com.yulong.jiangyu.geekweather.utils.Utils;
+import com.yulong.jiangyu.geekweather.view.IView;
 
 /**
  * author RichardJay
@@ -19,7 +17,7 @@ import com.yulong.jiangyu.geekweather.utils.Utils;
  * note 请求日历的Presenter
  */
 
-public class DatePresenter implements IHttpCallbackListener, IDatePresenter {
+public class DatePresenter implements IHttpCallbackListener, IPresenter {
     private static final String TAG = "WeatherPresenter";
 
     private IView mView;
@@ -47,19 +45,20 @@ public class DatePresenter implements IHttpCallbackListener, IDatePresenter {
      */
     @Override
     public void onError(Throwable t) {
-        Log.e(TAG, t.getMessage());
+        if (t != null)
+            Log.e(TAG, t.getMessage());
     }
 
     /**
-     * 请求日历数据
+     * 请求数据
      *
      * @param request       请求码
      * @param isWeatherCode 是否是城市码
+     * @param isRefresh     是否在刷新
      */
     @Override
-    public void requestDate(String request, boolean isWeatherCode) {
-        IDataRequest dateRequest = Utils.createDateRequestNet(mContext);
+    public void requestData(String request, boolean isWeatherCode, boolean isRefresh) {
         if (request != null)
-            dateRequest.requestData(mContext, request, isWeatherCode, this);
+            Utils.createDateRequestNet(mContext).requestData(mContext, request, isWeatherCode, isRefresh, this);
     }
 }

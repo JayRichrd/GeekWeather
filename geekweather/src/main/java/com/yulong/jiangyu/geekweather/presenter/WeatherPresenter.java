@@ -4,11 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.yulong.jiangyu.geekweather.entity.WthrcdnWeatherEntity;
-import com.yulong.jiangyu.geekweather.interfaces.IDataRequest;
-import com.yulong.jiangyu.geekweather.interfaces.IView;
-import com.yulong.jiangyu.geekweather.interfaces.IWeatherPresenter;
 import com.yulong.jiangyu.geekweather.listener.IHttpCallbackListener;
 import com.yulong.jiangyu.geekweather.utils.Utils;
+import com.yulong.jiangyu.geekweather.view.IView;
 
 /**
  * author RichardJay
@@ -19,7 +17,7 @@ import com.yulong.jiangyu.geekweather.utils.Utils;
  * note 请求天气的Presenter
  */
 
-public class WeatherPresenter implements IWeatherPresenter, IHttpCallbackListener {
+public class WeatherPresenter implements IPresenter, IHttpCallbackListener {
     private static final String TAG = "WeatherPresenter";
 
     private IView mView;
@@ -30,18 +28,6 @@ public class WeatherPresenter implements IWeatherPresenter, IHttpCallbackListene
         this.mContext = mContext;
     }
 
-    /**
-     * 请求天气数据
-     *
-     * @param request       请求码
-     * @param isWeatherCode 是否是城市码
-     */
-    @Override
-    public void requestWeather(String request, boolean isWeatherCode) {
-        IDataRequest weatherRequest = Utils.createWeatherRequestNet(mContext);
-        if (request != null)
-            weatherRequest.requestData(mContext, request, isWeatherCode, this);
-    }
 
     /**
      * 加载完成
@@ -60,6 +46,20 @@ public class WeatherPresenter implements IWeatherPresenter, IHttpCallbackListene
      */
     @Override
     public void onError(Throwable t) {
-        Log.e(TAG, t.getMessage());
+        if (t != null)
+            Log.e(TAG, t.getMessage());
+    }
+
+    /**
+     * 请求数据
+     *
+     * @param request       请求码
+     * @param isWeatherCode 是否是城市码
+     * @param isRefresh     是否在刷新
+     */
+    @Override
+    public void requestData(String request, boolean isWeatherCode, boolean isRefresh) {
+        if (request != null)
+            Utils.createWeatherRequestNet(mContext).requestData(mContext, request, isWeatherCode, isRefresh, this);
     }
 }

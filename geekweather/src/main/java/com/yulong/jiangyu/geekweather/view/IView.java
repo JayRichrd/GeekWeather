@@ -1,4 +1,6 @@
-package com.yulong.jiangyu.geekweather.interfaces;
+package com.yulong.jiangyu.geekweather.view;
+
+import com.yulong.jiangyu.geekweather.interfaces.IDataEntity;
 
 /**
  * author RichardJay

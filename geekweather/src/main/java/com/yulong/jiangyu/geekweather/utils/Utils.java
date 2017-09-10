@@ -8,7 +8,7 @@ import com.yulong.jiangyu.geekweather.R;
 import com.yulong.jiangyu.geekweather.entity.LifeIndexEntity;
 import com.yulong.jiangyu.geekweather.entity.WthrcdnWeatherEntity;
 import com.yulong.jiangyu.geekweather.entity.WthrcdnWeatherForecastDaysEntity;
-import com.yulong.jiangyu.geekweather.interfaces.IDataRequest;
+import com.yulong.jiangyu.geekweather.module.IDataRequest;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -48,8 +47,10 @@ import com.yulong.jiangyu.geekweather.entity.JuHeDateEntity;
 import com.yulong.jiangyu.geekweather.entity.LifeIndexEntity;
 import com.yulong.jiangyu.geekweather.entity.WthrcdnWeatherEntity;
 import com.yulong.jiangyu.geekweather.entity.WthrcdnWeatherForecastDaysEntity;
-import com.yulong.jiangyu.geekweather.interfaces.IDataRequest;
-import com.yulong.jiangyu.geekweather.listener.IHttpCallbackListener;
+import com.yulong.jiangyu.geekweather.interfaces.IDataEntity;
+import com.yulong.jiangyu.geekweather.view.IView;
+import com.yulong.jiangyu.geekweather.presenter.DatePresenter;
+import com.yulong.jiangyu.geekweather.presenter.WeatherPresenter;
 import com.yulong.jiangyu.geekweather.utils.Utils;
 
 import java.lang.ref.WeakReference;
@@ -71,10 +72,9 @@ import butterknife.Unbinder;
  * note 主界面Fragment
  **/
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements IView {
     //日志TAG
     private static final String TAG = "MainFragment";
-    private final Handler mHandler = new MyHandler(MainFragment.this);
     //toolbar
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -238,22 +238,23 @@ public class MainFragment extends Fragment {
     TextView tvWeatherLifeIndexWashCar;
     @BindView(R.id.tv_weather_life_index_ultraviolet)
     TextView tvWeatherLifeIndexUltraviolet;
-    // 生活指数数据库操作
-    private LifeIndexDao mLifeIndexDao;
-    // 天气信息对象
-    private WthrcdnWeatherEntity mWeatherEntity;
+    //定位提示框
+    private ProgressDialog mProgressDialog = null;
+
     private Unbinder mUnbinder;
     //百度定位服务
     private LocationClient mLocationClient = null;
-    private BaiDuLocationListener mBaiDuLocationListener = null;
-    //定位提示框
-    private ProgressDialog mProgressDialog = null;
     //当前城市
     private String mCity = "北京";
     //抽屉Drawer全部被拉出时的宽度
     private int drawerWidth = 0;
     //抽屉被拉出部分的宽度
     private float scrollWidth = 0f;
+    // Presenter变量
+    private WeatherPresenter mWeatherPresenter;
+    private DatePresenter mDatePresenter;
+    // 更新UI的Handler
+    private final Handler mHandler = new MyHandler(MainFragment.this);
 
     public MainFragment() {
 
@@ -272,17 +273,20 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
-        mLifeIndexDao = new LifeIndexDao(getActivity());
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constant.SHARED_PREFERENCE,
-                Context.MODE_PRIVATE);
-        //初始化控件
-        initView();
+        // 初始化变量
+        initVar();
 
-        mCity = sharedPreferences.getString(Constant.DEFAULT_CITY, null);
+        /**
+         * 如果默认城市为空
+         * 则请求定位到的城市天气数据
+         */
         if (mCity != null)
             refreshData();
         else
             startLocation();
+
+        //初始化控件
+        initView();
 
         return view;
     }
@@ -302,6 +306,16 @@ public class MainFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "===onDestroy()===");
+    }
+
+    /**
+     * 初始化变量
+     */
+    private void initVar() {
+        mWeatherPresenter = new WeatherPresenter(this, getContext());
+        mDatePresenter = new DatePresenter(this, getContext());
+        mCity = getContext().getSharedPreferences(Constant.SHARED_PREFERENCE,
+                Context.MODE_PRIVATE).getString(Constant.DEFAULT_CITY, null);
     }
 
     /**
@@ -374,7 +388,6 @@ public class MainFragment extends Fragment {
         ptrsvRoot.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                //更新数据
                 refreshData();
             }
         });
@@ -407,14 +420,46 @@ public class MainFragment extends Fragment {
         locationClientOption.setIgnoreKillProcess(false);
         locationClientOption.SetIgnoreCacheException(false);
         locationClientOption.setEnableSimulateGps(false);
-        if (mLocationClient == null) {
+        if (mLocationClient == null)
             mLocationClient = new LocationClient(getActivity().getApplicationContext());
-        }
+
         mLocationClient.setLocOption(locationClientOption);
-        if (mBaiDuLocationListener == null) {
-            mBaiDuLocationListener = new BaiDuLocationListener();
-        }
-        mLocationClient.registerLocationListener(mBaiDuLocationListener);
+        mLocationClient.registerLocationListener(new BDLocationListener() {
+            @Override
+            public void onReceiveLocation(BDLocation bdLocation) {
+                Log.d(TAG, "===onReceiveLocation()===");
+                //监听一次后注销
+                mLocationClient.stop();
+                mLocationClient.unRegisterLocationListener(this);
+                mProgressDialog.dismiss();
+
+                switch (bdLocation.getLocType()) {
+                    case BDLocation.TypeGpsLocation:
+                        Log.i(TAG, getString(R.string.log_ok_gps_location));
+                        break;
+                    case BDLocation.TypeOffLineLocation:
+                        Log.i(TAG, getString(R.string.log_ok_offline_location));
+                        break;
+                    case BDLocation.TypeNetWorkLocation:
+                        Log.i(TAG, getString(R.string.log_ok_net_location));
+                        break;
+                    case BDLocation.TypeCriteriaException:
+                        Log.e(TAG, getString(R.string.log_error_location_failed));
+                        break;
+                }
+
+                if (bdLocation == null) {
+                    Toast.makeText(getActivity(), getString(R.string.log_error_location_city),
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mCity = bdLocation.getCity();
+                //截掉返回城市的行政单位：“市”、"县"、“镇”等
+                mCity = mCity.substring(0, mCity.length() - 1);
+                refreshData();
+            }
+        });
+
         mLocationClient.start();
         Log.i(TAG, getString(R.string.main_fragment_log_start_locate));
 
@@ -446,93 +491,16 @@ public class MainFragment extends Fragment {
     }
 
     /**
-     * 刷新获取天气数据
+     * 获取数据
      */
     private void refreshData() {
         Log.d(TAG, "===" + getString(R.string.main_fragment_toast_update_start) + "===");
-        Toast.makeText(getActivity(), getString(R.string.main_fragment_toast_update_start), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), getString(R.string.main_fragment_toast_update_start),
+                Toast.LENGTH_SHORT).show();
         // 请求天气数据
-        IDataRequest weatherRequest = Utils.createWeatherRequestNet(getContext());
-        weatherRequest.requestData(getActivity(), mCity, false, new IHttpCallbackListener() {
-            @Override
-            public void onFinished(Object response) {
-                mWeatherEntity = (WthrcdnWeatherEntity) response;
-                // 根据天气数据将生活指数数据存库
-                mLifeIndexDao.insert(mWeatherEntity.getmWeatherLifeIndies());
-                //发送Handler消息来更新UI界面
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Constant.MAIN_FRAGMENT_WEATHER_ENTITY, mWeatherEntity);
-                Message msg = new Message();
-                msg.setData(bundle);
-                msg.what = Constant.MAIN_FRAGMENT_UPDATE_WEATHER_UI;
-                mHandler.sendMessage(msg);
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                Log.e(TAG, t.getMessage());
-            }
-        });
-
-        //请求日历数据
-        String dateStr = Utils.getCurrentDate(getString(R.string.format_request_date));
-        IDataRequest dateRequest = Utils.createDateRequestNet(getContext());
-        dateRequest.requestData(getActivity(), dateStr, false, new IHttpCallbackListener() {
-            @Override
-            public void onFinished(Object response) {
-                //发送Handler消息来更新UI界面
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Constant.MAIN_FRAGMENT_DATE_ENTITY, (JuHeDateEntity) response);
-                Message msg = new Message();
-                msg.setData(bundle);
-                msg.what = Constant.MAIN_FRAGMENT_UPDATE_DATE_UI;
-                mHandler.sendMessage(msg);
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                Log.e(TAG, t.getMessage());
-            }
-        });
-    }
-
-    /**
-     * 更新日期界面
-     *
-     * @param dateEntity 日期信息
-     */
-    private void updateDateUI(JuHeDateEntity dateEntity) {
-        String dateStr = Utils.getCurrentDate(getString(R.string.format_ui_date));
-        String lunarStr = dateEntity.getResult().getData().getLunar();
-        tvDate.setText(String.format(getString(R.string.format_date), dateStr, lunarStr));
-    }
-
-    /**
-     * 更新UI界面
-     *
-     * @param weatherEntity 天气信息数据
-     */
-    private void updateWeatherUI(WthrcdnWeatherEntity weatherEntity) {
-        // 设置城市
-        tvCity.setText(weatherEntity.getmCity());
-        // 更新头部时间
-        tvUpdateTime.setText(String.format(getString(R.string.format_update_time), weatherEntity.getmUpdateTime()));
-
-        List<WthrcdnWeatherForecastDaysEntity> weatherForecastDaysList = weatherEntity.getmWeatherDaysForecasts();
-        //当前时间的小时数
-        Calendar calendar = Calendar.getInstance();
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        setTemperature(weatherEntity);
-        setWeatherType(hour, weatherForecastDaysList.get(1));
-        tvWind.setText(weatherEntity.getmWindDirection() + " " + weatherEntity.getmWindPower());
-        tvHumidity.setText(String.format(getString(R.string.format_humidity), weatherEntity.getmHumidity()));
-        setAqi(weatherEntity);
-        //设置未来几天天气
-        if (6 == weatherForecastDaysList.size()) {
-            setDaysForecast(weatherForecastDaysList, calendar, hour);
-        }
-        // 更新生活指数信息
-        setLifeIndex(weatherEntity.getmWeatherLifeIndies());
+        mWeatherPresenter.requestData(mCity, false, false);
+        // 请求日历数据
+        mDatePresenter.requestData(Utils.getCurrentDate(getString(R.string.format_request_date)), false, false);
     }
 
     /**
@@ -843,22 +811,22 @@ public class MainFragment extends Fragment {
                 startActivityForResult(intent, Constant.MAIN_FRAGMENT_REQUEST_CODE);
                 break;
             case R.id.rl_exercise:
-                weatherLifeIndexClicked(getString(R.string.main_fragment_tv_life_index_exercise));
+                clickLifeIndex(getString(R.string.main_fragment_tv_life_index_exercise));
                 break;
             case R.id.rl_clothe:
-                weatherLifeIndexClicked(getString(R.string.main_fragment_tv_life_index_clothes));
+                clickLifeIndex(getString(R.string.main_fragment_tv_life_index_clothes));
                 break;
             case R.id.rl_comfort:
-                weatherLifeIndexClicked(getString(R.string.main_fragment_tv_life_index_comfort));
+                clickLifeIndex(getString(R.string.main_fragment_tv_life_index_comfort));
                 break;
             case R.id.rl_influenza:
-                weatherLifeIndexClicked(getString(R.string.main_fragment_tv_life_index_influenza));
+                clickLifeIndex(getString(R.string.main_fragment_tv_life_index_influenza));
                 break;
             case R.id.rl_wash_car:
-                weatherLifeIndexClicked(getString(R.string.main_fragment_tv_life_index_wash_car));
+                clickLifeIndex(getString(R.string.main_fragment_tv_life_index_wash_car));
                 break;
             case R.id.rl_ultraviolet:
-                weatherLifeIndexClicked(getString(R.string.main_fragment_tv_life_index_ultraviolet));
+                clickLifeIndex(getString(R.string.main_fragment_tv_life_index_ultraviolet));
                 break;
         }
     }
@@ -868,13 +836,53 @@ public class MainFragment extends Fragment {
      *
      * @param indexName 生活指数名
      */
-    private void weatherLifeIndexClicked(String indexName) {
+    private void clickLifeIndex(String indexName) {
+        LifeIndexDao lifeIndexDao = new LifeIndexDao(getActivity());
         List<LifeIndexEntity> lifeIndexEntityList;
-        lifeIndexEntityList = mLifeIndexDao.query(indexName);
+        lifeIndexEntityList = lifeIndexDao.query(indexName);
         if (!lifeIndexEntityList.isEmpty() && 1 == lifeIndexEntityList.size()) {
             String msg = lifeIndexEntityList.get(0).getmIndexDetail();
             showDialog(indexName, msg);
         }
+    }
+
+    /**
+     * 更新UI界面
+     *
+     * @param weatherEntity 天气信息数据
+     */
+    private void updateWeatherUI(WthrcdnWeatherEntity weatherEntity) {
+        // 设置城市
+        tvCity.setText(weatherEntity.getmCity());
+        // 更新头部时间
+        tvUpdateTime.setText(String.format(getString(R.string.format_update_time), weatherEntity.getmUpdateTime()));
+
+        List<WthrcdnWeatherForecastDaysEntity> weatherForecastDaysList = weatherEntity.getmWeatherDaysForecasts();
+        //当前时间的小时数
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        setTemperature(weatherEntity);
+        setWeatherType(hour, weatherForecastDaysList.get(1));
+        tvWind.setText(weatherEntity.getmWindDirection() + " " + weatherEntity.getmWindPower());
+        tvHumidity.setText(String.format(getString(R.string.format_humidity), weatherEntity.getmHumidity()));
+        setAqi(weatherEntity);
+        //设置未来几天天气
+        if (6 == weatherForecastDaysList.size()) {
+            setDaysForecast(weatherForecastDaysList, calendar, hour);
+        }
+        // 更新生活指数信息
+        setLifeIndex(weatherEntity.getmWeatherLifeIndies());
+    }
+
+    /**
+     * 更新日期界面
+     *
+     * @param dateEntity 日期信息
+     */
+    private void updateDateUI(JuHeDateEntity dateEntity) {
+        String dateStr = Utils.getCurrentDate(getString(R.string.format_ui_date));
+        String lunarStr = dateEntity.getResult().getData().getLunar();
+        tvDate.setText(String.format(getString(R.string.format_date), dateStr, lunarStr));
     }
 
     @Override
@@ -886,6 +894,34 @@ public class MainFragment extends Fragment {
             mCity = cityManage.getCityName();
             refreshData();
         }
+    }
+
+    /**
+     * 更新天氣
+     */
+    @Override
+    public void updateWeather(IDataEntity dataEntity) {
+        //发送Handler消息来更新UI界面
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constant.MAIN_FRAGMENT_WEATHER_ENTITY, dataEntity);
+        Message msg = new Message();
+        msg.setData(bundle);
+        msg.what = Constant.MAIN_FRAGMENT_UPDATE_WEATHER_UI;
+        mHandler.sendMessage(msg);
+    }
+
+    /**
+     * 更新日历日期
+     */
+    @Override
+    public void updateDate(IDataEntity dataEntity) {
+        //发送Handler消息来更新UI界面
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constant.MAIN_FRAGMENT_DATE_ENTITY, dataEntity);
+        Message msg = new Message();
+        msg.setData(bundle);
+        msg.what = Constant.MAIN_FRAGMENT_UPDATE_DATE_UI;
+        mHandler.sendMessage(msg);
     }
 
     /**
@@ -907,7 +943,7 @@ public class MainFragment extends Fragment {
                 return;
             switch (msg.what) {
                 case Constant.MAIN_FRAGMENT_UPDATE_WEATHER_UI://更新天气
-                    WthrcdnWeatherEntity weatherInfo = (WthrcdnWeatherEntity) msg.getData().getSerializable(
+                    WthrcdnWeatherEntity weatherEntity = (WthrcdnWeatherEntity) msg.getData().getSerializable(
                             Constant.MAIN_FRAGMENT_WEATHER_ENTITY);
                     // 先停止刷新
                     if (fragment.ptrsvRoot.isRefreshing())
@@ -916,53 +952,16 @@ public class MainFragment extends Fragment {
                             fragment.getString(R.string.main_fragment_toast_update_finished),
                             Toast.LENGTH_SHORT).show();
                     // 再刷新天气
-                    fragment.updateWeatherUI(weatherInfo);
+                    fragment.updateWeatherUI(weatherEntity);
                     break;
                 case Constant.MAIN_FRAGMENT_UPDATE_DATE_UI://更新日历
-                    JuHeDateEntity dateInfo = (JuHeDateEntity) msg.getData().getSerializable(
+                    JuHeDateEntity dateEntity = (JuHeDateEntity) msg.getData().getSerializable(
                             Constant.MAIN_FRAGMENT_DATE_ENTITY);
-                    fragment.updateDateUI(dateInfo);
+                    fragment.updateDateUI(dateEntity);
                     break;
             }
 
         }
     }
 
-    /**
-     * 位置监听
-     */
-    private class BaiDuLocationListener implements BDLocationListener {
-
-        @Override
-        public void onReceiveLocation(BDLocation bdLocation) {
-            Log.d(TAG, "===onReceiveLocation()===");
-            //监听一次后注销
-            mLocationClient.stop();
-            mLocationClient.unRegisterLocationListener(mBaiDuLocationListener);
-
-            switch (bdLocation.getLocType()) {
-                case BDLocation.TypeGpsLocation:
-                    Log.i(TAG, getString(R.string.log_ok_gps_location));
-                    break;
-                case BDLocation.TypeOffLineLocation:
-                    Log.i(TAG, getString(R.string.log_ok_offline_location));
-                    break;
-                case BDLocation.TypeNetWorkLocation:
-                    Log.i(TAG, getString(R.string.log_ok_net_location));
-                    break;
-                case BDLocation.TypeCriteriaException:
-                    Log.e(TAG, getString(R.string.log_error_location_failed));
-                    break;
-            }
-
-            if (bdLocation != null)
-                mCity = bdLocation.getCity();
-
-            mProgressDialog.dismiss();
-            //截掉返回城市的行政单位：“市”、"县"、“镇”等
-            mCity = mCity.substring(0, mCity.length() - 1);
-            // 刷新数据
-            refreshData();
-        }
-    }
 }

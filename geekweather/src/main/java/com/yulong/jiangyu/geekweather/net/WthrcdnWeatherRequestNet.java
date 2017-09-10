@@ -11,7 +11,7 @@ import com.yulong.jiangyu.geekweather.dao.LifeIndexDao;
 import com.yulong.jiangyu.geekweather.entity.CityManageEntity;
 import com.yulong.jiangyu.geekweather.entity.WthrcdnWeatherEntity;
 import com.yulong.jiangyu.geekweather.interfaces.IDataEntity;
-import com.yulong.jiangyu.geekweather.interfaces.IDataRequest;
+import com.yulong.jiangyu.geekweather.module.IDataRequest;
 import com.yulong.jiangyu.geekweather.listener.IHttpCallbackListener;
 import com.yulong.jiangyu.geekweather.utils.Utils;
 
@@ -40,8 +40,8 @@ public class WthrcdnWeatherRequestNet implements IDataRequest {
     }
 
     @Override
-    public void requestData(final Context context, final String RequestCode, final boolean isCityCode, final
-    IHttpCallbackListener httpCallbackListener) {
+    public void requestData(final Context context, final String RequestCode, final boolean isCityCode,
+                            final boolean isRefresh, final IHttpCallbackListener httpCallbackListener) {
         final String urlWthrcdnWeatherRequest;
 
         if (isCityCode)
@@ -86,13 +86,23 @@ public class WthrcdnWeatherRequestNet implements IDataRequest {
                     lifeIndexDao.insert(wthrcdnWeatherEntity.getmWeatherLifeIndies());
 
                     if (isCityCode) {
-                        // 插入数据库
                         CityMangeEntityDao cityMangeDao = new CityMangeEntityDao(context);
-                        cityMangeDao.insert(new CityManageEntity(null, wthrcdnWeatherEntity.getmCity(),
-                                wthrcdnWeatherEntity.getmWeatherDaysForecasts().get(1).getmHighTemperature(),
-                                wthrcdnWeatherEntity.getmWeatherDaysForecasts().get(1).getmLowTemperature(),
-                                wthrcdnWeatherEntity.getmWeatherDaysForecasts().get(1).getmTypeDay(),
-                                wthrcdnWeatherEntity.getmWeatherDaysForecasts().get(1).getmTypeNight(), RequestCode));
+                        if (!isRefresh)
+                            // 插入数据
+                            cityMangeDao.insert(new CityManageEntity(null, wthrcdnWeatherEntity.getmCity(),
+                                    wthrcdnWeatherEntity.getmWeatherDaysForecasts().get(1).getmHighTemperature(),
+                                    wthrcdnWeatherEntity.getmWeatherDaysForecasts().get(1).getmLowTemperature(),
+                                    wthrcdnWeatherEntity.getmWeatherDaysForecasts().get(1).getmTypeDay(),
+                                    wthrcdnWeatherEntity.getmWeatherDaysForecasts().get(1).getmTypeNight(),
+                                    RequestCode));
+                        else
+                            // 刷新数据
+                            cityMangeDao.update(new CityManageEntity(null, wthrcdnWeatherEntity.getmCity(),
+                                    wthrcdnWeatherEntity.getmWeatherDaysForecasts().get(1).getmHighTemperature(),
+                                    wthrcdnWeatherEntity.getmWeatherDaysForecasts().get(1).getmLowTemperature(),
+                                    wthrcdnWeatherEntity.getmWeatherDaysForecasts().get(1).getmTypeDay(),
+                                    wthrcdnWeatherEntity.getmWeatherDaysForecasts().get(1).getmTypeNight(),
+                                    RequestCode));
                     }
 
                     // 将各种天气数据转换成基础的天气数据

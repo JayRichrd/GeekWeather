@@ -1,7 +1,8 @@
-package com.yulong.jiangyu.geekweather.interfaces;
+package com.yulong.jiangyu.geekweather.module;
 
 import android.content.Context;
 
+import com.yulong.jiangyu.geekweather.interfaces.IDataEntity;
 import com.yulong.jiangyu.geekweather.listener.IHttpCallbackListener;
 
 /**
@@ -21,9 +22,10 @@ public interface IDataRequest {
      * @param context              上下文
      * @param RequestCode          请求码
      * @param isCityCode           是否使用城市代码请求数据
+     * @param isRefresh            是否在刷新
      * @param httpCallbackListener http回调接口
      */
-    void requestData(Context context, String RequestCode, boolean isCityCode, final IHttpCallbackListener
+    void requestData(Context context, String RequestCode, boolean isCityCode, boolean isRefresh, IHttpCallbackListener
             httpCallbackListener);
 
     /**
