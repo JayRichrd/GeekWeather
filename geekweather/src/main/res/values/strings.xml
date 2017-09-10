@@ -2,7 +2,7 @@
     <string name="app_name">GeekWeather</string>
 
     <!--欢迎动画界面-->
-    <string name="welcome_activity_tv_copyright">Copyright©2016 JiangYu</string>
+    <string name="welcome_activity_tv_copyright">Copyright©2016 Richard,Zomobe</string>
     <string name="welcome_activity_tv_welcome">GeekWeather</string>
 
     <!--log输出-->
