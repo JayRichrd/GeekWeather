@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.yulong.jiangyu.geekweather.R;
 import com.yulong.jiangyu.geekweather.constant.Constant;
-import com.yulong.jiangyu.geekweather.fragment.MainFragment;
+import com.yulong.jiangyu.geekweather.fragment.MainFragment1;
 
 /**
  * author RichardJay
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         // 向Activity中添加Fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fl_main, new MainFragment(), Constant.MAIN_FRAGMENT_TAG);
+        fragmentTransaction.add(R.id.fl_main, new MainFragment1(), Constant.MAIN_FRAGMENT_TAG);
         fragmentTransaction.commit();
     }
 

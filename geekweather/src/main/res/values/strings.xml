@@ -11,6 +11,7 @@
     <string name="log_ok_offline_location">离线定位成功</string>
     <string name="log_ok_net_location">网络定位成功</string>
     <string name="log_error_location_failed">定位失败</string>
+    <string name="log_error_location_city">暂时无法获取当前城市</string>
     <string name="log_start_main_activity">进入主界面</string>
     <string name="log_nothing_to_do">nothing to do</string>
     <string name="log_animation_start">动画开始</string>

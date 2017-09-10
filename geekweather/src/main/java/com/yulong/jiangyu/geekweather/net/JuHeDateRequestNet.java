@@ -64,6 +64,17 @@ public class JuHeDateRequestNet implements IDataRequest {
         });
     }
 
+    /**
+     * 请求数据的接口
+     *
+     * @param context              上下文
+     * @param RequestCode          请求码
+     * @param httpCallbackListener http回调接口
+     */
+//    @Override
+//    public void requestData(Context context, String RequestCode, IHttpCallbackListener httpCallbackListener) {
+//
+//    }
     @Override
     public IDataEntity trans2Base(IDataEntity dataEntity) {
         return dataEntity;

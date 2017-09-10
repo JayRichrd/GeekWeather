@@ -6,6 +6,9 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.yulong.jiangyu.geekweather.R;
+import com.yulong.jiangyu.geekweather.dao.CityMangeEntityDao;
+import com.yulong.jiangyu.geekweather.dao.LifeIndexDao;
+import com.yulong.jiangyu.geekweather.entity.CityManageEntity;
 import com.yulong.jiangyu.geekweather.entity.WthrcdnWeatherEntity;
 import com.yulong.jiangyu.geekweather.interfaces.IDataEntity;
 import com.yulong.jiangyu.geekweather.interfaces.IDataRequest;
@@ -37,7 +40,7 @@ public class WthrcdnWeatherRequestNet implements IDataRequest {
     }
 
     @Override
-    public void requestData(final Context context, String RequestCode, boolean isCityCode, final
+    public void requestData(final Context context, final String RequestCode, final boolean isCityCode, final
     IHttpCallbackListener httpCallbackListener) {
         final String urlWthrcdnWeatherRequest;
 
@@ -77,6 +80,21 @@ public class WthrcdnWeatherRequestNet implements IDataRequest {
                     // 处理获取的xml数据得到天气实体类
                     wthrcdnWeatherEntity = Utils.getWthrcdnWeatherEntity(new ByteArrayInputStream(
                             result.getBytes()));
+
+                    // 根据天气数据将生活指数数据存库
+                    LifeIndexDao lifeIndexDao = new LifeIndexDao(context);
+                    lifeIndexDao.insert(wthrcdnWeatherEntity.getmWeatherLifeIndies());
+
+                    if (isCityCode) {
+                        // 插入数据库
+                        CityMangeEntityDao cityMangeDao = new CityMangeEntityDao(context);
+                        cityMangeDao.insert(new CityManageEntity(null, wthrcdnWeatherEntity.getmCity(),
+                                wthrcdnWeatherEntity.getmWeatherDaysForecasts().get(1).getmHighTemperature(),
+                                wthrcdnWeatherEntity.getmWeatherDaysForecasts().get(1).getmLowTemperature(),
+                                wthrcdnWeatherEntity.getmWeatherDaysForecasts().get(1).getmTypeDay(),
+                                wthrcdnWeatherEntity.getmWeatherDaysForecasts().get(1).getmTypeNight(), RequestCode));
+                    }
+
                     // 将各种天气数据转换成基础的天气数据
                     baseWeatherEntity = trans2Base(wthrcdnWeatherEntity);
                     // 返回基础的天气数据
