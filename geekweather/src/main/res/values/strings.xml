@@ -1,34 +1,34 @@
-<resources>
-    <string name="app_name">GeekWeather</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" tools:ignore="MissingTranslation">GeekWeather</string>
 
     <!--欢迎动画界面-->
-    <string name="welcome_activity_tv_copyright">Copyright©2016 Richard,Zomobe</string>
-    <string name="welcome_activity_tv_welcome">GeekWeather</string>
+    <string name="welcome_activity_tv_copyright" tools:ignore="MissingTranslation">Copyright©2016 Richard,Zomobe</string>
+    <string name="welcome_activity_tv_welcome" tools:ignore="MissingTranslation">GeekWeather</string>
 
     <!--log输出-->
     <!--<string name="log_error_get_data">获取日历数据失败！</string>-->
-    <string name="log_ok_gps_location">GPS定位成功</string>
-    <string name="log_ok_offline_location">离线定位成功</string>
-    <string name="log_ok_net_location">网络定位成功</string>
-    <string name="log_error_location_failed">定位失败</string>
-    <string name="log_error_location_city">暂时无法获取当前城市</string>
-    <string name="log_start_main_activity">进入主界面</string>
-    <string name="log_nothing_to_do">nothing to do</string>
-    <string name="log_animation_start">动画开始</string>
-    <string name="log_animation_repeat">动画重复</string>
-    <string name="log_animation_end">动画结束</string>
-    <string name="log_failed_to_get_application_version">failed to get application version!</string>
-    <string name="log_failed_to_get_date">获取日历数据失败!</string>
+    <string name="log_ok_gps_location" tools:ignore="MissingTranslation">GPS定位成功</string>
+    <string name="log_ok_offline_location" tools:ignore="MissingTranslation">离线定位成功</string>
+    <string name="log_ok_net_location" tools:ignore="MissingTranslation">网络定位成功</string>
+    <string name="log_error_location_failed" tools:ignore="MissingTranslation">定位失败</string>
+    <string name="log_error_location_city" tools:ignore="MissingTranslation">暂时无法获取当前城市</string>
+    <string name="log_start_main_activity" tools:ignore="MissingTranslation">进入主界面</string>
+    <string name="log_nothing_to_do" tools:ignore="MissingTranslation">nothing to do</string>
+    <string name="log_animation_start" tools:ignore="MissingTranslation">动画开始</string>
+    <string name="log_animation_repeat" tools:ignore="MissingTranslation">动画重复</string>
+    <string name="log_animation_end" tools:ignore="MissingTranslation">动画结束</string>
+    <string name="log_failed_to_get_application_version" tools:ignore="MissingTranslation">failed to get application version!</string>
+    <string name="log_failed_to_get_date" tools:ignore="MissingTranslation">获取日历数据失败!</string>
 
     <!--通用的一些字符-->
-    <string name="common_default_txt">N/A</string>
-    <string name="common_btn_confirm">知道了</string>
-    <string name="common_iv_back_content_desc">返回</string>
-    <string name="common_iv_refresh_content_desc">刷新</string>
-    <string name="common_iv_edit_content_desc">编辑</string>
-    <string name="common_iv_ok_content_desc">完成</string>
-    <string name="common_iv_weather_type_content_desc">天气类型</string>
-    <string name="common_iv_life_index_content_desc">生活指数</string>
-    <string name="common_iv_temperature_content_desc">温度</string>
+    <string name="common_default_txt" tools:ignore="MissingTranslation">N/A</string>
+    <string name="common_btn_confirm" tools:ignore="MissingTranslation">知道了</string>
+    <string name="common_iv_back_content_desc" tools:ignore="MissingTranslation">返回</string>
+    <string name="common_iv_refresh_content_desc" tools:ignore="MissingTranslation">刷新</string>
+    <string name="common_iv_edit_content_desc" tools:ignore="MissingTranslation">编辑</string>
+    <string name="common_iv_ok_content_desc" tools:ignore="MissingTranslation">完成</string>
+    <string name="common_iv_weather_type_content_desc" tools:ignore="MissingTranslation">天气类型</string>
+    <string name="common_iv_life_index_content_desc" tools:ignore="MissingTranslation">生活指数</string>
+    <string name="common_iv_temperature_content_desc" tools:ignore="MissingTranslation">温度</string>
 
 </resources>

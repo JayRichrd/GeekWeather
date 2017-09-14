@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="main_fragment_toast_update_finished">更新数据完毕</string>
-    <string name="main_fragment_toast_update_start">开始更新</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="main_fragment_toast_update_finished" tools:ignore="MissingTranslation">更新数据完毕</string>
+    <string name="main_fragment_toast_update_start" tools:ignore="MissingTranslation">开始更新</string>
 
     <!--定位-->
-    <string name="main_fragment_log_start_locate">开始定位</string>
-    <string name="main_fragment_progress_dlg_locating">……正在努力定位中……</string>
+    <string name="main_fragment_log_start_locate" tools:ignore="MissingTranslation">开始定位</string>
+    <string name="main_fragment_progress_dlg_locating" tools:ignore="MissingTranslation">……正在努力定位中……</string>
 
     <!--下拉刷新-->
-    <string name="main_fragment_ptrsv_pull_to_refresh">下拉更新</string>
-    <string name="main_fragment_ptrsv_refreshing">别着急，正在更新</string>
-    <string name="main_fragment_ptrsv_loosen_to_refresh">您松松手就可以更新</string>
+    <string name="main_fragment_ptrsv_pull_to_refresh" tools:ignore="MissingTranslation">下拉更新</string>
+    <string name="main_fragment_ptrsv_refreshing" tools:ignore="MissingTranslation">别着急，正在更新</string>
+    <string name="main_fragment_ptrsv_loosen_to_refresh" tools:ignore="MissingTranslation">您松松手就可以更新</string>
 
     <!--天气预报-->
-    <string name="main_fragment_tv_weather_forecast_caption">多日天气预报</string>
+    <string name="main_fragment_tv_weather_forecast_caption" tools:ignore="MissingTranslation">多日天气预报</string>
     <!--昨天-->
-    <string name="main_fragment_tv_weather_forecast_week1_yesterday">昨天</string>
+    <string name="main_fragment_tv_weather_forecast_week1_yesterday" tools:ignore="MissingTranslation">昨天</string>
     <!--今天-->
-    <string name="main_fragment_tv_weather_forecast_week2_today">今天</string>
+    <string name="main_fragment_tv_weather_forecast_week2_today" tools:ignore="MissingTranslation">今天</string>
 
     <!--生活指数-->
-    <string name="main_fragment_tv_life_index_caption">生活指数</string>
+    <string name="main_fragment_tv_life_index_caption" tools:ignore="MissingTranslation">生活指数</string>
     <!--<string name="main_fragment_tv_life_index_pm_25">PM2.5</string>-->
-    <string name="main_fragment_tv_life_index_exercise">晨练指数</string>
-    <string name="main_fragment_tv_life_index_clothes">穿衣指数</string>
-    <string name="main_fragment_tv_life_index_comfort">舒适度</string>
-    <string name="main_fragment_tv_life_index_influenza">感冒指数</string>
-    <string name="main_fragment_tv_life_index_wash_car">洗车指数</string>
-    <string name="main_fragment_tv_life_index_ultraviolet">紫外线强度</string>
+    <string name="main_fragment_tv_life_index_exercise" tools:ignore="MissingTranslation">晨练指数</string>
+    <string name="main_fragment_tv_life_index_clothes" tools:ignore="MissingTranslation">穿衣指数</string>
+    <string name="main_fragment_tv_life_index_comfort" tools:ignore="MissingTranslation">舒适度</string>
+    <string name="main_fragment_tv_life_index_influenza" tools:ignore="MissingTranslation">感冒指数</string>
+    <string name="main_fragment_tv_life_index_wash_car" tools:ignore="MissingTranslation">洗车指数</string>
+    <string name="main_fragment_tv_life_index_ultraviolet" tools:ignore="MissingTranslation">紫外线强度</string>
 
-    <string name="main_fragment_iv_add_city_content_desc">添加城市</string>
-    <string name="main_fragment_iv_head_content_desc">头像</string>
+    <string name="main_fragment_iv_add_city_content_desc" tools:ignore="MissingTranslation">添加城市</string>
+    <string name="main_fragment_iv_head_content_desc" tools:ignore="MissingTranslation">头像</string>
 
 </resources>

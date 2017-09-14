@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="city_manage_activity_tv_title">城市管理</string>
-    <string name="city_manage_activity_iv_add_city_content_desc">添加城市</string>
-    <string name="city_manage_activity_iv_delete_city_content_desc">删除城市</string>
-    <string name="city_manage_activity_toast_delete_default_city">暂时无法删除默认城市</string>
-    <string name="city_manage_activity_toast_already_default_city">已经设置为默认城市，无需重复设置</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="city_manage_activity_tv_title" tools:ignore="MissingTranslation">城市管理</string>
+    <string name="city_manage_activity_iv_add_city_content_desc" tools:ignore="MissingTranslation">添加城市</string>
+    <string name="city_manage_activity_iv_delete_city_content_desc" tools:ignore="MissingTranslation">删除城市</string>
+    <string name="city_manage_activity_toast_delete_default_city" tools:ignore="MissingTranslation">暂时无法删除默认城市</string>
+    <string name="city_manage_activity_toast_already_default_city" tools:ignore="MissingTranslation">已经设置为默认城市，无需重复设置</string>
     <!--城市管理界面-->
-    <string name="city_manage_activity_tv_default_set_default">设为默认</string>
-    <string name="city_manage_activity_tv_default_my_default">默认</string>
+    <string name="city_manage_activity_tv_default_set_default" tools:ignore="MissingTranslation">设为默认</string>
+    <string name="city_manage_activity_tv_default_my_default" tools:ignore="MissingTranslation">默认</string>
 </resources>

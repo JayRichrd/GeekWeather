@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--请求时间格式-->
-    <string name="format_request_date">yyyy-M-d</string>
+    <string name="format_request_date" tools:ignore="MissingTranslation">yyyy-M-d</string>
     <!--显示时间格式-->
-    <string name="format_ui_date">M月dd日</string>
+    <string name="format_ui_date" tools:ignore="MissingTranslation">M月dd日</string>
     <!--日历格式-->
-    <string name="format_date">%1$s\n%2$s</string>
+    <string name="format_date" tools:ignore="MissingTranslation">%1$s\n%2$s</string>
     <!--更新时间格式-->
-    <string name="format_update_time">%1$s 更新</string>
+    <string name="format_update_time" tools:ignore="MissingTranslation">%1$s 更新</string>
     <!--湿度格式-->
-    <string name="format_humidity">湿度 %1$s</string>
+    <string name="format_humidity" tools:ignore="MissingTranslation">湿度 %1$s</string>
     <!--日历格式-->
-    <string name="format_weather_forecast_mm_dd">%1$s/%2$s</string>
-    <string name="format_add_city_activity_toast_re_add_city">%1$s%2$s</string>
+    <string name="format_weather_forecast_mm_dd" tools:ignore="MissingTranslation">%1$s/%2$s</string>
+    <string name="format_add_city_activity_toast_re_add_city" tools:ignore="MissingTranslation">%1$s%2$s</string>
 
     <!--百度地图-->
-    <string name="config_baidu_map_meta_data_name">com.baidu.lbsapi.API_KEY</string>
-    <string name="config_baidu_map_meta_data_value">FSL9U9opMW6ZXR1XoDtYyHd4W8tnn8vK</string>
+    <string name="config_baidu_map_meta_data_name" tools:ignore="MissingTranslation">com.baidu.lbsapi.API_KEY</string>
+    <string name="config_baidu_map_meta_data_value" tools:ignore="MissingTranslation">FSL9U9opMW6ZXR1XoDtYyHd4W8tnn8vK</string>
 
     <!--请求天气url-->
-    <string name="config_wthrcdn_weather_request_base_url_city">http://wthrcdn.etouch.cn/WeatherApi?city=%1$s</string>
-    <string name="config_wthrcdn_weather_request_base_url_city_key">http://wthrcdn.etouch.cn/WeatherApi?citykey=%1$s</string>
+    <string name="config_wthrcdn_weather_request_base_url_city" tools:ignore="MissingTranslation">http://wthrcdn.etouch.cn/WeatherApi?city=%1$s</string>
+    <string name="config_wthrcdn_weather_request_base_url_city_key" tools:ignore="MissingTranslation">http://wthrcdn.etouch.cn/WeatherApi?citykey=%1$s</string>
 
     <!--请求日历url-->
-    <string name="config_juhe_date_request_base_url">http://v.juhe.cn/</string>
+    <string name="config_juhe_date_request_base_url" tools:ignore="MissingTranslation">http://v.juhe.cn/</string>
     <!--请求日历key-->
-    <string name="config_juhe_date_request_key">f8e4dc7c7920b3d9e8c163af1cc2fb3f</string>
+    <string name="config_juhe_date_request_key" tools:ignore="MissingTranslation">f8e4dc7c7920b3d9e8c163af1cc2fb3f</string>
 
     <!--数据源配置信息-->
-    <string name="config_weather">Wthrcdn</string>
-    <string name="config_date">JuHe</string>
+    <string name="config_weather" tools:ignore="MissingTranslation">Wthrcdn</string>
+    <string name="config_date" tools:ignore="MissingTranslation">JuHe</string>
 
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="city_china">
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string-array name="city_china" tools:ignore="MissingTranslation">
         <item>北京 - 北京</item>
         <item>海淀 - 北京</item>
         <item>朝阳 - 北京</item>

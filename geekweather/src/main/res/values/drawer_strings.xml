@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--抽屉-->
-    <string name="main_fragment_dl_drawer_open">open drawer</string>
-    <string name="main_fragment_dl_drawer_close">close drawer</string>
+    <string name="main_fragment_dl_drawer_open" tools:ignore="MissingTranslation">open drawer</string>
+    <string name="main_fragment_dl_drawer_close" tools:ignore="MissingTranslation">close drawer</string>
 
     <!--应用信息-->
-    <string name="main_fragment_drawer_about_title">关于我</string>
-    <string name="main_fragment_drawer_app_info">
+    <string name="main_fragment_drawer_about_title" tools:ignore="MissingTranslation">关于我</string>
+    <string name="main_fragment_drawer_app_info" tools:ignore="MissingTranslation">
         • 它是一款查询天气的App\n
         • 采用极简风格、注重效率、快速提供必要信息\n
         • 功能甚至简化到只有——选城市、定位、更新
     </string>
 
     <!--版本信息-->
-    <string name="main_fragment_drawer_version">v1.0</string>
-    <string name="main_fragment_drawer_version_title">版本</string>
-    <string name="main_fragment_drawer_version_app_version_prefix">当前版本:v</string>
+    <string name="main_fragment_drawer_version" tools:ignore="MissingTranslation">v1.0</string>
+    <string name="main_fragment_drawer_version_title" tools:ignore="MissingTranslation">版本</string>
+    <string name="main_fragment_drawer_version_app_version_prefix" tools:ignore="MissingTranslation">当前版本:v</string>
 
     <!--菜单选项界面-->
-    <string name="navigation_menu_item_author">我</string>
-    <string name="navigation_menu_item_about">关于</string>
-    <string name="navigation_menu_item_update">检查更新</string>
-    <string name="navigation_menu_item_share">分享给好友</string>
+    <string name="navigation_menu_item_author" tools:ignore="MissingTranslation">我</string>
+    <string name="navigation_menu_item_about" tools:ignore="MissingTranslation">关于</string>
+    <string name="navigation_menu_item_update" tools:ignore="MissingTranslation">检查更新</string>
+    <string name="navigation_menu_item_share" tools:ignore="MissingTranslation">分享给好友</string>
 </resources>
